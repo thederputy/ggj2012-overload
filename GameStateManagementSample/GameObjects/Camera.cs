@@ -20,7 +20,6 @@ namespace GameStateManagement.GameObjects
         public void Update(Vector3 playerPosition)
         {
             View = Matrix.CreateLookAt(playerPosition + cameraZPlane, playerPosition, Vector3.Up);
-            //System.Console.WriteLine(View.Translation.X);
         }
     }
 }
