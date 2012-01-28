@@ -20,6 +20,8 @@ namespace GameStateManagement.GameObjects
 
         protected const int X_LIMIT = 150;//150
         protected const int Y_LIMIT = 150;//150
+        protected const float MAX_SPEED = 10;
+        protected const float MAX_ACCELERATION = 5;
         protected int CAMERA_PAN_SPEED = 5;//5
         protected const int VERT_OFFSET = 175;//175
         protected float speed;
@@ -130,9 +132,10 @@ namespace GameStateManagement.GameObjects
             velocity.X += thumbstick.X;
             velocity.Y -= thumbstick.Y;
 
-            // Limits to one unit of movement 
+            // Limits to one unit of movement, i.e. gets the direction of movement
             if (velocity.Length() > 1)
                 velocity.Normalize();
+
             if (inputManager.IsKeyHeld(Keys.OemPlus))
             {
                 camera.ZoomValue -= 0.1f; // zooms in - brings camera closer to cars
@@ -168,7 +171,7 @@ namespace GameStateManagement.GameObjects
             
 
             position += velocity * 8;
-            
+
             
             tempX = (int)(Position3.X + camera.View.Translation.X) * -1;
             tempY = (int)(Position3.Y + camera.View.Translation.Y) * -1;
