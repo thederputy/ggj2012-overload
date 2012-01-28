@@ -316,7 +316,7 @@ namespace GameStateManagement
             // Drawing HUD stuff for now
             spriteBatch.Begin();
             spriteBatch.Draw(blank, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width / 2 - (int)(FUEL_BAR_WIDTH * playerOne.getFuelPercent()), FUEL_BAR_Y, (int)(FUEL_BAR_WIDTH * playerOne.getFuelPercent()), FUEL_BAR_HEIGHT), Color.Goldenrod);
-            spriteBatch.Draw(blank, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width / 2, FUEL_BAR_Y, (int)(FUEL_BAR_WIDTH * playerOne.getFuelPercent()), FUEL_BAR_HEIGHT), Color.Goldenrod);
+            spriteBatch.Draw(blank, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width / 2, FUEL_BAR_Y, (int)(FUEL_BAR_WIDTH * playerTwo.getFuelPercent()), FUEL_BAR_HEIGHT), Color.Goldenrod);
             spriteBatch.Draw(blank, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width / 2 - 1, 0, 3, ScreenManager.GraphicsDevice.Viewport.Height), Color.Black); // Draws Black bar down Center
             
             spriteBatch.DrawString(gameFont, "FUEL", new Vector2(ScreenManager.GraphicsDevice.Viewport.Width / 2 + 10, -5), Color.Black);
