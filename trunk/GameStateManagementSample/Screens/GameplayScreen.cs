@@ -15,6 +15,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using GameStateManagement.GameObjects;
+using Box2D.XNA;
 #endregion
 
 namespace GameStateManagement
@@ -52,6 +53,9 @@ namespace GameStateManagement
         Texture2D carTexture;
         Texture2D road;
 
+        //Physics World
+        World physicsWorld;
+
         //BasicEffect effect;
 
         #endregion
@@ -66,6 +70,8 @@ namespace GameStateManagement
         {
             TransitionOnTime = TimeSpan.FromSeconds(1.5);
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
+
+            physicsWorld = new World(Vector2.Zero, false);
         }
 
 
@@ -117,7 +123,7 @@ namespace GameStateManagement
             road = this.content.Load<Texture2D>("Backgrounds/roads1/preview");
 
             // TJH Powersource
-            PowerSource powerSource = new PowerSource(ScreenManager.Game);
+            PowerSource powerSource = new PowerSource(ScreenManager);
             
 
             // A real game would probably have more content than this sample, so
@@ -162,6 +168,8 @@ namespace GameStateManagement
                                                        bool coveredByOtherScreen)
         {
             base.Update(gameTime, otherScreenHasFocus, false);
+
+            physicsWorld.Step((float)gameTime.ElapsedGameTime.TotalSeconds, 10, 10);
 
             
             // Gradually fade in or out depending on whether we are covered by the pause screen.
