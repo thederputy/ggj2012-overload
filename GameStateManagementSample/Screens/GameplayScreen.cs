@@ -314,12 +314,13 @@ namespace GameStateManagement
             trans.M42 = ScreenManager.GraphicsDevice.Viewport.Height / 2;
 
             spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, RasterizerState.CullNone, null, trans * player.camera.View * halfprojectionMatrix);
-            //TODO fix regression: need to pass matrices to spritebatch begin to fix camera tracking
-            //spriteBatch.DrawString(gameFont, "Player1", playerOne.Position2, Color.Green);
-            //spriteBatch.DrawString(gameFont, "Player2", playerTwo.Position2, Color.Red);
+            
+
+            //TODO replace with road drawablegamecomponent draw call
             spriteBatch.Draw(road, new Rectangle(100, -200, 1024, 768), Color.White);
-            spriteBatch.Draw(carTexture, new Rectangle((int)playerOne.Position2.X, (int)playerOne.Position2.Y, carTexture.Width,carTexture.Height), Color.Green);
-            spriteBatch.Draw(carTexture, new Rectangle((int)playerTwo.Position2.X, (int)playerTwo.Position2.Y, carTexture.Width,carTexture.Height), Color.Red);
+            
+            playerOne.Draw(spriteBatch, Color.Green);
+            playerTwo.Draw(spriteBatch, Color.Red);
 
             spriteBatch.End();
         }

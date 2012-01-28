@@ -39,5 +39,17 @@ namespace GameStateManagement.GameObjects
             : base(screenManager.Game)
         {
         }
+
+        public void Draw(SpriteBatch spriteBatch, Color color)
+        {
+            spriteBatch.Draw(texture, Position2, color);
+
+            //base.Draw(gameTime);
+        }
+
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(texture, Position2, Color.White);
+        }
     }
 }
