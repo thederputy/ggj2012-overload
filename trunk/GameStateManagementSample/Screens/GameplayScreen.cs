@@ -221,7 +221,7 @@ namespace GameStateManagement
             ScreenManager.GraphicsDevice.Clear(ClearOptions.Target,
                                                Color.CornflowerBlue, 0, 0);
             ScreenManager.GraphicsDevice.Viewport = leftViewport;
-            DrawScene(gameTime, Matrix.CreateLookAt(new Vector3(-20, 0, 100), new Vector3(-20, 0, 0), Vector3.Up), halfprojectionMatrix);
+            DrawScene(gameTime, Matrix.CreateLookAt(playerOnePosition + new Vector3(0, 0, 100), playerOnePosition, Vector3.Up), halfprojectionMatrix);
             
             //DRAW LEFT PLAYER STUFF HERE
             
@@ -238,7 +238,7 @@ namespace GameStateManagement
             //END LEFT PLAYER STUFF
 
             ScreenManager.GraphicsDevice.Viewport = rightViewport;
-            DrawScene(gameTime, Matrix.CreateLookAt(new Vector3(-10, 30, 100), new Vector3(-20, 0, 0), Vector3.Up), halfprojectionMatrix);
+            DrawScene(gameTime, Matrix.CreateLookAt(playerTwoPosition + new Vector3(0, 0, 100), playerTwoPosition, Vector3.Up), halfprojectionMatrix);
 
             //DRAW RIGHT PLAYER STUFF HERE
 
