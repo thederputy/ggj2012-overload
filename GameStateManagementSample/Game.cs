@@ -10,6 +10,7 @@
 #region Using Statements
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 #endregion
 
 namespace GameStateManagement
@@ -54,6 +55,9 @@ namespace GameStateManagement
 #if !DEBUG
             graphics.IsFullScreen = true;
 #endif
+            //force a fixed 60FPS game update
+            this.IsFixedTimeStep = true;
+            this.TargetElapsedTime = TimeSpan.FromSeconds(1.0f / 60.0f);
 
             // Create the screen manager component.
             screenManager = new ScreenManager(this);
