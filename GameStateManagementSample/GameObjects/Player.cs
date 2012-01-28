@@ -252,5 +252,12 @@ namespace GameStateManagement.GameObjects
             m_body.CreateFixture(shape, 1.0f);
         }
 
+        public float getFuelPercent()
+        {
+            return (float)fuel/(float)maxFuel;
+        }
+
+
+
     }
 }

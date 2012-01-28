@@ -64,6 +64,10 @@ namespace GameStateManagement
         TimeSpan dropTimer;
         const int dropInterval = 300; //milliseconds
 
+        const int FUEL_BAR_Y = 10; 
+        const int FUEL_BAR_HEIGHT = 30; 
+        int FUEL_BAR_WIDTH; 
+
         #endregion
 
         #region Initialization
@@ -76,6 +80,7 @@ namespace GameStateManagement
         {
             TransitionOnTime = TimeSpan.FromSeconds(1.5);
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
+
 
             physicsWorld = new World(Vector2.Zero, false);
             physicsWorld.ContactListener = this;
@@ -158,6 +163,9 @@ namespace GameStateManagement
             ScreenManager.Game.Components.Add(playerOne);
             ScreenManager.Game.Components.Add(playerTwo);
             ScreenManager.Game.Components.Add(inputManager);
+
+            //set fuel bar to use the whole screen
+            FUEL_BAR_WIDTH = ScreenManager.GraphicsDevice.Viewport.Width / 2;
         }
 
 
@@ -303,7 +311,14 @@ namespace GameStateManagement
 
             // Drawing HUD stuff for now
             spriteBatch.Begin();
-            spriteBatch.Draw(blank, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width / 2 - 1, 0, 3, ScreenManager.GraphicsDevice.Viewport.Height), Color.Black);
+            spriteBatch.Draw(blank, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width / 2 - (int)(FUEL_BAR_WIDTH * playerOne.getFuelPercent()), FUEL_BAR_Y, (int)(FUEL_BAR_WIDTH * playerOne.getFuelPercent()), FUEL_BAR_HEIGHT), Color.Goldenrod);
+            spriteBatch.Draw(blank, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width / 2, FUEL_BAR_Y, (int)(FUEL_BAR_WIDTH * playerOne.getFuelPercent()), FUEL_BAR_HEIGHT), Color.Goldenrod);
+            spriteBatch.Draw(blank, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width / 2 - 1, 0, 3, ScreenManager.GraphicsDevice.Viewport.Height), Color.Black); // Draws Black bar down Center
+            //spriteBatch.Draw(blank, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width / 2, 0, 100, 5), Color.Pink);
+
+            spriteBatch.DrawString(gameFont, "FUEL", new Vector2(ScreenManager.GraphicsDevice.Viewport.Width / 2 + 10, -5), Color.Black);
+            spriteBatch.DrawString(gameFont, "FUEL", new Vector2(ScreenManager.GraphicsDevice.Viewport.Width / 2 - 95, -5), Color.Black);
+
             debugRenderer.FinishDrawString();
             spriteBatch.End();
 
