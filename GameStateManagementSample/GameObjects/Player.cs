@@ -45,6 +45,11 @@ namespace GameStateManagement.GameObjects
         private Body m_body;
 
 
+        public int fuel;
+        private const int maxFuel = 10;
+        private const int fuelPerSecond = 1;
+        private TimeSpan fuelTimer;
+
         #endregion
 
         #region Initialization
@@ -75,6 +80,13 @@ namespace GameStateManagement.GameObjects
         {
             texture = Game.Content.Load<Texture2D>("Sprites/car");
             base.LoadContent();
+        }
+
+        public override void Initialize()
+        {
+            fuelTimer = TimeSpan.FromSeconds(1);
+            fuel = 10;
+            base.Initialize();
         }
 
         #endregion
@@ -108,6 +120,11 @@ namespace GameStateManagement.GameObjects
                     break;
             }
 
+#if DEBUG 
+            if (inputManager.IsPressed(Keys.F, Buttons.LeftShoulder, playerIndex))
+                fuel = maxFuel;
+#endif
+
             // Keyboard/Dpad velocity change
             if (inputManager.IsHeld(keys[0], Buttons.DPadLeft, playerIndex))
                 velocity.X--;
@@ -127,11 +144,28 @@ namespace GameStateManagement.GameObjects
             if (velocity.Length() > 1)
                 velocity.Normalize();
 
-            position += velocity * 8;
+            
         }
 
         public override void Update(GameTime gameTime)
         {
+            if (fuelTimer <= TimeSpan.FromSeconds(0))
+            {
+                if (fuel <= 0)
+                {
+                    velocity = Vector2.Zero;
+                }
+                else
+                    fuel -= fuelPerSecond;
+                fuelTimer = TimeSpan.FromSeconds(1);
+            }
+            else
+                fuelTimer -= gameTime.ElapsedGameTime;
+            
+
+            position += velocity * 8;
+            
+            
             int tempX = (int)(Position3.X + camera.View.Translation.X) * -1;
             int tempY = (int)(Position3.Y + camera.View.Translation.Y) * -1;
             //int cnt = 0;
@@ -158,10 +192,7 @@ namespace GameStateManagement.GameObjects
                     tempY = (int)(MathHelper.Clamp(tempY, -Y_LIMIT, Y_LIMIT) - cameraEase.Y * CAMERA_PAN_SPEED);
  
                camera.Update(new Vector3(Position3.X + tempX, Position3.Y + tempY, Position3.Z));
-            
-            
-            
-            
+
             }
                 //camera.Update(new Vector3(Position3.X + 10 * cameraEase.X, Position3.Y + 10 * cameraEase.Y, Position3.Z));
             
