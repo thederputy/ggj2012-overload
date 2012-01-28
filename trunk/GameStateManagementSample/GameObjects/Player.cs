@@ -72,8 +72,6 @@ namespace GameStateManagement.GameObjects
 
         public override void Update(GameTime gameTime)
         {
-
-            
             int x = (int)(Position3.X + camera.View.Translation.X) * -1;
             int y = (int)(Position3.Y + camera.View.Translation.Y) * -1;
 
@@ -84,11 +82,7 @@ namespace GameStateManagement.GameObjects
                 //camera.Update(Position3);
             }
             base.Update(gameTime);
-
         }
-
-
-
 
     }
 }

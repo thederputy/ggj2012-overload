@@ -68,6 +68,7 @@
     <Compile Include="Game.cs" />
     <Compile Include="GameObjects\Camera.cs" />
     <Compile Include="GameObjects\Player.cs" />
+    <Compile Include="GameObjects\PowerSource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScreenManager\GameScreen.cs" />
     <Compile Include="ScreenManager\InputState.cs" />
