@@ -50,7 +50,6 @@ namespace GameStateManagement
 
         //Textures
         Texture2D blank;
-        Texture2D carTexture;
         Texture2D road;
 
         //Physics World
@@ -119,13 +118,11 @@ namespace GameStateManagement
 
             // Textures
             blank = this.content.Load<Texture2D>("blank");
-            carTexture = this.content.Load<Texture2D>("Sprites/car");
             road = this.content.Load<Texture2D>("Backgrounds/roads1/preview");
 
             // TJH Powersource
             PowerSource powerSource = new PowerSource(ScreenManager);
             
-
             // A real game would probably have more content than this sample, so
             // it would take longer to load. We simulate that by delaying for a
             // while, giving you a chance to admire the beautiful loading screen.
