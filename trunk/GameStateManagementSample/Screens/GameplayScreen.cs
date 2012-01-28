@@ -276,8 +276,6 @@ namespace GameStateManagement
 
             //END RIGHT PLAYER STUFF
 
-           
-
             //DRAW FULL SCREEN AGAIN
             // If the game is transitioning on or off, fade it out to black.
             ScreenManager.GraphicsDevice.Viewport = defaultViewport;
