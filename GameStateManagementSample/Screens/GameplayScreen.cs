@@ -104,7 +104,6 @@ namespace GameStateManagement
             leftViewport.Width = leftViewport.Width / 2;
             rightViewport.Width = rightViewport.Width / 2;
             rightViewport.X = leftViewport.Width;
-            //            rightViewport.X = leftViewport.Width + 1;
 
             //initialise the debug renderer
             debugRenderer = new DebugRenderer(ScreenManager, gameFont);
@@ -116,6 +115,14 @@ namespace GameStateManagement
             flags += (uint)DebugDrawFlags.CenterOfMass;
             debugRenderer.Flags = (DebugDrawFlags)flags;
             physicsWorld.DebugDraw = debugRenderer;
+
+            //create a test body for physics rendering
+            BodyDef testBody = new BodyDef();
+            testBody.position = Vector2.Zero;
+            Body body = physicsWorld.CreateBody(testBody);
+            PolygonShape shape = new PolygonShape();
+            shape.SetAsBox(100, 100);
+            body.CreateFixture(shape, 1.0f);
             
             
             //projectionMatrix = Matrix.CreatePerspectiveFieldOfView(
@@ -138,8 +145,8 @@ namespace GameStateManagement
             inputManager = new InputManager(ScreenManager.Game);
 
             // Players
-            playerOne = new PlayerCar(ScreenManager, physicsWorld, new Vector2(288, 344));
-            playerTwo = new PlayerCar(ScreenManager, physicsWorld, new Vector2(352, 344));
+            playerOne = new PlayerCar(ScreenManager, physicsWorld, new Vector2(0, 0));
+            playerTwo = new PlayerCar(ScreenManager, physicsWorld, new Vector2(100, 0));
 
             // Textures
             blank = this.content.Load<Texture2D>("blank");
@@ -318,7 +325,8 @@ namespace GameStateManagement
             spriteBatch.Draw(blank, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width / 2 - (int)(FUEL_BAR_WIDTH * playerOne.getFuelPercent()), FUEL_BAR_Y, (int)(FUEL_BAR_WIDTH * playerOne.getFuelPercent()), FUEL_BAR_HEIGHT), Color.Goldenrod);
             spriteBatch.Draw(blank, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width / 2, FUEL_BAR_Y, (int)(FUEL_BAR_WIDTH * playerTwo.getFuelPercent()), FUEL_BAR_HEIGHT), Color.Goldenrod);
             spriteBatch.Draw(blank, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width / 2 - 1, 0, 3, ScreenManager.GraphicsDevice.Viewport.Height), Color.Black); // Draws Black bar down Center
-            
+            //spriteBatch.Draw(blank, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width / 2, 0, 100, 5), Color.Pink);
+
             spriteBatch.DrawString(gameFont, "FUEL", new Vector2(ScreenManager.GraphicsDevice.Viewport.Width / 2 + 10, -5), Color.Black);
             spriteBatch.DrawString(gameFont, "FUEL", new Vector2(ScreenManager.GraphicsDevice.Viewport.Width / 2 - 95, -5), Color.Black);
 
@@ -335,9 +343,7 @@ namespace GameStateManagement
 
         protected void DrawGameScreen(SpriteBatch spriteBatch, GameTime gameTime, PlayerCar player)
         {
-            Matrix trans = Matrix.Identity;
-            trans.M41 = ScreenManager.GraphicsDevice.Viewport.Width / 2;
-            trans.M42 = ScreenManager.GraphicsDevice.Viewport.Height / 2;
+            Matrix trans = Matrix.CreateTranslation(ScreenManager.GraphicsDevice.Viewport.Width / 2, ScreenManager.GraphicsDevice.Viewport.Height / 2, 0.0f);
 
             spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, RasterizerState.CullNone, null, trans * player.camera.View * halfprojectionMatrix);
 
@@ -346,6 +352,10 @@ namespace GameStateManagement
             
             playerOne.Draw(spriteBatch, Color.Green);
             playerTwo.Draw(spriteBatch, Color.Red);
+
+            //Debug
+            spriteBatch.DrawString(gameFont, String.Format("Pos: {0}", playerOne.Position2.ToString()), playerOne.Position2, Color.White);
+            spriteBatch.DrawString(gameFont, String.Format("Pos: {0}", playerTwo.Position2.ToString()), playerTwo.Position2, Color.White);
             
 
             //powerSource.Draw(spriteBatch);
@@ -356,23 +366,15 @@ namespace GameStateManagement
 
 
             spriteBatch.End();
+
             //debug rendering physics
             //effect.World = trans;
             //effect.View = player.camera.View;
-            //effect.Projection = halfprojectionMatrix;
+            //effect.Projection = projectionMatrix;
 
             effect.Techniques[0].Passes[0].Apply();
             debugRenderer.FinishDrawShapes();
         }
-
-        //protected void DrawScene(GameTime gameTime, Camera camera)
-        //{
-        //    effect.EnableDefaultLighting();
-        //    effect.World = Matrix.Identity;
-        //    effect.View = camera.View;
-        //    effect.Projection = camera.Projection;
-        //        //Draw the mesh, will use the effects set above.
-        //}
 
         #endregion
 
