@@ -193,7 +193,13 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Sounds\" />
-    <Folder Include="Sprites\Cars\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Sprites\Cars\car1.png">
+      <Name>car1</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
