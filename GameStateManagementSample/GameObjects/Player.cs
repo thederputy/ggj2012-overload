@@ -16,6 +16,10 @@ namespace GameStateManagement.GameObjects
 
         protected Vector2 position;
 
+
+        protected int X_LIMIT = 100;
+        protected int Y_LIMIT = 100;
+
         public Vector2 Position2
         {
             get { return position; }
@@ -68,8 +72,19 @@ namespace GameStateManagement.GameObjects
 
         public override void Update(GameTime gameTime)
         {
-            camera.Update(Position3);
+
+            
+            int x = (int)(Position3.X + camera.View.Translation.X) * -1;
+            int y = (int)(Position3.Y + camera.View.Translation.Y) * -1;
+
+            if (Math.Abs(x) >= X_LIMIT || Math.Abs(y) >= Y_LIMIT)
+            {
+
+                camera.Update(new Vector3(Position3.X + MathHelper.Clamp(x, -X_LIMIT, X_LIMIT), Position3.Y + MathHelper.Clamp(y, -Y_LIMIT, Y_LIMIT), Position3.Z));
+                //camera.Update(Position3);
+            }
             base.Update(gameTime);
+
         }
 
 
