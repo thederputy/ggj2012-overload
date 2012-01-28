@@ -283,8 +283,10 @@ namespace GameStateManagement
 
             SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
 
+#if DEBUG
             //Draw physics world debug data
             physicsWorld.DrawDebugData();
+#endif
 
             //DRAW LEFT PLAYER STUFF HERE
             // Our player and enemy are both actually just text strings.
