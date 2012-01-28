@@ -95,6 +95,5 @@ namespace GameStateManagement.GameObjects
             
             base.Update(gameTime);
         }
-
     }
 }
