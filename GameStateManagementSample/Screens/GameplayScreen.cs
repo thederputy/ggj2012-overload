@@ -49,6 +49,7 @@ namespace GameStateManagement
 
         //Textures
         Texture2D blank;
+        Texture2D road;
 
         //BasicEffect effect;
 
@@ -111,6 +112,7 @@ namespace GameStateManagement
 
             // Textures
             blank = this.content.Load<Texture2D>("blank");
+            road = this.content.Load<Texture2D>("Backgrounds/roads1/preview");
 
             // A real game would probably have more content than this sample, so
             // it would take longer to load. We simulate that by delaying for a
@@ -255,9 +257,6 @@ namespace GameStateManagement
 
             SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
 
-
-
-
             //DRAW LEFT PLAYER STUFF HERE
             // Our player and enemy are both actually just text strings.
 
@@ -305,6 +304,7 @@ namespace GameStateManagement
             //TODO fix regression: need to pass matrices to spritebatch begin to fix camera tracking
             //spriteBatch.DrawString(gameFont, "Player1", playerOne.Position2, Color.Green);
             //spriteBatch.DrawString(gameFont, "Player2", playerTwo.Position2, Color.Red);
+            spriteBatch.Draw(road, new Rectangle(100, -200, 1024, 768), Color.White);
             spriteBatch.Draw(blank, new Rectangle((int)playerOne.Position2.X, (int)playerOne.Position2.Y, 32, 32), Color.Green);
             spriteBatch.Draw(blank, new Rectangle((int)playerTwo.Position2.X, (int)playerTwo.Position2.Y, 32, 32), Color.Red);
 
