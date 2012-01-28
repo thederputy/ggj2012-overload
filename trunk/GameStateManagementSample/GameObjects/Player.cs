@@ -149,14 +149,13 @@ namespace GameStateManagement.GameObjects
 
         public override void Update(GameTime gameTime)
         {
+            if (fuel <= 0)
+            {
+                velocity = Vector2.Zero;
+            }
             if (fuelTimer <= TimeSpan.FromSeconds(0))
             {
-                if (fuel <= 0)
-                {
-                    velocity = Vector2.Zero;
-                }
-                else
-                    fuel -= fuelPerSecond;
+                fuel -= fuelPerSecond;
                 fuelTimer = TimeSpan.FromSeconds(1);
             }
             else
