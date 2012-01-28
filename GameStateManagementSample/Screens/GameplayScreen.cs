@@ -35,8 +35,8 @@ namespace GameStateManagement
         DebugRenderer debugRenderer;
 
 
-        Player playerOne;
-        Player playerTwo;
+        PlayerCar playerOne;
+        PlayerCar playerTwo;
 
         Random random = new Random();
         InputManager inputManager;
@@ -138,8 +138,8 @@ namespace GameStateManagement
             inputManager = new InputManager(ScreenManager.Game);
 
             // Players
-            playerOne = new Player(ScreenManager, physicsWorld, new Vector2(288, 344));
-            playerTwo = new Player(ScreenManager, physicsWorld, new Vector2(352, 344));
+            playerOne = new PlayerCar(ScreenManager, physicsWorld, new Vector2(288, 344));
+            playerTwo = new PlayerCar(ScreenManager, physicsWorld, new Vector2(352, 344));
 
             // Textures
             blank = this.content.Load<Texture2D>("blank");
@@ -332,7 +332,7 @@ namespace GameStateManagement
             }
         }
 
-        protected void DrawGameScreen(SpriteBatch spriteBatch, GameTime gameTime, Player player)
+        protected void DrawGameScreen(SpriteBatch spriteBatch, GameTime gameTime, PlayerCar player)
         {
             Matrix trans = Matrix.Identity;
             trans.M41 = ScreenManager.GraphicsDevice.Viewport.Width / 2;
@@ -379,12 +379,12 @@ namespace GameStateManagement
 
         public void BeginContact(Contact contact)
         {
-            Player player1 = null;
+            PlayerCar player1 = null;
 
-            if (contact.GetFixtureA().GetBody().GetUserData() is Player)
-                player1 = contact.GetFixtureA().GetBody().GetUserData() as Player;
-            else if (contact.GetFixtureB().GetBody().GetUserData() is Player)
-                player1 = contact.GetFixtureB().GetBody().GetUserData() as Player;
+            if (contact.GetFixtureA().GetBody().GetUserData() is PlayerCar)
+                player1 = contact.GetFixtureA().GetBody().GetUserData() as PlayerCar;
+            else if (contact.GetFixtureB().GetBody().GetUserData() is PlayerCar)
+                player1 = contact.GetFixtureB().GetBody().GetUserData() as PlayerCar;
 
             if (player1 != null)
             {

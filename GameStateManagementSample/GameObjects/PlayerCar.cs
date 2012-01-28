@@ -10,7 +10,7 @@ using Box2D.XNA;
 
 namespace GameStateManagement.GameObjects
 {
-    class Player : Sprite
+    class PlayerCar : Sprite
     {
         #region Fields
         public Camera camera;
@@ -54,7 +54,7 @@ namespace GameStateManagement.GameObjects
 
         #region Initialization
 
-        public Player(ScreenManager screenManager, World world, Vector2 position)
+        public PlayerCar(ScreenManager screenManager, World world, Vector2 position)
             :base(screenManager, world)
         {
             this.position = position;
