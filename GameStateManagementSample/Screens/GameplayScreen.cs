@@ -223,8 +223,7 @@ namespace GameStateManagement
         {
             // This game has a blue background. Why? Because!
             ScreenManager.GraphicsDevice.Viewport = defaultViewport;
-            ScreenManager.GraphicsDevice.Clear(ClearOptions.Target,
-                                               Color.CornflowerBlue, 0, 0);
+            ScreenManager.GraphicsDevice.Clear(ClearOptions.Target,Color.CornflowerBlue, 0, 0);
 
             
 
@@ -247,15 +246,18 @@ namespace GameStateManagement
             DrawGameScreen(spriteBatch, gameTime);
             //END RIGHT PLAYER STUFF
 
+           
+
+            //DRAW FULL SCREEN AGAIN
             // If the game is transitioning on or off, fade it out to black.
+            ScreenManager.GraphicsDevice.Viewport = defaultViewport;
             if (TransitionPosition > 0 || pauseAlpha > 0)
             {
                 float alpha = MathHelper.Lerp(1f - TransitionAlpha, 1f, pauseAlpha / 2);
-
                 ScreenManager.FadeBackBufferToBlack(alpha);
             }
 
-            
+
                 
         }
 
