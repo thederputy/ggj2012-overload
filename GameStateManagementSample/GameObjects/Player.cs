@@ -15,10 +15,13 @@ namespace GameStateManagement.GameObjects
         #region Fields
         public Camera camera;
 
-        protected const int X_LIMIT = 100;
-        protected const int Y_LIMIT = 100;
-        protected const int CAMERA_PAN_SPEED = 5;
-        
+        protected int tempX = 0;
+        protected int tempY = 0;
+
+        protected const int X_LIMIT = 150;//150
+        protected const int Y_LIMIT = 150;//150
+        protected int CAMERA_PAN_SPEED = 5;//5
+        protected const int VERT_OFFSET = 175;//175
         protected float speed;
         public float Speed
         {
@@ -66,6 +69,8 @@ namespace GameStateManagement.GameObjects
         {
             texture = Game.Content.Load<Texture2D>("Sprites/car");
             base.LoadContent();
+            tempX = (int)(Position3.X);
+            tempY = (int)(Position3.Y);
         }
 
         public override void Initialize()
@@ -73,6 +78,8 @@ namespace GameStateManagement.GameObjects
             fuelTimer = TimeSpan.FromSeconds(1);
             fuel = 10;
             base.Initialize();
+            tempX = (int)(Position3.X);
+            tempY = (int)(Position3.Y);
         }
 
         #endregion
@@ -135,6 +142,9 @@ namespace GameStateManagement.GameObjects
 
         public override void Update(GameTime gameTime)
         {
+
+            camera.Update(new Vector3(tempX, tempY, Position3.Z));
+
             if (fuel <= 0)
             {
                 velocity = Vector2.Zero;
@@ -151,38 +161,68 @@ namespace GameStateManagement.GameObjects
             position += velocity * 8;
             
             
-            int tempX = (int)(Position3.X + camera.View.Translation.X) * -1;
-            int tempY = (int)(Position3.Y + camera.View.Translation.Y) * -1;
+            tempX = (int)(Position3.X + camera.View.Translation.X) * -1;
+            tempY = (int)(Position3.Y + camera.View.Translation.Y) * -1;
             //int cnt = 0;
             Vector2 cameraEase = new Vector2(tempX, tempY);
             cameraEase.Normalize();
 
             if (Math.Abs(tempX) > X_LIMIT || Math.Abs(tempY) > Y_LIMIT)
             {
-                camera.Update(new Vector3(Position3.X + MathHelper.Clamp(tempX, -X_LIMIT, X_LIMIT), Position3.Y + MathHelper.Clamp(tempY, -Y_LIMIT, Y_LIMIT), Position3.Z));
-                //cnt = X_LIMIT;
+                //camera.Update(new Vector3(Position3.X + MathHelper.Clamp(tempX, -X_LIMIT, X_LIMIT), Position3.Y + MathHelper.Clamp(tempY, -Y_LIMIT, Y_LIMIT), Position3.Z));
+                tempX = (int)(Position3.X + MathHelper.Clamp(tempX, -X_LIMIT, X_LIMIT));
+                tempY = (int)(Position3.Y + MathHelper.Clamp(tempY, -Y_LIMIT, Y_LIMIT));
+              // tempX = (int)(Position3.X );
+               //tempY = (int)(Position3.Y );
+           
+
             }
             else if (cameraEase.X >= -1 && cameraEase.Y >= -1)
             {
 
-              
+                
 
-                if (Math.Abs(MathHelper.Clamp(tempX, -X_LIMIT, X_LIMIT) - cameraEase.X * CAMERA_PAN_SPEED) <= CAMERA_PAN_SPEED)
-                    tempX = (int)(MathHelper.Clamp(tempX, -X_LIMIT, X_LIMIT));
+                if (Math.Abs(MathHelper.Clamp(tempX, -X_LIMIT, X_LIMIT) - cameraEase.X * CAMERA_PAN_SPEED) < CAMERA_PAN_SPEED)
+                {
+
+                    tempX = (int)(Position3.X + MathHelper.Clamp(tempX, -X_LIMIT, X_LIMIT));
+                }
                 else
-                    tempX = (int)(MathHelper.Clamp(tempX, -X_LIMIT, X_LIMIT) - cameraEase.X * CAMERA_PAN_SPEED);
-                if (Math.Abs(MathHelper.Clamp(tempY, -Y_LIMIT, Y_LIMIT) - cameraEase.Y * CAMERA_PAN_SPEED) <= CAMERA_PAN_SPEED)
-                    tempY = (int)(MathHelper.Clamp(tempY, -Y_LIMIT, Y_LIMIT));
+                {
+
+                    tempX = (int)(Position3.X + MathHelper.Clamp(tempX, -X_LIMIT, X_LIMIT) - cameraEase.X * CAMERA_PAN_SPEED);
+                   
+                }
+
+                if (Math.Abs(MathHelper.Clamp(tempY, -Y_LIMIT, Y_LIMIT) - cameraEase.Y * CAMERA_PAN_SPEED) < CAMERA_PAN_SPEED)
+                {
+                    tempY = (int)(Position3.Y + MathHelper.Clamp(tempY, -Y_LIMIT, Y_LIMIT));                  
+                }
                 else
-                    tempY = (int)(MathHelper.Clamp(tempY, -Y_LIMIT, Y_LIMIT) - cameraEase.Y * CAMERA_PAN_SPEED);
- 
-               camera.Update(new Vector3(Position3.X + tempX, Position3.Y + tempY, Position3.Z));
+                {
+                    
+                    tempY = (int)(Position3.Y + MathHelper.Clamp(tempY, -Y_LIMIT, Y_LIMIT) - cameraEase.Y * CAMERA_PAN_SPEED);
+                   
+                }
+
+
+                //camera.Update(new Vector3(Position3.X + tempX, Position3.Y + tempY, Position3.Z));
 
             }
-                //camera.Update(new Vector3(Position3.X + 10 * cameraEase.X, Position3.Y + 10 * cameraEase.Y, Position3.Z));
+            else
+            {
+                tempX = (int)(Position3.X);
+                tempY = (int)(Position3.Y);
+            }
+
+            camera.Update(new Vector3(tempX + texture.Width / 2, tempY + texture.Height / 2 - VERT_OFFSET, Position3.Z));
+            //camera.Update(new Vector3(tempX, tempY, Position3.Z));
             
             base.Update(gameTime);
    }
+
+
+
         private void CreateBody(World world)
         {
             BodyDef def = new BodyDef();
