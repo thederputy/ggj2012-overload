@@ -83,7 +83,6 @@
     <Compile Include="GameObjects\DebugRenderer.cs" />
     <Compile Include="GameObjects\GameObject.cs" />
     <Compile Include="GameObjects\PlayerCar.cs" />
-    <Compile Include="GameObjects\Loader.cs" />
     <Compile Include="GameObjects\Track.cs" />
     <Compile Include="GameObjects\PowerSource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
