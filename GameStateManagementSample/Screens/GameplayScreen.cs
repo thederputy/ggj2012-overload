@@ -245,8 +245,8 @@ namespace GameStateManagement
                 if (movementTwo.Length() > 1)
                     movementTwo.Normalize();
 
-                playerOne.Position2 += movementOne * 8;
-                playerTwo.Position2 += movementTwo * 8;
+                playerOne.Position2 += movementOne * 20;
+                playerTwo.Position2 += movementTwo * 20;
             }
         }
 
@@ -318,6 +318,7 @@ namespace GameStateManagement
             
             playerOne.Draw(spriteBatch, Color.Green);
             playerTwo.Draw(spriteBatch, Color.Red);
+            
 
             spriteBatch.End();
         }
