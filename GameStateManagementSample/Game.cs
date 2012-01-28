@@ -26,8 +26,6 @@ namespace GameStateManagement
 
         GraphicsDeviceManager graphics;
         ScreenManager screenManager;
-        //GameTime game = new GameTime();
-
 
         // By preloading any assets used by UI rendering, we avoid framerate glitches
         // when they suddenly need to be loaded in the middle of a menu transition.
