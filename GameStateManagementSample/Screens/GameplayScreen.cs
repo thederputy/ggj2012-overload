@@ -379,16 +379,28 @@ namespace GameStateManagement
 
         public void BeginContact(Contact contact)
         {
-            PlayerCar player1 = null;
+            Body bodyA = contact.GetFixtureA().GetBody();
+            Body bodyB = contact.GetFixtureB().GetBody();
 
-            if (contact.GetFixtureA().GetBody().GetUserData() is PlayerCar)
-                player1 = contact.GetFixtureA().GetBody().GetUserData() as PlayerCar;
-            else if (contact.GetFixtureB().GetBody().GetUserData() is PlayerCar)
-                player1 = contact.GetFixtureB().GetBody().GetUserData() as PlayerCar;
-
-            if (player1 != null)
+            if (bodyA.GetUserData() != null && bodyB.GetUserData() != null)
             {
-                //TODO: something
+                Sprite bNodeA = (Sprite)bodyA.GetUserData();
+                Sprite bNodeB = (Sprite)bodyB.GetUserData();
+
+                //Collision scenarios
+                if (bNodeA is Player && bNodeB is PowerSource)
+                {
+                    FuelUp((Player)bNodeA, (PowerSource)bNodeB);
+                }
+                if (bNodeA is PowerSource && bNodeB is Player)
+                {
+                    FuelUp((Player)bNodeB, (PowerSource)bNodeA);
+                }
+
+                if (bNodeA is Player && bNodeB is Player)
+                {
+                    ((Player)bNodeA).fuel = 0;
+                }
             }
         }
 
@@ -405,5 +417,12 @@ namespace GameStateManagement
         }
 
         #endregion
+
+        private void FuelUp(Player p, PowerSource ps)
+        {
+            p.AddFuel();
+            powerSources.Remove(ps);
+            ScreenManager.Game.Components.Remove(ps);
+        }
     }
 }
