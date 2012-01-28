@@ -135,14 +135,6 @@ namespace GameStateManagement
             // Do all drawing in here
             if (IsActive)
             {
-                ScreenManager.GraphicsDevice.Viewport = defaultViewport;
-                ScreenManager.GraphicsDevice.Clear(Color.CornflowerBlue);
-
-                ScreenManager.GraphicsDevice.Viewport = leftViewport;
-                DrawScene(gameTime, Matrix.CreateLookAt(new Vector3(-20, 0, 100), new Vector3(-20, 0, 0), Vector3.Up), halfprojectionMatrix);
-                ScreenManager.GraphicsDevice.Viewport = rightViewport;
-                DrawScene(gameTime, Matrix.CreateLookAt(new Vector3(-10, 30, 100), new Vector3(-20, 0, 0), Vector3.Up), halfprojectionMatrix);
-
                 
                 // Apply some random jitter to make the enemy move around.
                 const float randomization = 10;
@@ -225,9 +217,14 @@ namespace GameStateManagement
         public override void Draw(GameTime gameTime)
         {
             // This game has a blue background. Why? Because!
+            ScreenManager.GraphicsDevice.Viewport = defaultViewport;
             ScreenManager.GraphicsDevice.Clear(ClearOptions.Target,
                                                Color.CornflowerBlue, 0, 0);
-
+            ScreenManager.GraphicsDevice.Viewport = leftViewport;
+            DrawScene(gameTime, Matrix.CreateLookAt(new Vector3(-20, 0, 100), new Vector3(-20, 0, 0), Vector3.Up), halfprojectionMatrix);
+            
+            //DRAW LEFT PLAYER STUFF HERE
+            
             // Our player and enemy are both actually just text strings.
             SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
 
@@ -239,6 +236,26 @@ namespace GameStateManagement
                                    enemyPosition, Color.DarkRed);
 
             spriteBatch.End();
+            
+            //END LEFT PLAYER STUFF
+
+            ScreenManager.GraphicsDevice.Viewport = rightViewport;
+            DrawScene(gameTime, Matrix.CreateLookAt(new Vector3(-10, 30, 100), new Vector3(-20, 0, 0), Vector3.Up), halfprojectionMatrix);
+
+            //DRAW RIGHT PLAYER STUFF HERE
+
+            // Our player and enemy are both actually just text strings.
+            
+            spriteBatch.Begin();
+
+            spriteBatch.DrawString(gameFont, "// TODO", playerPosition, Color.Green);
+
+            spriteBatch.DrawString(gameFont, "Insert Gameplay Here",
+                                   enemyPosition, Color.DarkRed);
+
+            spriteBatch.End();
+
+            //END RIGHT PLAYER STUFF
 
             // If the game is transitioning on or off, fade it out to black.
             if (TransitionPosition > 0 || pauseAlpha > 0)
@@ -247,6 +264,9 @@ namespace GameStateManagement
 
                 ScreenManager.FadeBackBufferToBlack(alpha);
             }
+
+            
+                
         }
 
         protected void DrawScene(GameTime gameTime, Matrix view,
