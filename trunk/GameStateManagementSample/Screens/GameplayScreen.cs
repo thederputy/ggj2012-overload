@@ -135,18 +135,12 @@ namespace GameStateManagement
             // Do all drawing in here
             if (IsActive)
             {
-                
-                // Apply some random jitter to make the enemy move around.
-                const float randomization = 10;
-
-                playerTwoPosition.X += (float)(random.NextDouble() - 0.5) * randomization;
-                playerTwoPosition.Y += (float)(random.NextDouble() - 0.5) * randomization;
-
-                // Apply a stabilizing force to stop the enemy moving off the screen.
+                // Apply a stabilizing force to stop the players moving off screen.
                 Vector2 targetPosition = new Vector2(
-                    ScreenManager.GraphicsDevice.Viewport.Width / 2 - gameFont.MeasureString("Insert Gameplay Here").X / 2, 
+                    ScreenManager.GraphicsDevice.Viewport.Width / 2 - gameFont.MeasureString("Player1").X / 2, 
                     200);
 
+                playerOnePosition = Vector2.Lerp(playerOnePosition, targetPosition, 0.05f);
                 playerTwoPosition = Vector2.Lerp(playerTwoPosition, targetPosition, 0.05f);
 
                 // TODO: this game isn't very fun! You could probably improve
@@ -244,6 +238,7 @@ namespace GameStateManagement
             spriteBatch.Begin();
 
             spriteBatch.DrawString(gameFont, "Player1", playerOnePosition, Color.Green);
+            spriteBatch.DrawString(gameFont, "Player2", playerTwoPosition, Color.Red);
 
             spriteBatch.End();
             
@@ -258,6 +253,7 @@ namespace GameStateManagement
             
             spriteBatch.Begin();
 
+            spriteBatch.DrawString(gameFont, "Player1", playerOnePosition, Color.Green);
             spriteBatch.DrawString(gameFont, "Player2", playerTwoPosition, Color.Red);
 
             spriteBatch.End();
