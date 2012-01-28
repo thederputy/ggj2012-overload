@@ -57,7 +57,7 @@ namespace GameStateManagement.GameObjects
 
         public void Draw(SpriteBatch spriteBatch, Color color)
         {
-            spriteBatch.Draw(texture, Position2, null, color, body.Rotation, Vector2.Zero, 1.0f, SpriteEffects.None, 0);
+            spriteBatch.Draw(texture, Position2, null, color, body.Rotation, Vector2.Zero, 3.0f, SpriteEffects.None, 0);
 
             //base.Draw(gameTime);
         }
