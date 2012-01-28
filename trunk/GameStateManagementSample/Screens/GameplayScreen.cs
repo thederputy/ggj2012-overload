@@ -221,7 +221,7 @@ namespace GameStateManagement
             ScreenManager.GraphicsDevice.Clear(ClearOptions.Target,
                                                Color.CornflowerBlue, 0, 0);
 
-
+            
 
             SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
 
@@ -230,7 +230,7 @@ namespace GameStateManagement
     
             //DRAW LEFT PLAYER STUFF HERE
             // Our player and enemy are both actually just text strings.
-            DrawGameScreen(spriteBatch); 
+            DrawGameScreen(spriteBatch, gameTime); 
             //END LEFT PLAYER STUFF
             
 
@@ -239,7 +239,7 @@ namespace GameStateManagement
 
             //DRAW RIGHT PLAYER STUFF HERE
             // Our player and enemy are both actually just text strings.
-            DrawGameScreen(spriteBatch);
+            DrawGameScreen(spriteBatch, gameTime);
             //END RIGHT PLAYER STUFF
 
             // If the game is transitioning on or off, fade it out to black.
@@ -254,12 +254,14 @@ namespace GameStateManagement
                 
         }
 
-        protected void DrawGameScreen(SpriteBatch spriteBatch)
+        protected void DrawGameScreen(SpriteBatch spriteBatch, GameTime gameTime)
         {
             spriteBatch.Begin();
 
+
             spriteBatch.DrawString(gameFont, "Player1", new Vector2(playerOnePosition.X, playerOnePosition.Y), Color.Green);
             spriteBatch.DrawString(gameFont, "Player2", new Vector2(playerTwoPosition.X, playerTwoPosition.Y), Color.Red);
+            
 
             spriteBatch.End();
         }
