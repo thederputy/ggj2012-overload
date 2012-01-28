@@ -15,7 +15,7 @@ namespace GameStateManagement.GameObjects
         public PowerSource(ScreenManager screenManager, World physicsWorld, Vector2 position)
             : base(screenManager, physicsWorld)
         {
-            this.position = position;
+            CreateBody(position);
         }
 
         public override void Initialize()
@@ -42,11 +42,11 @@ namespace GameStateManagement.GameObjects
             base.Update(gameTime);
         }
 
-        public override void CreateBody()
+        public override void CreateBody(Vector2 position)
         {
             BodyDef def = new BodyDef();
             def.userData = this;
-            def.position = this.position;
+            def.position = position;
             def.type = BodyType.Static;
             body = physicsWorld.CreateBody(def);
             CircleShape shape = new CircleShape();

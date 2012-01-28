@@ -15,26 +15,17 @@ namespace GameStateManagement.GameObjects
 
         public Texture2D texture;
         protected Body body;
-        protected Vector2 position;
 
         public Vector2 Position2
         {
-            get { return position; }
-            set
-            {
-                position.X = value.X;
-                position.Y = value.Y;
-            }
+            get { return body.GetPosition(); }
+            set { body.Position = value; }
         }
 
         public Vector3 Position3
         {
-            get { return new Vector3(position, 0); }
-            set
-            {
-                position.X = value.X;
-                position.Y = value.Y;
-            }
+            get { return new Vector3(body.GetPosition(), 0); }
+            set { body.Position = new Vector2(value.X, value.Y); }
         }
 
         public Body Body
@@ -52,7 +43,6 @@ namespace GameStateManagement.GameObjects
         public override void Initialize()
         {
             base.Initialize();
-            CreateBody();
         }
 
         public void Draw(SpriteBatch spriteBatch, Color color)
@@ -67,6 +57,11 @@ namespace GameStateManagement.GameObjects
             spriteBatch.Draw(texture, Position2, Color.White);
         }
 
-        public abstract void CreateBody();
+        /// <summary>
+        /// Must call on subclasses and override.
+        /// </summary>
+        public virtual void CreateBody(Vector2 position)
+        {
+        }
     }
 }
