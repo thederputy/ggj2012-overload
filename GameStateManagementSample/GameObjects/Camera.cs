@@ -10,6 +10,11 @@ namespace GameStateManagement.GameObjects
         public Matrix Projection;
 
         private Vector3 cameraZPlane = new Vector3(0, 0, 2.5f);
+        public float ZoomValue
+        {
+            get { return cameraZPlane.Z; }
+            set { cameraZPlane.Z = value; }
+        }
 
         public Camera(Viewport viewport, Vector3 playerPosition)
         {
