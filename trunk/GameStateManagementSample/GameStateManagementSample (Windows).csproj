@@ -67,6 +67,8 @@
     <Compile Include="Game.cs" />
     <Compile Include="GameObjects\Camera.cs" />
     <Compile Include="GameObjects\Player.cs" />
+    <Compile Include="GameObjects\Loader.cs" />
+    <Compile Include="GameObjects\Track.cs" />
     <Compile Include="GameObjects\PowerSource.cs" />
     <Compile Include="GameObjects\Sprite.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -139,6 +141,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Box2D.XNA\Box2D.XNA - windows.csproj">
+      <Project>{22791486-E721-4511-AA4B-DA26CF5D0F2E}</Project>
+      <Name>Box2D.XNA - windows</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Content\Content.contentproj">
       <Project>{B7219195-3990-4557-87D7-856DB165635D}</Project>
       <Name>Content</Name>
