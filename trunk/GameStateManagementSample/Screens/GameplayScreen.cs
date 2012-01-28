@@ -49,6 +49,7 @@ namespace GameStateManagement
 
         //Textures
         Texture2D blank;
+        Texture2D carTexture;
         Texture2D road;
 
         //BasicEffect effect;
@@ -112,6 +113,7 @@ namespace GameStateManagement
 
             // Textures
             blank = this.content.Load<Texture2D>("blank");
+            carTexture = this.content.Load<Texture2D>("Sprites/car");
             road = this.content.Load<Texture2D>("Backgrounds/roads1/preview");
 
             // A real game would probably have more content than this sample, so
@@ -233,8 +235,8 @@ namespace GameStateManagement
                 if (movementTwo.Length() > 1)
                     movementTwo.Normalize();
 
-                playerOne.Position2 += movementOne * 2;
-                playerTwo.Position2 += movementTwo * 2;
+                playerOne.Position2 += movementOne * 8;
+                playerTwo.Position2 += movementTwo * 8;
             }
         }
 
@@ -303,8 +305,11 @@ namespace GameStateManagement
             //spriteBatch.DrawString(gameFont, "Player1", playerOne.Position2, Color.Green);
             //spriteBatch.DrawString(gameFont, "Player2", playerTwo.Position2, Color.Red);
             spriteBatch.Draw(road, new Rectangle(100, -200, 1024, 768), Color.White);
-            spriteBatch.Draw(blank, new Rectangle((int)playerOne.Position2.X, (int)playerOne.Position2.Y, 32, 32), Color.Green);
-            spriteBatch.Draw(blank, new Rectangle((int)playerTwo.Position2.X, (int)playerTwo.Position2.Y, 32, 32), Color.Red);
+            spriteBatch.Draw(carTexture, new Rectangle((int)playerOne.Position2.X, (int)playerOne.Position2.Y, carTexture.Width,carTexture.Height), Color.Green);
+            spriteBatch.Draw(carTexture, new Rectangle((int)playerTwo.Position2.X, (int)playerTwo.Position2.Y, carTexture.Width,carTexture.Height), Color.Red);
+
+
+
 
             spriteBatch.End();
         }
