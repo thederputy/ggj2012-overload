@@ -75,6 +75,7 @@ namespace GameStateManagement.GameObjects
             fuel = 10;
             tempX = (int)(Position3.X);
             tempY = (int)(Position3.Y);
+            scaleFactor = 3.0f;
             base.Initialize();
        }
 

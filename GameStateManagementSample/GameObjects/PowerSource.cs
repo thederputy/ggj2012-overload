@@ -11,11 +11,15 @@ namespace GameStateManagement.GameObjects
         private int charge;
         private TimeSpan timeToLive; //seconds
         public bool expired;
+        public PlayerCar createdBy;
+        public Color color;
 
-        public PowerSource(ScreenManager screenManager, World physicsWorld, Vector2 position)
+        public PowerSource(ScreenManager screenManager, World physicsWorld, Vector2 position, PlayerCar createdBy, Color color)
             : base(screenManager, physicsWorld)
         {
             CreateBody(position);
+            this.createdBy = createdBy;
+            this.color = color;
         }
 
         public override void Initialize()
@@ -23,7 +27,7 @@ namespace GameStateManagement.GameObjects
             charge = 5;
             timeToLive = TimeSpan.FromSeconds(3);
             expired = false;
-
+            scaleFactor = 1.0f;
             base.Initialize();
         }
 

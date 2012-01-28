@@ -209,10 +209,10 @@ namespace GameStateManagement
                 if (dropTimer <= TimeSpan.FromSeconds(0))
                 {
                     dropTimer = TimeSpan.FromMilliseconds(dropInterval);
-                    PowerSource ps = new PowerSource(ScreenManager, physicsWorld, playerOne.Position2 + new Vector2(playerOne.texture.Width/2, playerOne.texture.Height));
+                    PowerSource ps = new PowerSource(ScreenManager, physicsWorld, playerOne.Position2 + new Vector2(playerOne.texture.Width/2, playerOne.texture.Height), playerOne, Color.Green);
                     powerSources.Add(ps);
                     ScreenManager.Game.Components.Add(ps);
-                    ps = new PowerSource(ScreenManager, physicsWorld, playerTwo.Position2);
+                    ps = new PowerSource(ScreenManager, physicsWorld, playerTwo.Position2 + new Vector2(playerTwo.texture.Width / 2, playerTwo.texture.Height), playerTwo, Color.Red);
                     powerSources.Add(ps);
                     ScreenManager.Game.Components.Add(ps);
                 }
@@ -349,7 +349,7 @@ namespace GameStateManagement
             //powerSource.Draw(spriteBatch);
             foreach(PowerSource ps in powerSources)
             {
-                ps.Draw(spriteBatch);
+                ps.Draw(spriteBatch, ps.color);
             }
 
 
@@ -419,9 +419,12 @@ namespace GameStateManagement
 
         private void FuelUp(PlayerCar p, PowerSource ps)
         {
-            p.AddFuel();
-            powerSources.Remove(ps);
-            ScreenManager.Game.Components.Remove(ps);
+            if (ps.createdBy != p)
+            {
+                p.AddFuel();
+                powerSources.Remove(ps);
+                ScreenManager.Game.Components.Remove(ps);
+            }
         }
     }
 }
