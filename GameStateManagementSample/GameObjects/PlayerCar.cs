@@ -57,7 +57,7 @@ namespace GameStateManagement.GameObjects
         public PlayerCar(ScreenManager screenManager, World world, Vector2 position)
             :base(screenManager, world)
         {
-            this.position = position;
+            CreateBody(position);
             camera = new Camera(screenManager.GraphicsDevice.Viewport, Position3);
         }
 
@@ -170,7 +170,7 @@ namespace GameStateManagement.GameObjects
                 fuelTimer -= gameTime.ElapsedGameTime;
             
 
-            position += velocity * 8;
+            body.Position += velocity * 8;
 
             
             tempX = (int)(Position3.X + camera.View.Translation.X) * -1;
@@ -233,11 +233,11 @@ namespace GameStateManagement.GameObjects
             base.Update(gameTime);
         }
 
-        public override void CreateBody()
+        public override void CreateBody(Vector2 position)
         {
             BodyDef def = new BodyDef();
             def.userData = this;
-            def.position = this.position;
+            def.position = position;
             def.type = BodyType.Dynamic;
             body = physicsWorld.CreateBody(def);
             PolygonShape shape = new PolygonShape();
