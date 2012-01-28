@@ -10,7 +10,7 @@ using Box2D.XNA;
 
 namespace GameStateManagement.GameObjects
 {
-    class PlayerCar : Sprite
+    class PlayerCar : GameObject
     {
         #region Fields
         public Camera camera;
