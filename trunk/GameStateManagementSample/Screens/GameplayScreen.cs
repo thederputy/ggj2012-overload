@@ -16,6 +16,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using GameStateManagement.GameObjects;
 using Box2D.XNA;
+using System.Collections.Generic;
 #endregion
 
 namespace GameStateManagement
@@ -56,6 +57,10 @@ namespace GameStateManagement
         World physicsWorld;
 
         //BasicEffect effect;
+
+        List<PowerSource> powerSources;
+        TimeSpan dropTimer;
+        const int dropInterval = 300; //milliseconds
 
         #endregion
 
@@ -120,9 +125,6 @@ namespace GameStateManagement
             blank = this.content.Load<Texture2D>("blank");
             road = this.content.Load<Texture2D>("Backgrounds/roads1/preview");
 
-            // TJH Powersource
-            PowerSource powerSource = new PowerSource(ScreenManager);
-            
             // A real game would probably have more content than this sample, so
             // it would take longer to load. We simulate that by delaying for a
             // while, giving you a chance to admire the beautiful loading screen.
@@ -133,12 +135,14 @@ namespace GameStateManagement
             // it should not try to catch up.
             ScreenManager.Game.ResetElapsedTime();
 
+            dropTimer = TimeSpan.FromMilliseconds(dropInterval);
+            powerSources = new List<PowerSource>();
+
             // Add the game components to the game
             // This allows each component's Initialize, Update, Draw to get called automatically.
             ScreenManager.Game.Components.Add(playerOne);
             ScreenManager.Game.Components.Add(playerTwo);
             ScreenManager.Game.Components.Add(inputManager);
-            ScreenManager.Game.Components.Add(powerSource);
         }
 
 
@@ -166,8 +170,7 @@ namespace GameStateManagement
         {
             base.Update(gameTime, otherScreenHasFocus, false);
 
-            physicsWorld.Step((float)gameTime.ElapsedGameTime.TotalSeconds, 10, 10);
-
+            
             
             // Gradually fade in or out depending on whether we are covered by the pause screen.
             if (coveredByOtherScreen)
@@ -179,6 +182,29 @@ namespace GameStateManagement
             {
                 // TODO: this game isn't very fun! You could probably improve
                 // it by inserting something more interesting in this space :-)
+                physicsWorld.Step((float)gameTime.ElapsedGameTime.TotalSeconds, 10, 10);
+
+                dropTimer -= gameTime.ElapsedGameTime;
+                if (dropTimer <= TimeSpan.FromSeconds(0))
+                {
+                    dropTimer = TimeSpan.FromMilliseconds(dropInterval);
+                    PowerSource ps = new PowerSource(ScreenManager, playerOne.Position2);
+                    powerSources.Add(ps);
+                    ScreenManager.Game.Components.Add(ps);
+                    ps = new PowerSource(ScreenManager, playerTwo.Position2);
+                    powerSources.Add(ps);
+                    ScreenManager.Game.Components.Add(ps);
+                }
+                for (int i = 0; i < powerSources.Count; i++)
+                {
+                    if (powerSources[i].expired)
+                    {
+                        ScreenManager.Game.Components.Remove(powerSources[i]);
+                        powerSources.Remove(powerSources[i]);
+                        i--;
+                    }
+                }
+
             }
         }
 
@@ -286,9 +312,15 @@ namespace GameStateManagement
             playerTwo.Draw(spriteBatch, Color.Red);
             
 
+            //powerSource.Draw(spriteBatch);
+            foreach(PowerSource ps in powerSources)
+            {
+                ps.Draw(spriteBatch);
+            }
+
+
             spriteBatch.End();
         }
-
 
         //protected void DrawScene(GameTime gameTime, Camera camera)
         //{
