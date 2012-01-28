@@ -52,8 +52,7 @@ namespace GameStateManagement.GameObjects
 
         protected override void LoadContent()
         {
-            Game.Content.Load<Texture2D>("Sprites/car");
-
+            texture = Game.Content.Load<Texture2D>("Sprites/car");
             base.LoadContent();
         }
 

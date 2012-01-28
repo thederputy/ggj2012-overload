@@ -321,9 +321,6 @@ namespace GameStateManagement
             spriteBatch.Draw(carTexture, new Rectangle((int)playerOne.Position2.X, (int)playerOne.Position2.Y, carTexture.Width,carTexture.Height), Color.Green);
             spriteBatch.Draw(carTexture, new Rectangle((int)playerTwo.Position2.X, (int)playerTwo.Position2.Y, carTexture.Width,carTexture.Height), Color.Red);
 
-
-
-
             spriteBatch.End();
         }
 
