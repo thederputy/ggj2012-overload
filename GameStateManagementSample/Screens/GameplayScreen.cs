@@ -78,7 +78,7 @@ namespace GameStateManagement
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
 
             physicsWorld = new World(Vector2.Zero, false);
-            physicsWorld.GetContactManager();
+            physicsWorld.ContactListener = this;
         }
 
 
