@@ -30,8 +30,8 @@ namespace GameStateManagement
         ContentManager content;
         SpriteFont gameFont;
 
-        Vector2 playerOnePosition = new Vector2(-10, 30);
-        Vector2 playerTwoPosition = new Vector2(-20, 0);
+        Vector3 playerOnePosition = new Vector3(-10, 30, 0);
+        Vector3 playerTwoPosition = new Vector3(-20, 0, 0);
 
         Random random = new Random();
 
@@ -136,13 +136,6 @@ namespace GameStateManagement
             if (IsActive)
             {
                 // Apply a stabilizing force to stop the players moving off screen.
-                Vector2 targetPosition = new Vector2(
-                    ScreenManager.GraphicsDevice.Viewport.Width / 2 - gameFont.MeasureString("Player1").X / 2, 
-                    200);
-
-                playerOnePosition = Vector2.Lerp(playerOnePosition, targetPosition, 0.05f);
-                playerTwoPosition = Vector2.Lerp(playerTwoPosition, targetPosition, 0.05f);
-
                 // TODO: this game isn't very fun! You could probably improve
                 // it by inserting something more interesting in this space :-)
             }
@@ -178,8 +171,8 @@ namespace GameStateManagement
             else
             {
                 // Otherwise move the player position.
-                Vector2 movementOne = Vector2.Zero;
-                Vector2 movementTwo = Vector2.Zero;
+                Vector3 movementOne = Vector3.Zero;
+                Vector3 movementTwo = Vector3.Zero;
 
                 // Player One
                 if (keyboardState.IsKeyDown(Keys.Left))
@@ -237,8 +230,8 @@ namespace GameStateManagement
 
             spriteBatch.Begin();
 
-            spriteBatch.DrawString(gameFont, "Player1", playerOnePosition, Color.Green);
-            spriteBatch.DrawString(gameFont, "Player2", playerTwoPosition, Color.Red);
+            spriteBatch.DrawString(gameFont, "Player1", new Vector2(playerOnePosition.X, playerOnePosition.Y), Color.Green);
+            spriteBatch.DrawString(gameFont, "Player2", new Vector2(playerTwoPosition.X, playerTwoPosition.Y), Color.Red);
 
             spriteBatch.End();
             
@@ -253,8 +246,8 @@ namespace GameStateManagement
             
             spriteBatch.Begin();
 
-            spriteBatch.DrawString(gameFont, "Player1", playerOnePosition, Color.Green);
-            spriteBatch.DrawString(gameFont, "Player2", playerTwoPosition, Color.Red);
+            spriteBatch.DrawString(gameFont, "Player1", new Vector2(playerOnePosition.X, playerOnePosition.Y), Color.Green);
+            spriteBatch.DrawString(gameFont, "Player2", new Vector2(playerTwoPosition.X, playerTwoPosition.Y), Color.Red);
 
             spriteBatch.End();
 

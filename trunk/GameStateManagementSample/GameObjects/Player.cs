@@ -11,6 +11,6 @@ namespace GameStateManagement.GameObjects
 {
     class Player
     {
-        public Vector2 position;
+        public Vector3 position;
     }
 }
