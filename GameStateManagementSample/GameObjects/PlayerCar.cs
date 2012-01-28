@@ -250,7 +250,11 @@ namespace GameStateManagement.GameObjects
             return (float)fuel/(float)maxFuel;
         }
 
-
+        public void AddFuel()
+        {
+            if (fuel < maxFuel)
+                fuel += fuelPerSecond;
+        }
 
     }
 }

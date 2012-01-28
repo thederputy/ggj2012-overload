@@ -420,7 +420,7 @@ namespace GameStateManagement
 
         private void FuelUp(PlayerCar p, PowerSource ps)
         {
-            //p.AddFuel();
+            p.AddFuel();
             powerSources.Remove(ps);
             ScreenManager.Game.Components.Remove(ps);
         }
