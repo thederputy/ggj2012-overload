@@ -6,7 +6,7 @@ using Box2D.XNA;
 
 namespace GameStateManagement.GameObjects
 {
-    class PowerSource : Sprite
+    class PowerSource : GameObject
     {
         private int charge;
         private TimeSpan timeToLive; //seconds

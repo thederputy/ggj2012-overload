@@ -8,7 +8,7 @@ using Box2D.XNA;
 
 namespace GameStateManagement.GameObjects
 {
-    abstract class Sprite : DrawableGameComponent
+    abstract class GameObject : DrawableGameComponent
     {
         protected ScreenManager screenManager;
         protected World physicsWorld;
@@ -43,7 +43,7 @@ namespace GameStateManagement.GameObjects
             set { body = value; }
         }
 
-        public Sprite(ScreenManager screenManager, World physicsWorld)
+        public GameObject(ScreenManager screenManager, World physicsWorld)
             : base(screenManager.Game)
         {
             this.physicsWorld = physicsWorld;
