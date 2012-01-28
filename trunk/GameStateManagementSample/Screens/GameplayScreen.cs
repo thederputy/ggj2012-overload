@@ -26,7 +26,7 @@ namespace GameStateManagement
     /// placeholder to get the idea across: you'll probably want to
     /// put some more interesting gameplay in here!
     /// </summary>
-    class GameplayScreen : GameScreen
+    class GameplayScreen : GameScreen, IContactListener
     {
         #region Fields
 
@@ -78,6 +78,7 @@ namespace GameStateManagement
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
 
             physicsWorld = new World(Vector2.Zero, false);
+            physicsWorld.GetContactManager();
         }
 
 
@@ -320,14 +321,7 @@ namespace GameStateManagement
             trans.M41 = ScreenManager.GraphicsDevice.Viewport.Width / 2;
             trans.M42 = ScreenManager.GraphicsDevice.Viewport.Height / 2;
 
-            AABB test;
-            test.lowerBound = Vector2.Zero;
-            test.upperBound = new Vector2(5, 5);
-            debugRenderer.DrawAABB(ref test, Color.Orange);
-
-
             spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, RasterizerState.CullNone, null, trans * player.camera.View * halfprojectionMatrix);
-
 
             //TODO: replace with road drawablegamecomponent draw call
             spriteBatch.Draw(road, new Rectangle(0, 0, 1024, 768), Color.White);
@@ -361,6 +355,37 @@ namespace GameStateManagement
         //    effect.Projection = camera.Projection;
         //        //Draw the mesh, will use the effects set above.
         //}
+
+        #endregion
+
+        #region IContactListener Members
+
+        public void BeginContact(Contact contact)
+        {
+            Player player1 = null;
+
+            if (contact.GetFixtureA().GetBody().GetUserData() is Player)
+                player1 = contact.GetFixtureA().GetBody().GetUserData() as Player;
+            else if (contact.GetFixtureB().GetBody().GetUserData() is Player)
+                player1 = contact.GetFixtureB().GetBody().GetUserData() as Player;
+
+            if (player1 != null)
+            {
+                //TODO: something
+            }
+        }
+
+        public void EndContact(Contact contact)
+        {
+        }
+
+        public void PreSolve(Contact contact, ref Manifold oldManifold)
+        {
+        }
+
+        public void PostSolve(Contact contact, ref ContactImpulse impulse)
+        {
+        }
 
         #endregion
     }
