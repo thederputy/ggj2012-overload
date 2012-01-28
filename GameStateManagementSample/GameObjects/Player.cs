@@ -51,7 +51,10 @@ namespace GameStateManagement.GameObjects
         public int fuel;
         private const int maxFuel = 10;
         private const int fuelPerSecond = 1;
+        private const int turboFuelPerSecond = 2;
         private TimeSpan fuelTimer;
+
+        private const float turboMultiplier = 1.5f;
 
         #endregion
 
@@ -96,7 +99,7 @@ namespace GameStateManagement.GameObjects
             velocity = Vector2.Zero;
 
             // Keyboard Controls
-            Keys[] keys = new Keys[4];
+            Keys[] keys = new Keys[5];
             switch (inputKeys)
             {
                 case InputKeys.WASD:
@@ -104,12 +107,14 @@ namespace GameStateManagement.GameObjects
                     keys[1] = Keys.D;
                     keys[2] = Keys.W;
                     keys[3] = Keys.S;
+                    keys[4] = Keys.LeftShift;
                     break;
                 case InputKeys.Arrows:
                     keys[0] = Keys.Left;
                     keys[1] = Keys.Right;
                     keys[2] = Keys.Up;
                     keys[3] = Keys.Down;
+                    keys[4] = Keys.RightControl;
                     break;
             }
 
@@ -134,9 +139,9 @@ namespace GameStateManagement.GameObjects
             velocity.X += thumbstick.X;
             velocity.Y -= thumbstick.Y;
 
+            // Limits to one unit of movement 
             if (velocity.Length() > 1)
                 velocity.Normalize();
-
             if (inputManager.IsKeyHeld(Keys.OemPlus))
             {
                 camera.ZoomValue -= 0.1f; // zooms in - brings camera closer to cars
@@ -145,6 +150,9 @@ namespace GameStateManagement.GameObjects
             {
                 camera.ZoomValue += 0.1f; // zooms out - moves camera further from to cars
             }
+            if (inputManager.IsHeld(keys[4], Buttons.A, playerIndex))
+                velocity = Vector2.Multiply(velocity, turboMultiplier);
+            
         }
 
         public override void Update(GameTime gameTime)
@@ -158,7 +166,10 @@ namespace GameStateManagement.GameObjects
             }
             if (fuelTimer <= TimeSpan.FromSeconds(0))
             {
-                fuel -= fuelPerSecond;
+                if (velocity.Length() > 1.0f)
+                    fuel -= turboFuelPerSecond;
+                else
+                    fuel -= fuelPerSecond;
                 fuelTimer = TimeSpan.FromSeconds(1);
             }
             else
