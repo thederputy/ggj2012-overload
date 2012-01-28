@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Box2D.XNA;
 #endregion
 
 namespace GameStateManagement.GameObjects
@@ -35,15 +36,25 @@ namespace GameStateManagement.GameObjects
             set { velocity = value; }
         }
 
+
+        public Body Body
+        {
+            get { return m_body; }
+            set { m_body = value; }
+        }
+        private Body m_body;
+
+
         #endregion
 
         #region Initialization
 
-        public Player(ScreenManager screenManager)
+        public Player(ScreenManager screenManager, World world)
             :base(screenManager)
         {
             position = Vector2.Zero;
             camera = new Camera(screenManager.GraphicsDevice.Viewport, Position3);
+            CreateBody(world);
         }
 
         public Player(ScreenManager screenManager, float x, float y)
@@ -156,5 +167,16 @@ namespace GameStateManagement.GameObjects
             
             base.Update(gameTime);
         }
+        private void CreateBody(World world)
+        {
+            BodyDef def = new BodyDef();
+            def.userData = this;
+            def.position = this.position;
+            m_body = world.CreateBody(def);
+            PolygonShape shape = new PolygonShape();
+            shape.SetAsBox(1, 1);
+            m_body.CreateFixture(shape, 1.0f);
+        }
+
     }
 }
