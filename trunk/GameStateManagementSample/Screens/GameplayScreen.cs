@@ -30,8 +30,8 @@ namespace GameStateManagement
         ContentManager content;
         SpriteFont gameFont;
 
-        Vector2 playerPosition = new Vector2(100, 100);
-        Vector2 enemyPosition = new Vector2(100, 100);
+        Vector2 playerOnePosition = new Vector2(-10, 30);
+        Vector2 playerTwoPosition = new Vector2(-20, 0);
 
         Random random = new Random();
 
@@ -139,15 +139,15 @@ namespace GameStateManagement
                 // Apply some random jitter to make the enemy move around.
                 const float randomization = 10;
 
-                enemyPosition.X += (float)(random.NextDouble() - 0.5) * randomization;
-                enemyPosition.Y += (float)(random.NextDouble() - 0.5) * randomization;
+                playerTwoPosition.X += (float)(random.NextDouble() - 0.5) * randomization;
+                playerTwoPosition.Y += (float)(random.NextDouble() - 0.5) * randomization;
 
                 // Apply a stabilizing force to stop the enemy moving off the screen.
                 Vector2 targetPosition = new Vector2(
                     ScreenManager.GraphicsDevice.Viewport.Width / 2 - gameFont.MeasureString("Insert Gameplay Here").X / 2, 
                     200);
 
-                enemyPosition = Vector2.Lerp(enemyPosition, targetPosition, 0.05f);
+                playerTwoPosition = Vector2.Lerp(playerTwoPosition, targetPosition, 0.05f);
 
                 // TODO: this game isn't very fun! You could probably improve
                 // it by inserting something more interesting in this space :-)
@@ -184,29 +184,42 @@ namespace GameStateManagement
             else
             {
                 // Otherwise move the player position.
-                Vector2 movement = Vector2.Zero;
+                Vector2 movementOne = Vector2.Zero;
+                Vector2 movementTwo = Vector2.Zero;
 
+                // Player One
                 if (keyboardState.IsKeyDown(Keys.Left))
-                    movement.X--;
-
+                    movementOne.X--;
                 if (keyboardState.IsKeyDown(Keys.Right))
-                    movement.X++;
-
+                    movementOne.X++;
                 if (keyboardState.IsKeyDown(Keys.Up))
-                    movement.Y--;
-
+                    movementOne.Y--;
                 if (keyboardState.IsKeyDown(Keys.Down))
-                    movement.Y++;
+                    movementOne.Y++;
+
+                // Player Two
+                if (keyboardState.IsKeyDown(Keys.A))
+                    movementTwo.X--;
+                if (keyboardState.IsKeyDown(Keys.D))
+                    movementTwo.X++;
+                if (keyboardState.IsKeyDown(Keys.W))
+                    movementTwo.Y--;
+                if (keyboardState.IsKeyDown(Keys.S))
+                    movementTwo.Y++;
 
                 Vector2 thumbstick = gamePadState.ThumbSticks.Left;
 
-                movement.X += thumbstick.X;
-                movement.Y -= thumbstick.Y;
+                movementOne.X += thumbstick.X;
+                movementOne.Y -= thumbstick.Y;
 
-                if (movement.Length() > 1)
-                    movement.Normalize();
+                if (movementOne.Length() > 1)
+                    movementOne.Normalize();
 
-                playerPosition += movement * 2;
+                if (movementTwo.Length() > 1)
+                    movementTwo.Normalize();
+
+                playerOnePosition += movementOne * 2;
+                playerTwoPosition += movementTwo * 2;
             }
         }
 
@@ -230,10 +243,7 @@ namespace GameStateManagement
 
             spriteBatch.Begin();
 
-            spriteBatch.DrawString(gameFont, "// TODO", playerPosition, Color.Green);
-
-            spriteBatch.DrawString(gameFont, "Insert Gameplay Here",
-                                   enemyPosition, Color.DarkRed);
+            spriteBatch.DrawString(gameFont, "Player1", playerOnePosition, Color.Green);
 
             spriteBatch.End();
             
@@ -248,10 +258,7 @@ namespace GameStateManagement
             
             spriteBatch.Begin();
 
-            spriteBatch.DrawString(gameFont, "// TODO", playerPosition, Color.Green);
-
-            spriteBatch.DrawString(gameFont, "Insert Gameplay Here",
-                                   enemyPosition, Color.DarkRed);
+            spriteBatch.DrawString(gameFont, "Player2", playerTwoPosition, Color.Red);
 
             spriteBatch.End();
 
