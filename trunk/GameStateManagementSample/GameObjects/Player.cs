@@ -58,6 +58,7 @@ namespace GameStateManagement.GameObjects
 
         public override void Update(GameTime gameTime)
         {
+            camera.Update(Position3);
             base.Update(gameTime);
         }
 

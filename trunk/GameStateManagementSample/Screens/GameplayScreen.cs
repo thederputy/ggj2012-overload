@@ -140,6 +140,8 @@ namespace GameStateManagement
             // Do all drawing in here
             if (IsActive)
             {
+                playerOne.Update(gameTime);
+                playerTwo.Update(gameTime);
                 // Apply a stabilizing force to stop the players moving off screen.
                 // TODO: this game isn't very fun! You could probably improve
                 // it by inserting something more interesting in this space :-)
@@ -239,7 +241,7 @@ namespace GameStateManagement
     
             //DRAW LEFT PLAYER STUFF HERE
             // Our player and enemy are both actually just text strings.
-            DrawGameScreen(spriteBatch, gameTime); 
+            DrawGameScreen(spriteBatch, gameTime, playerOne); 
             //END LEFT PLAYER STUFF
             
 
@@ -248,7 +250,7 @@ namespace GameStateManagement
 
             //DRAW RIGHT PLAYER STUFF HERE
             // Our player and enemy are both actually just text strings.
-            DrawGameScreen(spriteBatch, gameTime);
+            DrawGameScreen(spriteBatch, gameTime, playerTwo);
             //END RIGHT PLAYER STUFF
 
            
@@ -266,9 +268,10 @@ namespace GameStateManagement
                 
         }
 
-        protected void DrawGameScreen(SpriteBatch spriteBatch, GameTime gameTime)
+        protected void DrawGameScreen(SpriteBatch spriteBatch, GameTime gameTime, Player player)
         {
-            spriteBatch.Begin();
+            //spriteBatch.Begin();
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, RasterizerState.CullNone, null, player.camera.View * player.camera.Projection);
             //TODO fix regression: need to pass matrices to spritebatch begin to fix camera tracking
             spriteBatch.DrawString(gameFont, "Player1", playerOne.Position2, Color.Green);
             spriteBatch.DrawString(gameFont, "Player2", playerTwo.Position2, Color.Red);

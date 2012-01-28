@@ -10,7 +10,7 @@ namespace GameStateManagement.GameObjects
         public Matrix View;
         public Matrix Projection;
 
-        private  Vector3 cameraZPlane = new Vector3(0, 0, 10.0f);
+        private Vector3 cameraZPlane = new Vector3(0, 0, 10.0f);
 
         public Camera(Vector3 playerPosition)
         {
