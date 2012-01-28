@@ -17,6 +17,16 @@ namespace GameStateManagement.GameObjects
         protected const int X_LIMIT = 100;
         protected const int Y_LIMIT = 100;
         protected const int CAMERA_PAN_SPEED = 5;
+        
+        protected float speed;
+        public float Speed
+        {
+            get { return speed; }
+            set
+            {
+                speed = value;
+            }
+        }
 
         protected Vector2 velocity;
         public Vector2 Velocity
@@ -69,31 +79,35 @@ namespace GameStateManagement.GameObjects
             // Otherwise move the player position.
             velocity = Vector2.Zero;
 
-            // Player One
+            // Keyboard Controls
+            Keys[] keys = new Keys[4];
             switch (inputKeys)
             {
                 case InputKeys.WASD:
-                    if (inputManager.IsKeyHeld(Keys.A))
-                        velocity.X--;
-                    if (inputManager.IsKeyHeld(Keys.D))
-                        velocity.X++;
-                    if (inputManager.IsKeyHeld(Keys.W))
-                        velocity.Y--;
-                    if (inputManager.IsKeyHeld(Keys.S))
-                        velocity.Y++;
+                    keys[0] = Keys.A;
+                    keys[1] = Keys.D;
+                    keys[2] = Keys.W;
+                    keys[3] = Keys.S;
                     break;
                 case InputKeys.Arrows:
-                    if (inputManager.IsKeyHeld(Keys.Left))
-                        velocity.X--;
-                    if (inputManager.IsKeyHeld(Keys.Right))
-                        velocity.X++;
-                    if (inputManager.IsKeyHeld(Keys.Up))
-                        velocity.Y--;
-                    if (inputManager.IsKeyHeld(Keys.Down))
-                        velocity.Y++;
+                    keys[0] = Keys.Left;
+                    keys[1] = Keys.Right;
+                    keys[2] = Keys.Up;
+                    keys[3] = Keys.Down;
                     break;
             }
 
+            // Keyboard/Dpad velocity change
+            if (inputManager.IsHeld(keys[0], Buttons.DPadLeft, playerIndex))
+                velocity.X--;
+            if (inputManager.IsHeld(keys[1], Buttons.DPadRight, playerIndex))
+                velocity.X++;
+            if (inputManager.IsHeld(keys[2], Buttons.DPadUp, playerIndex))
+                velocity.Y--;
+            if (inputManager.IsHeld(keys[3], Buttons.DPadDown, playerIndex))
+                velocity.Y++;
+
+            // Thumbstick controls
             Vector2 thumbstick = inputManager.currentGamePadStates[playerIndex].ThumbSticks.Left;
 
             velocity.X += thumbstick.X;
