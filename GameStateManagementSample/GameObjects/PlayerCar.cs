@@ -151,7 +151,7 @@ namespace GameStateManagement.GameObjects
 
         public override void Update(GameTime gameTime)
         {
-
+            
             camera.Update(new Vector3(tempX, tempY, Position3.Z));
 
             if (fuel <= 0)
@@ -247,7 +247,7 @@ namespace GameStateManagement.GameObjects
 
         public float getFuelPercent()
         {
-            return (float)fuel/(float)maxFuel;
+            return (float)(fuel - 1) / (float)maxFuel + ((float)(fuelTimer.Milliseconds) / 1000 / (float)(maxFuel));
         }
 
         public void AddFuel()
