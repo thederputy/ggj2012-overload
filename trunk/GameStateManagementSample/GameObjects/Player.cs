@@ -11,9 +11,10 @@ namespace GameStateManagement.GameObjects
 {
     class Player : GameComponent
     {
-        protected Vector2 position;
-
+        #region Fields
         public Camera camera;
+
+        protected Vector2 position;
 
         public Vector2 Position2
         {
@@ -34,6 +35,15 @@ namespace GameStateManagement.GameObjects
                 position.Y = value.Y;
             }
         }
+
+        protected Vector2 velocity;
+        public Vector2 Velocity
+        {
+            get { return velocity; }
+            set { velocity = value; }
+        }
+
+        #endregion
 
         public Player(ScreenManager screenManager)
             :base (screenManager.Game)
