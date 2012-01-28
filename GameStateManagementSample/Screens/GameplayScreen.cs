@@ -46,6 +46,9 @@ namespace GameStateManagement
         Matrix projectionMatrix;
         Matrix halfprojectionMatrix;
 
+        //Textures
+        Texture2D blank;
+
         //BasicEffect effect;
 
         #endregion
@@ -83,30 +86,43 @@ namespace GameStateManagement
             //            rightViewport.X = leftViewport.Width + 1;
 
             
+            //projectionMatrix = Matrix.CreatePerspectiveFieldOfView(
+            //    MathHelper.PiOver4, 4.0f / 3.0f, 1.0f, 10000f);
+            //halfprojectionMatrix = Matrix.CreatePerspectiveFieldOfView(
+            //    MathHelper.PiOver4, 2.0f / 3.0f, 1.0f, 10000f);
             projectionMatrix = Matrix.CreatePerspectiveFieldOfView(
-                MathHelper.PiOver4, 4.0f / 3.0f, 1.0f, 10000f);
+                MathHelper.PiOver4, ScreenManager.GraphicsDevice.Viewport.AspectRatio, 1.0f, 10000f);
             halfprojectionMatrix = Matrix.CreatePerspectiveFieldOfView(
-                MathHelper.PiOver4, 2.0f / 3.0f, 1.0f, 10000f);
+                MathHelper.PiOver4, ScreenManager.GraphicsDevice.Viewport.AspectRatio, 1.0f, 10000f);
 
             //effect = new BasicEffect(ScreenManager.GraphicsDevice);
             //effect.EnableDefaultLighting(); //required?
 
             // Input
-            inputManager = new InputManager();
+            inputManager = new InputManager(ScreenManager.Game);
 
             // Players
-            playerOne = new Player(ScreenManager.Game, 200, 300);
-            playerTwo = new Player(ScreenManager.Game, 300, 500);
+            playerOne = new Player(ScreenManager, 200, 300);
+            playerTwo = new Player(ScreenManager, 300, 500);
+
+            // Textures
+            blank = this.content.Load<Texture2D>("blank");
 
             // A real game would probably have more content than this sample, so
             // it would take longer to load. We simulate that by delaying for a
             // while, giving you a chance to admire the beautiful loading screen.
-            Thread.Sleep(1000);
+            Thread.Sleep(100);
 
             // once the load has finished, we use ResetElapsedTime to tell the game's
             // timing mechanism that we have just finished a very long frame, and that
             // it should not try to catch up.
             ScreenManager.Game.ResetElapsedTime();
+
+            // Add the game components to the game
+            // This allows each component's Initialize, Update, Draw to get called automatically.
+            ScreenManager.Game.Components.Add(playerOne);
+            ScreenManager.Game.Components.Add(playerTwo);
+            ScreenManager.Game.Components.Add(inputManager);
         }
 
 
@@ -143,10 +159,6 @@ namespace GameStateManagement
 
             if (IsActive)
             {
-                inputManager.Update(gameTime.ElapsedGameTime);
-                playerOne.Update(gameTime);
-                playerTwo.Update(gameTime);
-                // Apply a stabilizing force to stop the players moving off screen.
                 // TODO: this game isn't very fun! You could probably improve
                 // it by inserting something more interesting in this space :-)
             }
@@ -181,8 +193,8 @@ namespace GameStateManagement
             else
             {
                 // Otherwise move the player position.
-                Vector3 movementOne = Vector3.Zero;
-                Vector3 movementTwo = Vector3.Zero;
+                Vector2 movementOne = Vector2.Zero;
+                Vector2 movementTwo = Vector2.Zero;
 
                 // Player One
                 if (keyboardState.IsKeyDown(Keys.A))
@@ -215,8 +227,8 @@ namespace GameStateManagement
                 if (movementTwo.Length() > 1)
                     movementTwo.Normalize();
 
-                playerOne.Position3 += movementOne * 2;
-                playerTwo.Position3 += movementTwo * 2;
+                playerOne.Position2 += movementOne * 2;
+                playerTwo.Position2 += movementTwo * 2;
             }
         }
 
@@ -228,7 +240,7 @@ namespace GameStateManagement
         {
             // This game has a blue background. Why? Because!
             ScreenManager.GraphicsDevice.Viewport = defaultViewport;
-            ScreenManager.GraphicsDevice.Clear(ClearOptions.Target,Color.CornflowerBlue, 0, 0);
+            ScreenManager.GraphicsDevice.Clear(ClearOptions.Target, Color.CornflowerBlue, 0, 0);
 
             /* TJH Debugger
             SpriteBatch debugSB = ScreenManager.SpriteBatch;
@@ -261,27 +273,32 @@ namespace GameStateManagement
             //DRAW FULL SCREEN AGAIN
             // If the game is transitioning on or off, fade it out to black.
             ScreenManager.GraphicsDevice.Viewport = defaultViewport;
+
+            // Drawing HUD stuff for now
+            spriteBatch.Begin();
+            spriteBatch.Draw(blank, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width / 2 - 1, 0, 3, ScreenManager.GraphicsDevice.Viewport.Height), Color.Black);
+            spriteBatch.End();
+
             if (TransitionPosition > 0 || pauseAlpha > 0)
             {
                 float alpha = MathHelper.Lerp(1f - TransitionAlpha, 1f, pauseAlpha / 2);
                 ScreenManager.FadeBackBufferToBlack(alpha);
             }
-
-
-                
         }
 
         protected void DrawGameScreen(SpriteBatch spriteBatch, GameTime gameTime, Player player)
         {
-            //spriteBatch.Begin();
             Matrix trans = Matrix.Identity;
             trans.M41 = ScreenManager.GraphicsDevice.Viewport.Width / 2;
             trans.M42 = ScreenManager.GraphicsDevice.Viewport.Height / 2;
+            trans *= trans;
+
             spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, RasterizerState.CullNone, null, trans * player.camera.View * player.camera.Projection);
             //TODO fix regression: need to pass matrices to spritebatch begin to fix camera tracking
-            spriteBatch.DrawString(gameFont, "Player1", playerOne.Position2, Color.Green);
-            spriteBatch.DrawString(gameFont, "Player2", playerTwo.Position2, Color.Red);
-            
+            //spriteBatch.DrawString(gameFont, "Player1", playerOne.Position2, Color.Green);
+            //spriteBatch.DrawString(gameFont, "Player2", playerTwo.Position2, Color.Red);
+            spriteBatch.Draw(blank, new Rectangle((int)playerOne.Position2.X, (int)playerOne.Position2.Y, 32, 32), Color.Green);
+            spriteBatch.Draw(blank, new Rectangle((int)playerTwo.Position2.X, (int)playerTwo.Position2.Y, 32, 32), Color.Red);
 
             spriteBatch.End();
         }
