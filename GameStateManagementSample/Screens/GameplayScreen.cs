@@ -14,6 +14,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using GameStateManagement.GameObjects;
 #endregion
 
 namespace GameStateManagement
@@ -30,8 +31,8 @@ namespace GameStateManagement
         ContentManager content;
         SpriteFont gameFont;
 
-        Vector3 playerOnePosition = new Vector3(-10, 30, 0);
-        Vector3 playerTwoPosition = new Vector3(-20, 0, 0);
+        Player playerOne = new Player(-10, 30);
+        Player playerTwo = new Player(-20, 0);
 
         Random random = new Random();
 
@@ -88,6 +89,10 @@ namespace GameStateManagement
 
             effect = new BasicEffect(ScreenManager.GraphicsDevice);
             //effect.EnableDefaultLighting(); //required?
+
+            // Players
+            playerOne = new Player(-10, 30);
+            playerTwo = new Player(-20, 0);
 
             // A real game would probably have more content than this sample, so
             // it would take longer to load. We simulate that by delaying for a
@@ -205,8 +210,8 @@ namespace GameStateManagement
                 if (movementTwo.Length() > 1)
                     movementTwo.Normalize();
 
-                playerOnePosition += movementOne * 2;
-                playerTwoPosition += movementTwo * 2;
+                playerOne.Position3 += movementOne * 2;
+                playerTwo.Position3 += movementTwo * 2;
             }
         }
 
@@ -226,7 +231,7 @@ namespace GameStateManagement
             SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
 
             ScreenManager.GraphicsDevice.Viewport = leftViewport;
-            DrawScene(gameTime, Matrix.CreateLookAt(playerOnePosition + new Vector3(0, 0, 100), playerOnePosition, Vector3.Up), halfprojectionMatrix);
+            DrawScene(gameTime, Matrix.CreateLookAt(playerOne.Position3 + new Vector3(0, 0, 100), playerOne.Position3, Vector3.Up), halfprojectionMatrix);
     
             //DRAW LEFT PLAYER STUFF HERE
             // Our player and enemy are both actually just text strings.
@@ -235,7 +240,7 @@ namespace GameStateManagement
             
 
             ScreenManager.GraphicsDevice.Viewport = rightViewport;
-            DrawScene(gameTime, Matrix.CreateLookAt(playerTwoPosition + new Vector3(0, 0, 100), playerTwoPosition, Vector3.Up), halfprojectionMatrix);
+            DrawScene(gameTime, Matrix.CreateLookAt(playerTwo.Position3 + new Vector3(0, 0, 100), playerTwo.Position3, Vector3.Up), halfprojectionMatrix);
 
             //DRAW RIGHT PLAYER STUFF HERE
             // Our player and enemy are both actually just text strings.
@@ -258,9 +263,8 @@ namespace GameStateManagement
         {
             spriteBatch.Begin();
 
-
-            spriteBatch.DrawString(gameFont, "Player1", new Vector2(playerOnePosition.X, playerOnePosition.Y), Color.Green);
-            spriteBatch.DrawString(gameFont, "Player2", new Vector2(playerTwoPosition.X, playerTwoPosition.Y), Color.Red);
+            spriteBatch.DrawString(gameFont, "Player1", playerOne.Position2, Color.Green);
+            spriteBatch.DrawString(gameFont, "Player2", playerTwo.Position2, Color.Red);
             
 
             spriteBatch.End();
