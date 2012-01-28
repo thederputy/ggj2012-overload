@@ -145,7 +145,7 @@ namespace GameStateManagement
         /// Allows the screen the chance to position the menu entries. By default
         /// all menu entries are lined up in a vertical list, centered on the screen.
         /// </summary>
-        protected virtual void UpdateMenuEntryLocations()
+        protected virtual void UpdateMenuEntryLocations() // EACH IS MOVED HERE
         {
             // Make the menu slide into place during transitions, using a
             // power curve to make things look more interesting (this makes
@@ -163,10 +163,10 @@ namespace GameStateManagement
                 // each entry is to be centered horizontally
                 position.X = ScreenManager.GraphicsDevice.Viewport.Width / 2 - menuEntry.GetWidth(this) / 2;
 
-                if (ScreenState == ScreenState.TransitionOn)
-                    position.X -= transitionOffset * 256;
-                else
-                    position.X += transitionOffset * 512;
+                //if (ScreenState == ScreenState.TransitionOn
+                    //position.X -= transitionOffset * 256; // MAKES IT GO ON SCREEEN FROM LEFT
+                //else
+                    //position.X += transitionOffset * 512; // MAKE IT GO OFF SCREEN RIGHT
 
                 // set the entry's position
                 menuEntry.Position = position;
@@ -230,13 +230,18 @@ namespace GameStateManagement
             Color titleColor = new Color(192, 192, 192) * TransitionAlpha;
             float titleScale = 1.25f;
 
-            titlePosition.Y -= transitionOffset * 100;
+            //titlePosition.Y -= transitionOffset * 100; // HERE IS WHERE IT MAKES THE TITLE DROP DOWN
 
             spriteBatch.DrawString(font, menuTitle, titlePosition, titleColor, 0,
                                    titleOrigin, titleScale, SpriteEffects.None, 0);
 
             spriteBatch.End();
         }
+
+     
+
+
+
 
 
         #endregion

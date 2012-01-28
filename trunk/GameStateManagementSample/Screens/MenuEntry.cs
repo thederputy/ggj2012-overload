@@ -125,9 +125,9 @@ namespace GameStateManagement
             // popping to the new state.
             float fadeSpeed = (float)gameTime.ElapsedGameTime.TotalSeconds * 4;
 
-            if (isSelected)
+            if (isSelected) 
                 selectionFade = Math.Min(selectionFade + fadeSpeed, 1);
-            else
+            else { }
                 selectionFade = Math.Max(selectionFade - fadeSpeed, 0);
         }
 

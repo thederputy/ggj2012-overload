@@ -255,21 +255,26 @@ namespace GameStateManagement
 
             SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
 
+
+
+
+            //DRAW LEFT PLAYER STUFF HERE
+            // Our player and enemy are both actually just text strings.
+
             ScreenManager.GraphicsDevice.Viewport = leftViewport;
             //DrawScene(gameTime, playerOne.camera);
     
-            //DRAW LEFT PLAYER STUFF HERE
-            // Our player and enemy are both actually just text strings.
             DrawGameScreen(spriteBatch, gameTime, playerOne); 
             //END LEFT PLAYER STUFF
-            
+
+            //DRAW RIGHT PLAYER STUFF HERE
+            // Our player and enemy are both actually just text strings.
 
             ScreenManager.GraphicsDevice.Viewport = rightViewport;
             //DrawScene(gameTime, playerTwo.camera);
 
-            //DRAW RIGHT PLAYER STUFF HERE
-            // Our player and enemy are both actually just text strings.
             DrawGameScreen(spriteBatch, gameTime, playerTwo);
+
             //END RIGHT PLAYER STUFF
 
            
