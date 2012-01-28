@@ -81,7 +81,7 @@
     <Compile Include="Game.cs" />
     <Compile Include="GameObjects\Camera.cs" />
     <Compile Include="GameObjects\DebugRenderer.cs" />
-    <Compile Include="GameObjects\Player.cs" />
+    <Compile Include="GameObjects\PlayerCar.cs" />
     <Compile Include="GameObjects\Loader.cs" />
     <Compile Include="GameObjects\Track.cs" />
     <Compile Include="GameObjects\PowerSource.cs" />
