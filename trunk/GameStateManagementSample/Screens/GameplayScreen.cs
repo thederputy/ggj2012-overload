@@ -37,6 +37,15 @@ namespace GameStateManagement
 
         float pauseAlpha;
 
+        // For multiple viewports
+        Viewport defaultViewport;
+        Viewport leftViewport;
+        Viewport rightViewport;
+        Matrix projectionMatrix;
+        Matrix halfprojectionMatrix;
+
+        BasicEffect effect;
+
         #endregion
 
         #region Initialization
@@ -61,6 +70,24 @@ namespace GameStateManagement
                 content = new ContentManager(ScreenManager.Game.Services, "Content");
 
             gameFont = content.Load<SpriteFont>("gamefont");
+
+            // For multiple viewports
+            defaultViewport = ScreenManager.GraphicsDevice.Viewport; // altered from example code to use the Screen Manager's Graphics device
+            leftViewport = defaultViewport;
+            rightViewport = defaultViewport;
+            leftViewport.Width = leftViewport.Width / 2;
+            rightViewport.Width = rightViewport.Width / 2;
+            rightViewport.X = leftViewport.Width;
+            //            rightViewport.X = leftViewport.Width + 1;
+
+            
+            projectionMatrix = Matrix.CreatePerspectiveFieldOfView(
+                MathHelper.PiOver4, 4.0f / 3.0f, 1.0f, 10000f);
+            halfprojectionMatrix = Matrix.CreatePerspectiveFieldOfView(
+                MathHelper.PiOver4, 2.0f / 3.0f, 1.0f, 10000f);
+
+            effect = new BasicEffect(ScreenManager.GraphicsDevice);
+            //effect.EnableDefaultLighting(); //required?
 
             // A real game would probably have more content than this sample, so
             // it would take longer to load. We simulate that by delaying for a
@@ -98,14 +125,25 @@ namespace GameStateManagement
         {
             base.Update(gameTime, otherScreenHasFocus, false);
 
+            
             // Gradually fade in or out depending on whether we are covered by the pause screen.
             if (coveredByOtherScreen)
                 pauseAlpha = Math.Min(pauseAlpha + 1f / 32, 1);
             else
                 pauseAlpha = Math.Max(pauseAlpha - 1f / 32, 0);
 
+            // Do all drawing in here
             if (IsActive)
             {
+                ScreenManager.GraphicsDevice.Viewport = defaultViewport;
+                ScreenManager.GraphicsDevice.Clear(Color.CornflowerBlue);
+
+                ScreenManager.GraphicsDevice.Viewport = leftViewport;
+                DrawScene(gameTime, Matrix.CreateLookAt(new Vector3(-20, 0, 100), new Vector3(-20, 0, 0), Vector3.Up), halfprojectionMatrix);
+                ScreenManager.GraphicsDevice.Viewport = rightViewport;
+                DrawScene(gameTime, Matrix.CreateLookAt(new Vector3(-10, 30, 100), new Vector3(-20, 0, 0), Vector3.Up), halfprojectionMatrix);
+
+                
                 // Apply some random jitter to make the enemy move around.
                 const float randomization = 10;
 
@@ -211,6 +249,15 @@ namespace GameStateManagement
             }
         }
 
+        protected void DrawScene(GameTime gameTime, Matrix view,
+            Matrix projection)
+        {
+            effect.EnableDefaultLighting();
+            effect.World = Matrix.Identity;
+            effect.View = view;
+            effect.Projection = projection;
+                //Draw the mesh, will use the effects set above.
+        }
 
         #endregion
     }
