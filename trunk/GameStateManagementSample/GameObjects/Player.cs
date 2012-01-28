@@ -13,6 +13,8 @@ namespace GameStateManagement.GameObjects
     {
         protected Vector2 position;
 
+        public Camera camera;
+
         public Vector2 Position2
         {
             get { return position; }
@@ -37,18 +39,21 @@ namespace GameStateManagement.GameObjects
             :base (game)
         {
             position = Vector2.Zero;
+            camera = new Camera(Position3);
         }
 
         public Player(Game game, float x, float y)
             :base (game)
         {
             position = new Vector2(x, y);
+            camera = new Camera(Position3);
         }
 
         public Player(Game game, Vector2 position)
             :base (game)
         {
             this.position = position;
+            camera = new Camera(Position3);
         }
 
         public override void Update(GameTime gameTime)

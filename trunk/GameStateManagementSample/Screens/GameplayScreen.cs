@@ -225,12 +225,17 @@ namespace GameStateManagement
             ScreenManager.GraphicsDevice.Viewport = defaultViewport;
             ScreenManager.GraphicsDevice.Clear(ClearOptions.Target,Color.CornflowerBlue, 0, 0);
 
-            
+            /* TJH Debugger
+            SpriteBatch debugSB = ScreenManager.SpriteBatch;
+            debugSB.Begin();
+            debugSB.DrawString(gameFont, "P1 Position: " + playerOnePosition.ToString(), new Vector2(10, 10), Color.White);
+            debugSB.End();
+            */
 
             SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
 
             ScreenManager.GraphicsDevice.Viewport = leftViewport;
-            DrawScene(gameTime, Matrix.CreateLookAt(playerOne.Position3 + new Vector3(0, 0, 100), playerOne.Position3, Vector3.Up), halfprojectionMatrix);
+            DrawScene(gameTime, playerOne.camera);
     
             //DRAW LEFT PLAYER STUFF HERE
             // Our player and enemy are both actually just text strings.
@@ -239,7 +244,7 @@ namespace GameStateManagement
             
 
             ScreenManager.GraphicsDevice.Viewport = rightViewport;
-            DrawScene(gameTime, Matrix.CreateLookAt(playerTwo.Position3 + new Vector3(0, 0, 100), playerTwo.Position3, Vector3.Up), halfprojectionMatrix);
+            DrawScene(gameTime, playerTwo.camera);
 
             //DRAW RIGHT PLAYER STUFF HERE
             // Our player and enemy are both actually just text strings.
@@ -264,7 +269,7 @@ namespace GameStateManagement
         protected void DrawGameScreen(SpriteBatch spriteBatch, GameTime gameTime)
         {
             spriteBatch.Begin();
-
+            //TODO fix regression: need to pass matrices to spritebatch begin to fix camera tracking
             spriteBatch.DrawString(gameFont, "Player1", playerOne.Position2, Color.Green);
             spriteBatch.DrawString(gameFont, "Player2", playerTwo.Position2, Color.Red);
             
@@ -273,13 +278,12 @@ namespace GameStateManagement
         }
 
 
-        protected void DrawScene(GameTime gameTime, Matrix view,
-            Matrix projection)
+        protected void DrawScene(GameTime gameTime, Camera camera)
         {
             effect.EnableDefaultLighting();
             effect.World = Matrix.Identity;
-            effect.View = view;
-            effect.Projection = projection;
+            effect.View = camera.View;
+            effect.Projection = camera.Projection;
                 //Draw the mesh, will use the effects set above.
         }
 
