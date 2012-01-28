@@ -116,6 +116,10 @@ namespace GameStateManagement
             carTexture = this.content.Load<Texture2D>("Sprites/car");
             road = this.content.Load<Texture2D>("Backgrounds/roads1/preview");
 
+            // TJH Powersource
+            PowerSource powerSource = new PowerSource(ScreenManager.Game);
+            
+
             // A real game would probably have more content than this sample, so
             // it would take longer to load. We simulate that by delaying for a
             // while, giving you a chance to admire the beautiful loading screen.
@@ -131,6 +135,7 @@ namespace GameStateManagement
             ScreenManager.Game.Components.Add(playerOne);
             ScreenManager.Game.Components.Add(playerTwo);
             ScreenManager.Game.Components.Add(inputManager);
+            ScreenManager.Game.Components.Add(powerSource);
         }
 
 
