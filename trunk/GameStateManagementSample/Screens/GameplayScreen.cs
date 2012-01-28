@@ -132,8 +132,8 @@ namespace GameStateManagement
             inputManager = new InputManager(ScreenManager.Game);
 
             // Players
-            playerOne = new Player(ScreenManager, 288, 344);
-            playerTwo = new Player(ScreenManager, 352, 344);
+            playerOne = new Player(ScreenManager, physicsWorld, new Vector2(288, 344));
+            playerTwo = new Player(ScreenManager, physicsWorld, new Vector2(352, 344));
 
             // Textures
             blank = this.content.Load<Texture2D>("blank");
@@ -194,8 +194,6 @@ namespace GameStateManagement
 
             if (IsActive)
             {
-                // TODO: this game isn't very fun! You could probably improve
-                // it by inserting something more interesting in this space :-)
                 physicsWorld.Step((float)gameTime.ElapsedGameTime.TotalSeconds, 10, 10);
 
                 dropTimer -= gameTime.ElapsedGameTime;

@@ -54,26 +54,12 @@ namespace GameStateManagement.GameObjects
 
         #region Initialization
 
-        public Player(ScreenManager screenManager, World world)
-            :base(screenManager)
-        {
-            position = Vector2.Zero;
-            camera = new Camera(screenManager.GraphicsDevice.Viewport, Position3);
-            CreateBody(world);
-        }
-
-        public Player(ScreenManager screenManager, float x, float y)
-            :base(screenManager)
-        {
-            position = new Vector2(x, y);
-            camera = new Camera(screenManager.GraphicsDevice.Viewport, Position3);
-        }
-
-        public Player(ScreenManager screenManager, Vector2 position)
+        public Player(ScreenManager screenManager, World world, Vector2 position)
             :base(screenManager)
         {
             this.position = position;
             camera = new Camera(screenManager.GraphicsDevice.Viewport, Position3);
+            CreateBody(world);
         }
 
         protected override void LoadContent()
@@ -196,12 +182,13 @@ namespace GameStateManagement.GameObjects
                 //camera.Update(new Vector3(Position3.X + 10 * cameraEase.X, Position3.Y + 10 * cameraEase.Y, Position3.Z));
             
             base.Update(gameTime);
-        }
+   }
         private void CreateBody(World world)
         {
             BodyDef def = new BodyDef();
             def.userData = this;
             def.position = this.position;
+            def.type = BodyType.Dynamic;
             m_body = world.CreateBody(def);
             PolygonShape shape = new PolygonShape();
             shape.SetAsBox(1, 1);
