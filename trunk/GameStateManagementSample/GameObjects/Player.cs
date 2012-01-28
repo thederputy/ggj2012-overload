@@ -237,8 +237,7 @@ namespace GameStateManagement.GameObjects
             //camera.Update(new Vector3(tempX, tempY, Position3.Z));
             
             base.Update(gameTime);
-   }
-
+        }
 
 
         private void CreateBody(World world)
