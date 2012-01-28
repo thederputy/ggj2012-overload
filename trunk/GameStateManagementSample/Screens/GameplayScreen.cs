@@ -35,6 +35,7 @@ namespace GameStateManagement
         Player playerTwo;
 
         Random random = new Random();
+        InputManager inputManager;
 
         float pauseAlpha;
 
@@ -45,7 +46,7 @@ namespace GameStateManagement
         Matrix projectionMatrix;
         Matrix halfprojectionMatrix;
 
-        BasicEffect effect;
+        //BasicEffect effect;
 
         #endregion
 
@@ -87,12 +88,15 @@ namespace GameStateManagement
             halfprojectionMatrix = Matrix.CreatePerspectiveFieldOfView(
                 MathHelper.PiOver4, 2.0f / 3.0f, 1.0f, 10000f);
 
-            effect = new BasicEffect(ScreenManager.GraphicsDevice);
+            //effect = new BasicEffect(ScreenManager.GraphicsDevice);
             //effect.EnableDefaultLighting(); //required?
 
+            // Input
+            inputManager = new InputManager();
+
             // Players
-            playerOne = new Player(ScreenManager.Game, -10, 30);
-            playerTwo = new Player(ScreenManager.Game, -20, 0);
+            playerOne = new Player(ScreenManager.Game, 200, 300);
+            playerTwo = new Player(ScreenManager.Game, 300, 500);
 
             // A real game would probably have more content than this sample, so
             // it would take longer to load. We simulate that by delaying for a
@@ -137,9 +141,9 @@ namespace GameStateManagement
             else
                 pauseAlpha = Math.Max(pauseAlpha - 1f / 32, 0);
 
-            // Do all drawing in here
             if (IsActive)
             {
+                inputManager.Update(gameTime.ElapsedGameTime);
                 playerOne.Update(gameTime);
                 playerTwo.Update(gameTime);
                 // Apply a stabilizing force to stop the players moving off screen.
@@ -147,7 +151,6 @@ namespace GameStateManagement
                 // it by inserting something more interesting in this space :-)
             }
         }
-
 
         /// <summary>
         /// Lets the game respond to player input. Unlike the Update method,
@@ -182,23 +185,23 @@ namespace GameStateManagement
                 Vector3 movementTwo = Vector3.Zero;
 
                 // Player One
-                if (keyboardState.IsKeyDown(Keys.Left))
+                if (keyboardState.IsKeyDown(Keys.A))
                     movementOne.X--;
-                if (keyboardState.IsKeyDown(Keys.Right))
+                if (keyboardState.IsKeyDown(Keys.D))
                     movementOne.X++;
-                if (keyboardState.IsKeyDown(Keys.Up))
+                if (keyboardState.IsKeyDown(Keys.W))
                     movementOne.Y--;
-                if (keyboardState.IsKeyDown(Keys.Down))
+                if (keyboardState.IsKeyDown(Keys.S))
                     movementOne.Y++;
 
                 // Player Two
-                if (keyboardState.IsKeyDown(Keys.A))
+                if (keyboardState.IsKeyDown(Keys.Left))
                     movementTwo.X--;
-                if (keyboardState.IsKeyDown(Keys.D))
+                if (keyboardState.IsKeyDown(Keys.Right))
                     movementTwo.X++;
-                if (keyboardState.IsKeyDown(Keys.W))
+                if (keyboardState.IsKeyDown(Keys.Up))
                     movementTwo.Y--;
-                if (keyboardState.IsKeyDown(Keys.S))
+                if (keyboardState.IsKeyDown(Keys.Down))
                     movementTwo.Y++;
 
                 Vector2 thumbstick = gamePadState.ThumbSticks.Left;
@@ -237,7 +240,7 @@ namespace GameStateManagement
             SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
 
             ScreenManager.GraphicsDevice.Viewport = leftViewport;
-            DrawScene(gameTime, playerOne.camera);
+            //DrawScene(gameTime, playerOne.camera);
     
             //DRAW LEFT PLAYER STUFF HERE
             // Our player and enemy are both actually just text strings.
@@ -246,7 +249,7 @@ namespace GameStateManagement
             
 
             ScreenManager.GraphicsDevice.Viewport = rightViewport;
-            DrawScene(gameTime, playerTwo.camera);
+            //DrawScene(gameTime, playerTwo.camera);
 
             //DRAW RIGHT PLAYER STUFF HERE
             // Our player and enemy are both actually just text strings.
@@ -271,7 +274,10 @@ namespace GameStateManagement
         protected void DrawGameScreen(SpriteBatch spriteBatch, GameTime gameTime, Player player)
         {
             //spriteBatch.Begin();
-            spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, RasterizerState.CullNone, null, player.camera.View * player.camera.Projection);
+            Matrix trans = Matrix.Identity;
+            trans.M41 = ScreenManager.GraphicsDevice.Viewport.Width / 2;
+            trans.M42 = ScreenManager.GraphicsDevice.Viewport.Height / 2;
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, RasterizerState.CullNone, null, trans * player.camera.View * player.camera.Projection);
             //TODO fix regression: need to pass matrices to spritebatch begin to fix camera tracking
             spriteBatch.DrawString(gameFont, "Player1", playerOne.Position2, Color.Green);
             spriteBatch.DrawString(gameFont, "Player2", playerTwo.Position2, Color.Red);
@@ -281,14 +287,14 @@ namespace GameStateManagement
         }
 
 
-        protected void DrawScene(GameTime gameTime, Camera camera)
-        {
-            effect.EnableDefaultLighting();
-            effect.World = Matrix.Identity;
-            effect.View = camera.View;
-            effect.Projection = camera.Projection;
-                //Draw the mesh, will use the effects set above.
-        }
+        //protected void DrawScene(GameTime gameTime, Camera camera)
+        //{
+        //    effect.EnableDefaultLighting();
+        //    effect.World = Matrix.Identity;
+        //    effect.View = camera.View;
+        //    effect.Projection = camera.Projection;
+        //        //Draw the mesh, will use the effects set above.
+        //}
 
         #endregion
     }
