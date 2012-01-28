@@ -40,14 +40,6 @@ namespace GameStateManagement.GameObjects
         }
 
 
-        public Body Body
-        {
-            get { return m_body; }
-            set { m_body = value; }
-        }
-        private Body m_body;
-
-
         public int fuel;
         private const int maxFuel = 10;
         private const int fuelPerSecond = 1;
@@ -61,16 +53,15 @@ namespace GameStateManagement.GameObjects
         #region Initialization
 
         public Player(ScreenManager screenManager, World world, Vector2 position)
-            :base(screenManager)
+            :base(screenManager, world)
         {
             this.position = position;
             camera = new Camera(screenManager.GraphicsDevice.Viewport, Position3);
-            CreateBody(world);
         }
 
         protected override void LoadContent()
         {
-            texture = Game.Content.Load<Texture2D>("Sprites/car");
+            texture = Game.Content.Load<Texture2D>("Sprites/cars/car1");
             base.LoadContent();
             tempX = (int)(Position3.X);
             tempY = (int)(Position3.Y);
@@ -80,10 +71,10 @@ namespace GameStateManagement.GameObjects
         {
             fuelTimer = TimeSpan.FromSeconds(1);
             fuel = 10;
-            base.Initialize();
             tempX = (int)(Position3.X);
             tempY = (int)(Position3.Y);
-        }
+            base.Initialize();
+       }
 
         #endregion
 
@@ -239,17 +230,16 @@ namespace GameStateManagement.GameObjects
             base.Update(gameTime);
         }
 
-
-        private void CreateBody(World world)
+        public override void CreateBody()
         {
             BodyDef def = new BodyDef();
             def.userData = this;
             def.position = this.position;
             def.type = BodyType.Dynamic;
-            m_body = world.CreateBody(def);
+            body = physicsWorld.CreateBody(def);
             PolygonShape shape = new PolygonShape();
             shape.SetAsBox(1, 1);
-            m_body.CreateFixture(shape, 1.0f);
+            body.CreateFixture(shape, 1.0f);
         }
 
         public float getFuelPercent()
