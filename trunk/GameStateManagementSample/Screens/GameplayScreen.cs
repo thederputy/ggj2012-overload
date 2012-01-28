@@ -306,7 +306,7 @@ namespace GameStateManagement
             
 
             //TODO replace with road drawablegamecomponent draw call
-            spriteBatch.Draw(road, new Rectangle(100, -200, 1024, 768), Color.White);
+            spriteBatch.Draw(road, new Rectangle(0, 0, 1024, 768), Color.White);
             
             playerOne.Draw(spriteBatch, Color.Green);
             playerTwo.Draw(spriteBatch, Color.Red);
