@@ -45,6 +45,7 @@ namespace GameStateManagement
         Viewport rightViewport;
         Matrix projectionMatrix;
         Matrix halfprojectionMatrix;
+        float halfAspectRatio;
 
         //Textures
         Texture2D blank;
@@ -90,10 +91,13 @@ namespace GameStateManagement
             //    MathHelper.PiOver4, 4.0f / 3.0f, 1.0f, 10000f);
             //halfprojectionMatrix = Matrix.CreatePerspectiveFieldOfView(
             //    MathHelper.PiOver4, 2.0f / 3.0f, 1.0f, 10000f);
+            halfAspectRatio = (ScreenManager.GraphicsDevice.Viewport.Width / 2) / ScreenManager.GraphicsDevice.Viewport.Height;
             projectionMatrix = Matrix.CreatePerspectiveFieldOfView(
                 MathHelper.PiOver4, ScreenManager.GraphicsDevice.Viewport.AspectRatio, 1.0f, 10000f);
+            
             halfprojectionMatrix = Matrix.CreatePerspectiveFieldOfView(
-                MathHelper.PiOver4, ScreenManager.GraphicsDevice.Viewport.AspectRatio, 1.0f, 10000f);
+                MathHelper.PiOver4, halfAspectRatio, 1.0f, 10000f);
+            halfprojectionMatrix.M11 = halfprojectionMatrix.M22;
 
             //effect = new BasicEffect(ScreenManager.GraphicsDevice);
             //effect.EnableDefaultLighting(); //required?
@@ -102,8 +106,8 @@ namespace GameStateManagement
             inputManager = new InputManager(ScreenManager.Game);
 
             // Players
-            playerOne = new Player(ScreenManager, 200, 300);
-            playerTwo = new Player(ScreenManager, 300, 500);
+            playerOne = new Player(ScreenManager, 288, 344);
+            playerTwo = new Player(ScreenManager, 352, 344);
 
             // Textures
             blank = this.content.Load<Texture2D>("blank");
@@ -291,9 +295,8 @@ namespace GameStateManagement
             Matrix trans = Matrix.Identity;
             trans.M41 = ScreenManager.GraphicsDevice.Viewport.Width / 2;
             trans.M42 = ScreenManager.GraphicsDevice.Viewport.Height / 2;
-            trans *= trans;
 
-            spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, RasterizerState.CullNone, null, trans * player.camera.View * player.camera.Projection);
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, RasterizerState.CullNone, null, trans * player.camera.View * halfprojectionMatrix);
             //TODO fix regression: need to pass matrices to spritebatch begin to fix camera tracking
             //spriteBatch.DrawString(gameFont, "Player1", playerOne.Position2, Color.Green);
             //spriteBatch.DrawString(gameFont, "Player2", playerTwo.Position2, Color.Red);
