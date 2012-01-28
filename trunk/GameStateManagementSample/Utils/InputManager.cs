@@ -12,7 +12,7 @@ namespace GameStateManagement
         Right
     }
 
-    public class InputManager
+    public class InputManager : GameComponent
     {
         //keyboard states
         KeyboardState lastKeyboardState = new KeyboardState();
@@ -25,11 +25,12 @@ namespace GameStateManagement
         //start activated
         public bool activated = true;
 
-        public InputManager()
+        public InputManager(Game game)
+            :base (game)
         {
         }
 
-        public void Update(TimeSpan timeElapsed)
+        public override void Update(GameTime gameTime)
         {
             //get keyboard state
             lastKeyboardState = currentKeyboardState;
