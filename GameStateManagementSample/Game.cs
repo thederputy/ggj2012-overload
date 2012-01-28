@@ -49,8 +49,8 @@ namespace GameStateManagement
             Content.RootDirectory = "Content";
 
             graphics = new GraphicsDeviceManager(this);
-            graphics.PreferredBackBufferWidth = 853;
-            graphics.PreferredBackBufferHeight = 480;
+            graphics.PreferredBackBufferWidth = 1280;
+            graphics.PreferredBackBufferHeight = 720;
 
             // Create the screen manager component.
             screenManager = new ScreenManager(this);
@@ -58,8 +58,11 @@ namespace GameStateManagement
             Components.Add(screenManager);
 
             // Activate the first screens.
-            screenManager.AddScreen(new BackgroundScreen(), null);
-            screenManager.AddScreen(new MainMenuScreen(), null);
+            // TJH PUT THESE BACK TO DO THE MENUS
+            //screenManager.AddScreen(new BackgroundScreen(), null);
+            //screenManager.AddScreen(new MainMenuScreen(), null);
+            // PUT THOSE BACK
+            screenManager.AddScreen(new GameplayScreen(),0);
         }
 
 
