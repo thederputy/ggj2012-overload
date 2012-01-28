@@ -220,37 +220,26 @@ namespace GameStateManagement
             ScreenManager.GraphicsDevice.Viewport = defaultViewport;
             ScreenManager.GraphicsDevice.Clear(ClearOptions.Target,
                                                Color.CornflowerBlue, 0, 0);
-            ScreenManager.GraphicsDevice.Viewport = leftViewport;
-            DrawScene(gameTime, Matrix.CreateLookAt(playerOnePosition + new Vector3(0, 0, 100), playerOnePosition, Vector3.Up), halfprojectionMatrix);
-            
-            //DRAW LEFT PLAYER STUFF HERE
-            
-            // Our player and enemy are both actually just text strings.
+
+
+
             SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
 
-            spriteBatch.Begin();
-
-            spriteBatch.DrawString(gameFont, "Player1", new Vector2(playerOnePosition.X, playerOnePosition.Y), Color.Green);
-            spriteBatch.DrawString(gameFont, "Player2", new Vector2(playerTwoPosition.X, playerTwoPosition.Y), Color.Red);
-
-            spriteBatch.End();
-            
+            ScreenManager.GraphicsDevice.Viewport = leftViewport;
+            DrawScene(gameTime, Matrix.CreateLookAt(playerOnePosition + new Vector3(0, 0, 100), playerOnePosition, Vector3.Up), halfprojectionMatrix);
+    
+            //DRAW LEFT PLAYER STUFF HERE
+            // Our player and enemy are both actually just text strings.
+            DrawGameScreen(spriteBatch); 
             //END LEFT PLAYER STUFF
+            
 
             ScreenManager.GraphicsDevice.Viewport = rightViewport;
             DrawScene(gameTime, Matrix.CreateLookAt(playerTwoPosition + new Vector3(0, 0, 100), playerTwoPosition, Vector3.Up), halfprojectionMatrix);
 
             //DRAW RIGHT PLAYER STUFF HERE
-
             // Our player and enemy are both actually just text strings.
-            
-            spriteBatch.Begin();
-
-            spriteBatch.DrawString(gameFont, "Player1", new Vector2(playerOnePosition.X, playerOnePosition.Y), Color.Green);
-            spriteBatch.DrawString(gameFont, "Player2", new Vector2(playerTwoPosition.X, playerTwoPosition.Y), Color.Red);
-
-            spriteBatch.End();
-
+            DrawGameScreen(spriteBatch);
             //END RIGHT PLAYER STUFF
 
             // If the game is transitioning on or off, fade it out to black.
@@ -264,6 +253,17 @@ namespace GameStateManagement
             
                 
         }
+
+        protected void DrawGameScreen(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Begin();
+
+            spriteBatch.DrawString(gameFont, "Player1", new Vector2(playerOnePosition.X, playerOnePosition.Y), Color.Green);
+            spriteBatch.DrawString(gameFont, "Player2", new Vector2(playerTwoPosition.X, playerTwoPosition.Y), Color.Red);
+
+            spriteBatch.End();
+        }
+
 
         protected void DrawScene(GameTime gameTime, Matrix view,
             Matrix projection)

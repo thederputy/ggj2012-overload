@@ -26,6 +26,7 @@ namespace GameStateManagement
 
         GraphicsDeviceManager graphics;
         ScreenManager screenManager;
+        //GameTime game = new GameTime();
 
 
         // By preloading any assets used by UI rendering, we avoid framerate glitches
@@ -91,6 +92,17 @@ namespace GameStateManagement
             graphics.GraphicsDevice.Clear(Color.Black);
 
             // The real drawing happens inside the screen manager component.
+
+            //System.TimeSpan hey = new GameTimeSpanTime();
+            
+           //int test = 45;
+            //GameTime.ElapsedGameTime;
+            //System.TimeSpan.
+           //test++;
+
+          
+           //System.Console.WriteLine(test);
+
             base.Draw(gameTime);
         }
 
