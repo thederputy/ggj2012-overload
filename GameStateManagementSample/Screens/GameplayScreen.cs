@@ -32,6 +32,8 @@ namespace GameStateManagement
 
         ContentManager content;
         SpriteFont gameFont;
+        DebugRenderer debugRenderer;
+
 
         Player playerOne;
         Player playerTwo;
@@ -56,7 +58,7 @@ namespace GameStateManagement
         //Physics World
         World physicsWorld;
 
-        //BasicEffect effect;
+        BasicEffect effect;
 
         List<PowerSource> powerSources;
         TimeSpan dropTimer;
@@ -98,6 +100,17 @@ namespace GameStateManagement
             rightViewport.X = leftViewport.Width;
             //            rightViewport.X = leftViewport.Width + 1;
 
+            //initialise the debug renderer
+            debugRenderer = new DebugRenderer(ScreenManager, gameFont);
+            uint flags = 0;
+            flags += (uint)DebugDrawFlags.Shape;
+            flags += (uint)DebugDrawFlags.Joint;
+            flags += (uint)DebugDrawFlags.AABB;
+            flags += (uint)DebugDrawFlags.Pair;
+            flags += (uint)DebugDrawFlags.CenterOfMass;
+            debugRenderer.Flags = (DebugDrawFlags)flags;
+            physicsWorld.DebugDraw = debugRenderer;
+            
             
             //projectionMatrix = Matrix.CreatePerspectiveFieldOfView(
             //    MathHelper.PiOver4, 4.0f / 3.0f, 1.0f, 10000f);
@@ -111,7 +124,8 @@ namespace GameStateManagement
                 MathHelper.PiOver4, halfAspectRatio, 1.0f, 10000f);
             halfprojectionMatrix.M11 = halfprojectionMatrix.M22;
 
-            //effect = new BasicEffect(ScreenManager.GraphicsDevice);
+            effect = new BasicEffect(ScreenManager.GraphicsDevice);
+            effect.VertexColorEnabled = true;
             //effect.EnableDefaultLighting(); //required?
 
             // Input
@@ -252,6 +266,7 @@ namespace GameStateManagement
             ScreenManager.GraphicsDevice.Viewport = defaultViewport;
             ScreenManager.GraphicsDevice.Clear(ClearOptions.Target, Color.CornflowerBlue, 0, 0);
 
+
             /* TJH Debugger
             SpriteBatch debugSB = ScreenManager.SpriteBatch;
             debugSB.Begin();
@@ -260,6 +275,9 @@ namespace GameStateManagement
             */
 
             SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
+
+            //Draw physics world debug data
+            physicsWorld.DrawDebugData();
 
             //DRAW LEFT PLAYER STUFF HERE
             // Our player and enemy are both actually just text strings.
@@ -287,7 +305,9 @@ namespace GameStateManagement
             // Drawing HUD stuff for now
             spriteBatch.Begin();
             spriteBatch.Draw(blank, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width / 2 - 1, 0, 3, ScreenManager.GraphicsDevice.Viewport.Height), Color.Black);
+            debugRenderer.FinishDrawString();
             spriteBatch.End();
+
 
             if (TransitionPosition > 0 || pauseAlpha > 0)
             {
@@ -302,10 +322,16 @@ namespace GameStateManagement
             trans.M41 = ScreenManager.GraphicsDevice.Viewport.Width / 2;
             trans.M42 = ScreenManager.GraphicsDevice.Viewport.Height / 2;
 
-            spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, RasterizerState.CullNone, null, trans * player.camera.View * halfprojectionMatrix);
-            
+            AABB test;
+            test.lowerBound = Vector2.Zero;
+            test.upperBound = new Vector2(5, 5);
+            debugRenderer.DrawAABB(ref test, Color.Orange);
 
-            //TODO replace with road drawablegamecomponent draw call
+
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, RasterizerState.CullNone, null, trans * player.camera.View * halfprojectionMatrix);
+
+
+            //TODO: replace with road drawablegamecomponent draw call
             spriteBatch.Draw(road, new Rectangle(0, 0, 1024, 768), Color.White);
             
             playerOne.Draw(spriteBatch, Color.Green);
@@ -320,6 +346,13 @@ namespace GameStateManagement
 
 
             spriteBatch.End();
+            //debug rendering physics
+            //effect.World = trans;
+            //effect.View = player.camera.View;
+            //effect.Projection = halfprojectionMatrix;
+
+            effect.Techniques[0].Passes[0].Apply();
+            debugRenderer.FinishDrawShapes();
         }
 
         //protected void DrawScene(GameTime gameTime, Camera camera)
