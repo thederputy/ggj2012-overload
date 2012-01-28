@@ -61,5 +61,9 @@ namespace GameStateManagement.GameObjects
             camera.Update(Position3);
             base.Update(gameTime);
         }
+
+
+
+
     }
 }

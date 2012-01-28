@@ -118,6 +118,8 @@ namespace GameStateManagement
             spriteBatch = new SpriteBatch(GraphicsDevice);
             font = content.Load<SpriteFont>("menufont");
             blankTexture = content.Load<Texture2D>("blank");
+            //font.LineSpacing = 245;
+            //font.Spacing = 50;
 
             // Tell each of the screens to load their content.
             foreach (GameScreen screen in screens)
@@ -296,7 +298,7 @@ namespace GameStateManagement
         /// Helper draws a translucent black fullscreen sprite, used for fading
         /// screens in and out, and for darkening the background behind popups.
         /// </summary>
-        public void FadeBackBufferToBlack(float alpha)
+        public void FadeBackBufferToBlack(float alpha)   // FADE TEXTURE
         {
             Viewport viewport = GraphicsDevice.Viewport;
 
