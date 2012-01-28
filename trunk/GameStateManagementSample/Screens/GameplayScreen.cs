@@ -210,43 +210,9 @@ namespace GameStateManagement
             }
             else
             {
-                // Otherwise move the player position.
-                Vector2 movementOne = Vector2.Zero;
-                Vector2 movementTwo = Vector2.Zero;
-
-                // Player One
-                if (keyboardState.IsKeyDown(Keys.A))
-                    movementOne.X--;
-                if (keyboardState.IsKeyDown(Keys.D))
-                    movementOne.X++;
-                if (keyboardState.IsKeyDown(Keys.W))
-                    movementOne.Y--;
-                if (keyboardState.IsKeyDown(Keys.S))
-                    movementOne.Y++;
-
-                // Player Two
-                if (keyboardState.IsKeyDown(Keys.Left))
-                    movementTwo.X--;
-                if (keyboardState.IsKeyDown(Keys.Right))
-                    movementTwo.X++;
-                if (keyboardState.IsKeyDown(Keys.Up))
-                    movementTwo.Y--;
-                if (keyboardState.IsKeyDown(Keys.Down))
-                    movementTwo.Y++;
-
-                Vector2 thumbstick = gamePadState.ThumbSticks.Left;
-
-                movementOne.X += thumbstick.X;
-                movementOne.Y -= thumbstick.Y;
-
-                if (movementOne.Length() > 1)
-                    movementOne.Normalize();
-
-                if (movementTwo.Length() > 1)
-                    movementTwo.Normalize();
-
-                playerOne.Position2 += movementOne * 20;
-                playerTwo.Position2 += movementTwo * 20;
+                // TODO: make each player handle its own input.
+                playerOne.HandleInput(inputManager, InputKeys.WASD, 0);
+                playerTwo.HandleInput(inputManager, InputKeys.Arrows, 1);
             }
         }
 

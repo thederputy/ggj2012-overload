@@ -12,6 +12,12 @@ namespace GameStateManagement
         Right
     }
 
+    public enum InputKeys
+    {
+        Arrows,
+        WASD
+    }
+
     public class InputManager : GameComponent
     {
         //keyboard states
@@ -19,8 +25,8 @@ namespace GameStateManagement
         public KeyboardState currentKeyboardState = new KeyboardState();
         MouseState lastMouseState = new MouseState();
         public MouseState currentMouseState = new MouseState();
-        GamePadState lastGamePadState = new GamePadState();
-        private GamePadState currentGamePadState = new GamePadState();
+        GamePadState[] lastGamePadStates = new GamePadState[4];
+        public GamePadState[] currentGamePadStates = new GamePadState[4];
 
         //start activated
         public bool activated = true;
@@ -42,8 +48,11 @@ namespace GameStateManagement
             currentMouseState = Mouse.GetState();
 
             //get gamepad state
-            lastGamePadState = currentGamePadState;
-            currentGamePadState = GamePad.GetState(PlayerIndex.One);
+            lastGamePadStates = currentGamePadStates;
+            currentGamePadStates[0] = GamePad.GetState(PlayerIndex.One);
+            currentGamePadStates[1] = GamePad.GetState(PlayerIndex.Two);
+            currentGamePadStates[2] = GamePad.GetState(PlayerIndex.Three);
+            currentGamePadStates[3] = GamePad.GetState(PlayerIndex.Four);
         }
 
         #region Helper Functions
@@ -56,9 +65,9 @@ namespace GameStateManagement
         /// <param name="key">The Key to check.</param>
         /// <param name="button">The Button to check.</param>
         /// <returns>True if the Key or Button is pressed for the first time.</returns>
-        public bool IsPressed(Keys key, Buttons button)
+        public bool IsPressed(Keys key, Buttons button, int playerIndex)
         {
-            return (IsKeyPressed(key) || IsButtonPressed(button));
+            return (IsKeyPressed(key) || IsButtonPressed(button, playerIndex));
         }
 
         /// <summary>
@@ -68,9 +77,9 @@ namespace GameStateManagement
         /// <param name="button1">The first Button to check.</param>
         /// <param name="button2">The second Button to check.</param>
         /// <returns>True if the Key or Buttons are pressed for the first time.</returns>
-        public bool IsPressed(Keys key, Buttons button1, Buttons button2)
+        public bool IsPressed(Keys key, Buttons button1, Buttons button2, int playerIndex)
         {
-            return (IsKeyPressed(key) || IsButtonPressed(button1) || IsButtonPressed(button2));
+            return (IsKeyPressed(key) || IsButtonPressed(button1, playerIndex) || IsButtonPressed(button2, playerIndex));
         }
 
         /// <summary>
@@ -79,9 +88,9 @@ namespace GameStateManagement
         /// <param name="key">The Key to check.</param>
         /// <param name="button">The Button to check.</param>
         /// <returns>True if the Key or Button is continuously held.</returns>
-        public bool IsHeld(Keys key, Buttons button)
+        public bool IsHeld(Keys key, Buttons button, int playerIndex)
         {
-            return (IsKeyHeld(key) || IsButtonHeld(button));
+            return (IsKeyHeld(key) || IsButtonHeld(button, playerIndex));
         }
 
         /// <summary>
@@ -91,9 +100,9 @@ namespace GameStateManagement
         /// <param name="button1">The first Button to check.</param>
         /// <param name="button2">The second Button to check.</param>
         /// <returns>True if the Key or Buttons are continuously held.</returns>
-        public bool IsHeld(Keys key, Buttons button1, Buttons button2)
+        public bool IsHeld(Keys key, Buttons button1, Buttons button2, int playerIndex)
         {
-            return (IsKeyHeld(key) || IsButtonHeld(button1) || IsButtonHeld(button2));
+            return (IsKeyHeld(key) || IsButtonHeld(button1, playerIndex) || IsButtonHeld(button2, playerIndex));
         }
 
         /// <summary>
@@ -104,9 +113,9 @@ namespace GameStateManagement
         /// <param name="button1">The first Button to check.</param>
         /// <param name="button2">The second Button to check.</param>
         /// <returns>True if the Key or Buttons are continuously held.</returns>
-        public bool IsHeld(Keys key1, Keys key2, Buttons button1, Buttons button2)
+        public bool IsHeld(Keys key1, Keys key2, Buttons button1, Buttons button2, int playerIndex)
         {
-            return (IsKeyHeld(key1) || IsKeyHeld(key2) || IsButtonHeld(button1) || IsButtonHeld(button2));
+            return (IsKeyHeld(key1) || IsKeyHeld(key2) || IsButtonHeld(button1, playerIndex) || IsButtonHeld(button2, playerIndex));
         }
 
         /// <summary>
@@ -115,9 +124,9 @@ namespace GameStateManagement
         /// <param name="key">The Key to check.</param>
         /// <param name="button">The Button to check.</param>
         /// <returns>True if the Key or the Button is just released.</returns>
-        public bool IsReleased(Keys key, Buttons button)
+        public bool IsReleased(Keys key, Buttons button, int playerIndex)
         {
-            return (IsKeyReleased(key) || IsButtonReleased(button));
+            return (IsKeyReleased(key) || IsButtonReleased(button, playerIndex));
         }
 
         /// <summary>
@@ -127,9 +136,9 @@ namespace GameStateManagement
         /// <param name="button1">The first Button to check.</param>
         /// <param name="button2">The second Button to check.</param>
         /// <returns>True if the Key or buttons are just released.</returns>
-        public bool IsReleased(Keys key, Buttons button1, Buttons button2)
+        public bool IsReleased(Keys key, Buttons button1, Buttons button2, int playerIndex)
         {
-            return (IsKeyReleased(key) || IsButtonReleased(button1) || IsButtonReleased(button2));
+            return (IsKeyReleased(key) || IsButtonReleased(button1, playerIndex) || IsButtonReleased(button2, playerIndex));
         }
 
         #endregion
@@ -140,9 +149,9 @@ namespace GameStateManagement
         /// </summary>
         /// <param name="button">The button being pressed.</param>
         /// <returns>True if the button is pressed for the first time.</returns>
-        public bool IsButtonPressed(Buttons button)
+        public bool IsButtonPressed(Buttons button, int playerIndex)
         {
-            return (currentGamePadState.IsButtonDown(button) && lastGamePadState.IsButtonUp(button));
+            return (currentGamePadStates[playerIndex].IsButtonDown(button) && lastGamePadStates[playerIndex].IsButtonUp(button));
         }
 
         /// <summary>
@@ -150,9 +159,9 @@ namespace GameStateManagement
         /// </summary>
         /// <param name="button">The button being held.</param>
         /// <returns>True if the button is being held down.</returns>
-        public bool IsButtonHeld(Buttons button)
+        public bool IsButtonHeld(Buttons button, int playerIndex)
         {
-            return (currentGamePadState.IsButtonDown(button) && lastGamePadState.IsButtonDown(button));
+            return (currentGamePadStates[playerIndex].IsButtonDown(button) && lastGamePadStates[playerIndex].IsButtonDown(button));
         }
 
         /// <summary>
@@ -160,9 +169,9 @@ namespace GameStateManagement
         /// </summary>
         /// <param name="button">The button just released.</param>
         /// <returns>True if the button has just been released.</returns>
-        public bool IsButtonReleased(Buttons button)
+        public bool IsButtonReleased(Buttons button, int playerIndex)
         {
-            return (currentGamePadState.IsButtonUp(button) && lastGamePadState.IsButtonDown(button));
+            return (currentGamePadStates[playerIndex].IsButtonUp(button) && lastGamePadStates[playerIndex].IsButtonDown(button));
         }
         #endregion
 
