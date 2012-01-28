@@ -11,14 +11,9 @@ namespace GameStateManagement.GameObjects
         private int charge;
         private TimeSpan timeToLive; //seconds
         public bool expired;
-        public Body Body
-        {
-            get { return m_body; }
-            set { m_body = value; }
-        }
-        private Body m_body;
-        
-        public PowerSource(ScreenManager screenManager, Vector2 position) : base(screenManager)
+
+        public PowerSource(ScreenManager screenManager, World physicsWorld, Vector2 position)
+            : base(screenManager, physicsWorld)
         {
             this.position = position;
         }
@@ -47,19 +42,19 @@ namespace GameStateManagement.GameObjects
             base.Update(gameTime);
         }
 
-        private void CreateBody(World world)
+        public override void CreateBody()
         {
             BodyDef def = new BodyDef();
             def.userData = this;
             def.position = this.position;
             def.type = BodyType.Static;
-            m_body = world.CreateBody(def);
+            body = physicsWorld.CreateBody(def);
             CircleShape shape = new CircleShape();
             shape._radius = 10.0f;
             FixtureDef fixtureDef = new FixtureDef();
             fixtureDef.isSensor = true;
             fixtureDef.shape = shape;
-            m_body.CreateFixture(shape, 1.0f);
+            body.CreateFixture(shape, 1.0f);
         }
 
     }
