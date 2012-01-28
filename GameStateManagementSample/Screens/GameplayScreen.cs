@@ -384,22 +384,22 @@ namespace GameStateManagement
 
             if (bodyA.GetUserData() != null && bodyB.GetUserData() != null)
             {
-                Sprite bNodeA = (Sprite)bodyA.GetUserData();
-                Sprite bNodeB = (Sprite)bodyB.GetUserData();
+                GameObject bNodeA = (GameObject)bodyA.GetUserData();
+                GameObject bNodeB = (GameObject)bodyB.GetUserData();
 
                 //Collision scenarios
-                if (bNodeA is Player && bNodeB is PowerSource)
+                if (bNodeA is PlayerCar && bNodeB is PowerSource)
                 {
-                    FuelUp((Player)bNodeA, (PowerSource)bNodeB);
+                    FuelUp((PlayerCar)bNodeA, (PowerSource)bNodeB);
                 }
-                if (bNodeA is PowerSource && bNodeB is Player)
+                if (bNodeA is PowerSource && bNodeB is PlayerCar)
                 {
-                    FuelUp((Player)bNodeB, (PowerSource)bNodeA);
+                    FuelUp((PlayerCar)bNodeB, (PowerSource)bNodeA);
                 }
 
-                if (bNodeA is Player && bNodeB is Player)
+                if (bNodeA is PlayerCar && bNodeB is PlayerCar)
                 {
-                    ((Player)bNodeA).fuel = 0;
+                    ((PlayerCar)bNodeA).fuel = 0;
                 }
             }
         }
@@ -418,9 +418,9 @@ namespace GameStateManagement
 
         #endregion
 
-        private void FuelUp(Player p, PowerSource ps)
+        private void FuelUp(PlayerCar p, PowerSource ps)
         {
-            p.AddFuel();
+            //p.AddFuel();
             powerSources.Remove(ps);
             ScreenManager.Game.Components.Remove(ps);
         }
