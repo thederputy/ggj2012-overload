@@ -31,8 +31,8 @@ namespace GameStateManagement
         ContentManager content;
         SpriteFont gameFont;
 
-        Player playerOne = new Player(-10, 30);
-        Player playerTwo = new Player(-20, 0);
+        Player playerOne;
+        Player playerTwo;
 
         Random random = new Random();
 
@@ -91,8 +91,8 @@ namespace GameStateManagement
             //effect.EnableDefaultLighting(); //required?
 
             // Players
-            playerOne = new Player(-10, 30);
-            playerTwo = new Player(-20, 0);
+            playerOne = new Player(ScreenManager.Game, -10, 30);
+            playerTwo = new Player(ScreenManager.Game, -20, 0);
 
             // A real game would probably have more content than this sample, so
             // it would take longer to load. We simulate that by delaying for a

@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace GameStateManagement.GameObjects
 {
-    class Player
+    class Player : DrawableGameComponent
     {
         protected Vector2 position;
 
@@ -33,19 +33,32 @@ namespace GameStateManagement.GameObjects
             }
         }
 
-        public Player()
+        public Player(Game game)
+            :base (game)
         {
             position = Vector2.Zero;
         }
 
-        public Player(float x, float y)
+        public Player(Game game, float x, float y)
+            :base (game)
         {
             position = new Vector2(x, y);
         }
 
-        public Player(Vector2 position)
+        public Player(Game game, Vector2 position)
+            :base (game)
         {
             this.position = position;
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
+        }
+
+        public override void Draw(GameTime gameTime)
+        {
+            base.Draw(gameTime);
         }
     }
 }
