@@ -10,7 +10,7 @@ namespace GameStateManagement.GameObjects
 {
     public class Track
     {
-        public void Load()
+        public void Initialise()
         {
             XmlDocument doc = new XmlDocument();
             doc.Load("level.oel");
