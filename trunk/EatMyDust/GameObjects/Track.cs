@@ -65,7 +65,7 @@ namespace EatMyDust.GameObjects
         };
         public TrackAreaType GetAreaAtPosition(Vector2 position)
         {
-            float grassBuffer = 260;
+            float grassBuffer = 270;
 
             //ow, the casts! my eyes!
             int division = (int) ((position.Y / (float)gameplayScreen.ScreenManager.GraphicsDevice.Viewport.Height) * mDivisions);
@@ -91,6 +91,18 @@ namespace EatMyDust.GameObjects
                 return TrackAreaType.Grass;
 
             return TrackAreaType.Road;
+        }
+
+        public float GetOffsetAtPosition(Vector2 position)
+        {
+            int division = (int)((position.Y / (float)gameplayScreen.ScreenManager.GraphicsDevice.Viewport.Height) * mDivisions);
+            if (division < 0 || division >= mDivisions)
+                return 0.0f;
+            float divisionHeight = gameplayScreen.ScreenManager.GraphicsDevice.Viewport.Height / (float)(mDivisions - 1);
+
+            int index = division * 6;
+            Vector3 topLeftVertex = mVertices[index + 4].Position;
+            return 0.5f*gameplayScreen.ScreenManager.GraphicsDevice.Viewport.Width + MathHelper.Lerp(mOffsets[division], mOffsets[division+1], (position.Y - topLeftVertex.Y) / divisionHeight);
         }
 
 
