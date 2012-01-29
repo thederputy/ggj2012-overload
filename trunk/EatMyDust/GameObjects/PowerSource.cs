@@ -12,6 +12,8 @@ namespace EatMyDust.GameObjects
         public bool expired;
         public PlayerCar createdBy;
         public Color color;
+        public float fade = 0;  //used for fade in/out purposes in spritebatch call
+        public bool FADING_IN = true;
 
         public PowerSource(GameplayScreen gameplayScreen, Vector2 position, PlayerCar createdBy, Color color)
             : base(gameplayScreen)
@@ -41,8 +43,20 @@ namespace EatMyDust.GameObjects
             timeToLive -= gameTime.ElapsedGameTime;
             if (timeToLive <= TimeSpan.FromSeconds(0))
                 expired = true;
+            handleFading();
 
             base.Update(gameTime);
+        }
+
+        public void handleFading()
+        {
+            if (FADING_IN)
+            {
+                if (fade < 1.0f)
+                    fade += .001f;
+                else
+                    FADING_IN = false;
+            }
         }
     }
 }
