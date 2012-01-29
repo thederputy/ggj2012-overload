@@ -47,6 +47,8 @@ namespace EatMyDust
         public SoundEffectInstance doorCloseInstance;
         SoundEffect crashFX;
         public SoundEffectInstance crashInstance;
+        SoundEffect eatMyDust;
+        public SoundEffectInstance eatMyDustInstance;
 
         bool isInitialized;
 
@@ -137,6 +139,8 @@ namespace EatMyDust
             doorCloseInstance = doorClose.CreateInstance();
             crashFX = content.Load<SoundEffect>("Sounds/crash");
             crashInstance = crashFX.CreateInstance();
+            eatMyDust = content.Load<SoundEffect>("Sounds/eatMyDust");
+            eatMyDustInstance = eatMyDust.CreateInstance();
 
             // Tell each of the screens to load their content.
             foreach (GameScreen screen in screens)
