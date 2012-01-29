@@ -60,6 +60,5 @@ namespace GameStateManagement.GameObjects
             fixtureDef.shape = shape;
             body.CreateFixture(shape, 1.0f);
         }
-
     }
 }
