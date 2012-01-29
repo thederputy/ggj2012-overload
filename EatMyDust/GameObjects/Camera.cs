@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 namespace EatMyDust.GameObjects
 {
-    class Camera
+    public class Camera
     {
         public Matrix View;
         public Matrix Projection;

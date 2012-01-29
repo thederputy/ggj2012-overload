@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace EatMyDust.GameObjects
 {
-    class PlayerCar : GameObject
+    public class PlayerCar : GameObject
     {
         #region Fields
         public Camera camera;
