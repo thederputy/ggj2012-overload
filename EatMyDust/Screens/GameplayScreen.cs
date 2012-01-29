@@ -99,7 +99,7 @@ namespace EatMyDust
             blank = this.content.Load<Texture2D>("blank");
             road = this.content.Load<Texture2D>("Backgrounds/roads1/preview");
 
-            track = new Track(ScreenManager);
+            track = new Track(this);
 
             // A real game would probably have more content than this sample, so
             // it would take longer to load. We simulate that by delaying for a
