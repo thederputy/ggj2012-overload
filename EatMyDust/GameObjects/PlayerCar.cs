@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Input;
 using Box2D.XNA;
 #endregion
 
-namespace GameStateManagement.GameObjects
+namespace EatMyDust.GameObjects
 {
     class PlayerCar : GameObject
     {

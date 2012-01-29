@@ -14,12 +14,12 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using GameStateManagement.GameObjects;
+using EatMyDust.GameObjects;
 using Box2D.XNA;
 using System.Collections.Generic;
 #endregion
 
-namespace GameStateManagement
+namespace EatMyDust
 {
     /// <summary>
     /// This screen implements the actual game logic. It is just a

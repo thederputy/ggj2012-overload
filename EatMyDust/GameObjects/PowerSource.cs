@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Box2D.XNA;
 
-namespace GameStateManagement.GameObjects
+namespace EatMyDust.GameObjects
 {
     class PowerSource : GameObject
     {

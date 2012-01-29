@@ -7,7 +7,7 @@ using System.Xml;
 using Box2D.XNA;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace GameStateManagement.GameObjects
+namespace EatMyDust.GameObjects
 {
     public class Track : DrawableGameComponent
     {
