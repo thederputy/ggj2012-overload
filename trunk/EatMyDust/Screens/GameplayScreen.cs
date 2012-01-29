@@ -586,7 +586,8 @@ namespace EatMyDust
                     }
                     if (((Barricade)obs).CheckCollision(playerTwo.boundingRect))
                     {
-                        gameOverCondition = true;
+                        if (!boosting)
+                            gameOverCondition = true;
                         obs.expired = true;
                         explosionPosition = playerTwo.Position2;
                     }
@@ -600,7 +601,8 @@ namespace EatMyDust
                 }
                 if (playerTwo.boundingRect.Intersects(obs.boundingRect))
                 {
-                    gameOverCondition = true;
+                    if (!boosting)
+                        gameOverCondition = true;
                     obs.expired = true;
                     explosionPosition = playerTwo.Position2;
                 }

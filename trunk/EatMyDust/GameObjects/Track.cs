@@ -10,7 +10,7 @@ namespace EatMyDust.GameObjects
 {
     public class Track : GameObject
     {
-        public static readonly int mDivisions = 16;
+        public static readonly int mDivisions = 14;
         private VertexPositionColorTexture[] mVertices  = new VertexPositionColorTexture[mDivisions * 6];
         private float[] mOffsets = new float[mDivisions + 1];
         private BasicEffect mEffect;
@@ -130,7 +130,7 @@ namespace EatMyDust.GameObjects
                 mNextOffsetTime = 0.5f + 1.0f * (float)random.NextDouble();
                 float roadFraction = 0.7f;
                 mNextOffsetDistance = (roadFraction * viewportWidth * (float)random.NextDouble()) - 0.5f*roadFraction * viewportWidth;
-                mNextOffsetDelay = 3f * (float)random.NextDouble();
+                mNextOffsetDelay = 1f + 3f * (float)random.NextDouble();
             }
 
             //generate the vertices
