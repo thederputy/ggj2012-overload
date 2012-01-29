@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Box2D.XNA;
 #endregion
 
 namespace EatMyDust.GameObjects
@@ -58,10 +57,9 @@ namespace EatMyDust.GameObjects
 
         #region Initialization
 
-        public PlayerCar(ScreenManager screenManager, World world, Vector2 position)
-            :base(screenManager, world)
+        public PlayerCar(ScreenManager screenManager, Vector2 position)
+            :base(screenManager)
         {
-            CreateBody(position);
             camera = new Camera(screenManager.GraphicsDevice.Viewport, Position3);
         }
 
@@ -98,8 +96,6 @@ namespace EatMyDust.GameObjects
             // Otherwise move the player position.
             velocity = Vector2.Zero;
 
-            
-
             // Keyboard Controls
             Keys[] keys = new Keys[5];
             switch (inputKeys)
@@ -123,8 +119,6 @@ namespace EatMyDust.GameObjects
 #if DEBUG 
             if (inputManager.IsPressed(Keys.F, Buttons.LeftShoulder, playerIndex))
                 fuel = maxFuel;
-            if (inputManager.IsPressed(Keys.B, Buttons.LeftShoulder, playerIndex))
-                SpinOut();
 #endif
 
             // Keyboard/Dpad velocity change
@@ -171,18 +165,8 @@ namespace EatMyDust.GameObjects
             }
             else
                 fuelTimer -= gameTime.ElapsedGameTime;
-            
-            body.ApplyLinearImpulse(velocity * 100, body.GetPosition());
 
-            if (spinningOut)
-            {
-                spinDuration -= gameTime.ElapsedGameTime;
-                if (spinDuration <= TimeSpan.FromSeconds(0))
-                {
-                    body.SetAngularVelocity(0);
-                    spinningOut = false;
-                }
-            }
+            position += velocity * 8;
 
             tempX = (int)(Position3.X + camera.View.Translation.X) * -1;
             tempY = (int)(Position3.Y + camera.View.Translation.Y) * -1;
@@ -228,19 +212,6 @@ namespace EatMyDust.GameObjects
             base.Update(gameTime);
         }
 
-        public override void CreateBody(Vector2 position)
-        {
-            BodyDef def = new BodyDef();
-            def.userData = this;
-            def.position = position;
-            def.type = BodyType.Dynamic;
-            def.linearDamping = 0.75f;
-            body = physicsWorld.CreateBody(def);
-            PolygonShape shape = new PolygonShape();
-            shape.SetAsBox(1, 1);
-            body.CreateFixture(shape, 1.0f);
-        }
-
         public float getFuelPercent()
         {
             int temp = 1;
@@ -255,18 +226,5 @@ namespace EatMyDust.GameObjects
             if (fuel < maxFuel)
                 fuel += fuelPerSecond;
         }
-
-        public void SpinOut()
-        {
-            if (!spinningOut)
-            {
-                spinningOut = true;
-                //body.SetTransform(body.Position, (float)(body.Rotation + Math.PI / 16));
-                //body.SetAngularVelocity((float)(Math.PI * 2 + Math.PI/32));
-                body.SetAngularVelocity((float)(Math.PI/16));
-                spinDuration = TimeSpan.FromSeconds(1);
-            }
-        }
-
     }
 }

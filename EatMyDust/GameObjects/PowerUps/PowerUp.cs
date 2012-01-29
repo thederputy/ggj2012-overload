@@ -8,7 +8,6 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-using Box2D.XNA;
 
 namespace EatMyDust.GameObjects.PowerUps
 {
@@ -27,8 +26,8 @@ namespace EatMyDust.GameObjects.PowerUps
             SpeedBoost
         }
 
-        public PowerUp(ScreenManager screenManager, World physicsWorld)
-            : base(screenManager, physicsWorld)
+        public PowerUp(ScreenManager screenManager)
+            : base(screenManager)
         {
             // TODO: Construct any child components here
         }
