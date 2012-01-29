@@ -92,8 +92,12 @@ namespace EatMyDust
             inputManager = new InputManager(ScreenManager.Game);
 
             // Players
-            playerOne = new PlayerCar(this, new Vector2(0, 0));
-            playerTwo = new PlayerCar(this, new Vector2(100, 0));
+            playerOne = new PlayerCar(this, new Vector2(ScreenManager.GraphicsDevice.Viewport.Width/2, ScreenManager.GraphicsDevice.Viewport.Height/2));
+            //playerOne.Position2 -= new Vector2(playerOne.texture.Width * 2, 0);
+            playerOne.Position2 += new Vector2(-128, -32);
+            playerTwo = new PlayerCar(this, new Vector2(ScreenManager.GraphicsDevice.Viewport.Width/2, ScreenManager.GraphicsDevice.Viewport.Height/2));
+            //playerTwo.Position2 += new Vector2(playerTwo.texture.Width, 0);
+            playerTwo.Position2 += new Vector2(64, -32);
 
             // Textures
             blank = this.content.Load<Texture2D>("blank");

@@ -55,6 +55,7 @@ namespace EatMyDust.GameObjects
         public PlayerCar(GameplayScreen gameplayScreen, Vector2 position)
             :base(gameplayScreen)
         {
+            this.position = position;
             camera = new Camera(gameplayScreen.ScreenManager.GraphicsDevice.Viewport, Position3);
         }
 
