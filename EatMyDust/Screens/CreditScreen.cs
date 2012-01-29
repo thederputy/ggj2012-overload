@@ -19,7 +19,7 @@ namespace EatMyDust
             createdBy = "Tim Hargreaves@Tatham Johnson@James Karg@Jacob Kwitkoski@Shannon Lee@Tom McIntosh@Shane Morin";
             createdBy = createdBy.Replace("@", System.Environment.NewLine);
 
-            thanksTo = "Nick Waanders@Graham Jans@Jake Birkett@Brian Provinciano for the@Retro City Rampage cars@Shane Neville@Blasterhead for the BGM@Dr. Box & Kim Voll@Starbucks@Vancouver GGJ Community@opengame.org and FreeSound";
+            thanksTo = "Nick Waanders@Graham Jans@Jake Birkett@Brian Provinciano for the@Retro City Rampage cars@Shane Neville@Blasterhead and Buskerdroid@for the BGM@Dr. Box & Kim Voll@Starbucks@Vancouver GGJ Community@opengame.org and FreeSound";
             thanksTo = thanksTo.Replace("@", System.Environment.NewLine);
 
 
