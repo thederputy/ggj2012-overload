@@ -214,9 +214,9 @@ namespace EatMyDust
                 if (dropTimer <= TimeSpan.FromSeconds(0))
                 {
                     dropTimer = TimeSpan.FromMilliseconds(dropInterval);
-                    PowerSource ps = new PowerSource(this, playerOne.Position2 + new Vector2(playerOne.texture.Width, playerOne.texture.Height*2), playerOne, Color.Green);
+                    PowerSource ps = new PowerSource(this, playerOne.Position2 + new Vector2(playerOne.texture.Width, playerOne.texture.Height*2), playerOne, Color.Red);
                     powerSources.Add(ps);
-                    ps = new PowerSource(this, playerTwo.Position2 + new Vector2(playerTwo.texture.Width, playerTwo.texture.Height*2), playerTwo, Color.Red);
+                    ps = new PowerSource(this, playerTwo.Position2 + new Vector2(playerTwo.texture.Width, playerTwo.texture.Height*2), playerTwo, Color.Blue);
                     powerSources.Add(ps);
                 }
                 for (int i = 0; i < powerSources.Count; i++)
@@ -307,8 +307,9 @@ namespace EatMyDust
             //TODO: replace with road drawablegamecomponent draw call
             //spriteBatch.Draw(road, new Rectangle(0, 0, 1024, 768), Color.White);
             
-            playerOne.Draw(spriteBatch, Color.Green);
+            playerOne.Draw(spriteBatch, Color.Blue);
             playerTwo.Draw(spriteBatch, Color.Red);
+            
 
             //Debug
             //spriteBatch.DrawString(gameFont, String.Format("Pos: {0}", playerOne.Position2.ToString()), playerOne.Position2, Color.White);
@@ -368,9 +369,9 @@ namespace EatMyDust
                 playerOne.Velocity = new Vector2(playerOne.Velocity.X, playerOne.Velocity.Y * -1);
             }
             //top
-            if (playerOne.Position2.Y < 0)
+            if (playerOne.Position2.Y < 200)
             {
-                float difference = Math.Abs(playerOne.Position2.Y - 0);
+                float difference = Math.Abs(playerOne.Position2.Y - 200);
                 playerOne.Position2 = new Vector2(playerOne.Position2.X, playerOne.Position2.Y + difference);
                 playerOne.Velocity = new Vector2(playerOne.Velocity.X, playerOne.Velocity.Y * -1);
             }
@@ -398,9 +399,9 @@ namespace EatMyDust
                 playerTwo.Velocity = new Vector2(playerTwo.Velocity.X, playerTwo.Velocity.Y * -1);
             }
             //top
-            if (playerTwo.Position2.Y < 0)
+            if (playerTwo.Position2.Y < 200)
             {
-                float difference = Math.Abs(playerTwo.Position2.Y - 0);
+                float difference = Math.Abs(playerTwo.Position2.Y - 200);
                 playerTwo.Position2 = new Vector2(playerTwo.Position2.X, playerTwo.Position2.Y + difference);
                 playerTwo.Velocity = new Vector2(playerTwo.Velocity.X, playerTwo.Velocity.Y * -1);
             }

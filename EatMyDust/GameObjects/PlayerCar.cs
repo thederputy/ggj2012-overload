@@ -316,8 +316,8 @@ namespace EatMyDust.GameObjects
 
         public void AddFuel()
         {
-            //if (fuel < maxFuel)
-                //fuel += fuelPerSecond;
+            if (fuel < maxFuel)
+                fuel += fuelPerSecond;
         }
     }
 }
