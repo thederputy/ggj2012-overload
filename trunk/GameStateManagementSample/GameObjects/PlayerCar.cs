@@ -144,14 +144,6 @@ namespace GameStateManagement.GameObjects
             if (velocity.Length() > 1)
                 velocity.Normalize();
 
-            if (inputManager.IsKeyHeld(Keys.OemPlus))
-            {
-                camera.ZoomValue -= 0.1f; // zooms in - brings camera closer to cars
-            }
-            if (inputManager.IsKeyHeld(Keys.OemMinus))
-            {
-                camera.ZoomValue += 0.1f; // zooms out - moves camera further from to cars
-            }
             if (inputManager.IsHeld(keys[4], Buttons.A, playerIndex))
                 velocity = Vector2.Multiply(velocity, turboMultiplier);
             
@@ -176,11 +168,10 @@ namespace GameStateManagement.GameObjects
             else
                 fuelTimer -= gameTime.ElapsedGameTime;
             
-            body.Position += velocity * 8;
+            body.ApplyLinearImpulse(velocity * 8, body.GetPosition());
 
             if (spinningOut)
             {
-                
                 spinDuration -= gameTime.ElapsedGameTime;
                 if (spinDuration <= TimeSpan.FromSeconds(0))
                 {

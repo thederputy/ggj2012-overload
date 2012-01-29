@@ -8,7 +8,7 @@ using Box2D.XNA;
 
 namespace GameStateManagement.GameObjects
 {
-    abstract class GameObject : DrawableGameComponent
+    public abstract class GameObject : DrawableGameComponent
     {
         protected ScreenManager screenManager;
         protected World physicsWorld;

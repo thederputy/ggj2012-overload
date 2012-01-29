@@ -24,7 +24,7 @@
     <ApplicationIcon>Game.ico</ApplicationIcon>
     <Thumbnail>GameThumbnail.png</Thumbnail>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <PublishUrl>..\builds\r71\</PublishUrl>
+    <PublishUrl>..\builds\r78\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
@@ -83,6 +83,7 @@
     <Compile Include="GameObjects\DebugRenderer.cs" />
     <Compile Include="GameObjects\GameObject.cs" />
     <Compile Include="GameObjects\PlayerCar.cs" />
+    <Compile Include="GameObjects\PowerUps\PowerUp.cs" />
     <Compile Include="GameObjects\Track.cs" />
     <Compile Include="GameObjects\PowerSource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
