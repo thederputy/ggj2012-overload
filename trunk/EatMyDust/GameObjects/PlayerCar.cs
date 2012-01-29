@@ -134,7 +134,9 @@ namespace EatMyDust.GameObjects
 
             // Limits to one unit of movement, i.e. gets the direction of movement
             if (velocity.Length() > 1)
+            {
                 velocity.Normalize();
+            }
 
             if (inputManager.IsHeld(keys[4], Buttons.A, playerIndex))
                 velocity = Vector2.Multiply(velocity, turboMultiplier);
