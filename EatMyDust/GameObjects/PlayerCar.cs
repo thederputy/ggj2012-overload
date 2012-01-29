@@ -47,7 +47,7 @@ namespace EatMyDust.GameObjects
         Random rnd = new Random();
         private const float turboMultiplier = 1.5f;
 
-        bool spinningOut;
+
         TimeSpan spinDuration;
 
         SoundEffect engineFX; // BG Music
@@ -61,10 +61,6 @@ namespace EatMyDust.GameObjects
 
         protected int bfRngMax = 8;
         protected int bfRngMin = 2;
- 
-        public Rectangle boundingRect;
-        public Vector2 previousPosition;
-
         #endregion
 
         #region Initialization
@@ -94,7 +90,6 @@ namespace EatMyDust.GameObjects
             tempX = (int)(Position3.X);
             tempY = (int)(Position3.Y);
             scaleFactor = 3.0f;
-            spinningOut = false;
             spinDuration = TimeSpan.FromSeconds(1);
             base.Initialize();
 
@@ -254,7 +249,7 @@ namespace EatMyDust.GameObjects
             //int cnt = 0;
             Vector2 cameraEase = new Vector2(tempX, tempY);
             cameraEase.Normalize();
-
+            /*
             if (Math.Abs(tempX) > X_LIMIT || Math.Abs(tempY) > Y_LIMIT)
             {
                 tempX = (int)(Position3.X + MathHelper.Clamp(tempX, -X_LIMIT, X_LIMIT));
@@ -289,10 +284,9 @@ namespace EatMyDust.GameObjects
 
             camera.Update(new Vector3(tempX + texture.Width / 2, tempY + texture.Height / 2 - VERT_OFFSET, Position3.Z));
             //camera.Update(new Vector3(tempX, tempY, Position3.Z));
-            
+            */
             //bounding rectangle
-            boundingRect = new Rectangle((int)Position2.X, (int)Position2.Y, texture.Width, texture.Height);
-
+            
             base.Update(gameTime);
         }
 

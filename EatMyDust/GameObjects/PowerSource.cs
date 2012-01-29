@@ -18,6 +18,7 @@ namespace EatMyDust.GameObjects
         {
             this.createdBy = createdBy;
             this.color = color;
+            this.position = position;
         }
 
         public override void Initialize()

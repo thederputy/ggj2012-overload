@@ -13,6 +13,10 @@ namespace EatMyDust.GameObjects
 
         public Texture2D texture;
 
+        public Rectangle boundingRect;
+        public Vector2 previousPosition;
+
+
         protected float scaleFactor;
                 
         protected Vector2 position;
@@ -38,6 +42,14 @@ namespace EatMyDust.GameObjects
         public override void Initialize()
         {
             base.Initialize();
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            if (texture != null)
+                boundingRect = new Rectangle((int)Position2.X, (int)Position2.Y, texture.Width, texture.Height);
+
+            base.Update(gameTime);
         }
 
         public void Draw(SpriteBatch spriteBatch, Color color)
