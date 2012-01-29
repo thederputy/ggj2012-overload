@@ -612,8 +612,8 @@ namespace EatMyDust
         private void GameOver()
         {
             this.ScrollSpeed = 0;
-            playerOne.Velocity = Vector2.Zero;
-            playerTwo.Velocity = Vector2.Zero;
+            playerOne.isExploded = true;
+            playerTwo.isExploded = true;
             powerUps.Clear();
             powerSources.Clear();
             obstacles.Clear();

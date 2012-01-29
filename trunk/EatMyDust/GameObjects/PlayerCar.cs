@@ -50,9 +50,9 @@ namespace EatMyDust.GameObjects
 
         public bool boosting;
         private TimeSpan boostTimer;
+        public bool isExploded = false;
 
         private int playerIndex;
-
 
         SoundEffect engineFX; // BG Music
         SoundEffectInstance engineInstance;
@@ -148,6 +148,9 @@ namespace EatMyDust.GameObjects
         {
             // Otherwise move the player position.
             velocity = Vector2.Zero;
+
+            if (isExploded)
+                return;
 
             // Keyboard Controls
             Keys[] keys = new Keys[6];
