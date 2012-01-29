@@ -101,6 +101,7 @@
     <Compile Include="Screens\PauseMenuScreen.cs" />
     <Compile Include="Screens\PlayerIndexEventArgs.cs" />
     <Compile Include="Utils\InputManager.cs" />
+    <Compile Include="Utils\SoundManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />
