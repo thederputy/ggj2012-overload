@@ -18,6 +18,7 @@ namespace GameStateManagement.GameObjects
         protected int tempX = 0;
         protected int tempY = 0;
 
+
         protected const int X_LIMIT = 150;//150
         protected const int Y_LIMIT = 150;//150
         protected const float MAX_SPEED = 10;
@@ -97,6 +98,8 @@ namespace GameStateManagement.GameObjects
             // Otherwise move the player position.
             velocity = Vector2.Zero;
 
+            
+
             // Keyboard Controls
             Keys[] keys = new Keys[5];
             switch (inputKeys)
@@ -164,6 +167,7 @@ namespace GameStateManagement.GameObjects
                 else
                     fuel -= fuelPerSecond;
                 fuelTimer = TimeSpan.FromSeconds(1);
+
             }
             else
                 fuelTimer -= gameTime.ElapsedGameTime;
@@ -239,7 +243,11 @@ namespace GameStateManagement.GameObjects
 
         public float getFuelPercent()
         {
-            return (float)(fuel - 1) / (float)maxFuel + ((float)(fuelTimer.Milliseconds) / 1000 / (float)(maxFuel));
+            int temp = 1;
+
+            if (fuelTimer.Milliseconds == 0) temp = 0;
+ 
+            return (float)(fuel - temp) / (float)maxFuel + ((float)(fuelTimer.Milliseconds) / 1000 / (float)(maxFuel));
         }
 
         public void AddFuel()
