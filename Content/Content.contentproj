@@ -447,15 +447,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="XboxHighScoreFont.spritefont">
-      <Name>XboxHighScoreFont</Name>
-      <Importer>FontDescriptionImporter</Importer>
-      <Processor>FontDescriptionProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="PCHighScoreFont.spritefont">
-      <Name>PCHighScoreFont</Name>
+    <Compile Include="HighScoreFont.spritefont">
+      <Name>HighScoreFont</Name>
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
     </Compile>

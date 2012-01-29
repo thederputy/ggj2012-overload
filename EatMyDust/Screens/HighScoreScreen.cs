@@ -43,11 +43,7 @@ namespace EatMyDust
             if (Content == null)
                 Content = new ContentManager(ScreenManager.Game.Services, "Content");
 
-#if WINDOWS
-            font = Content.Load<SpriteFont>("PCHighScoreFont");
-#elif XBOX
-            font = Content.Load<SpriteFont>("XboxHighScoreFont");
-#endif
+            font = Content.Load<SpriteFont>("HighScoreFont");
             // Get the screen size and width
             int x, y, w, h;
             x = ScreenManager.GraphicsDevice.Viewport.X;
