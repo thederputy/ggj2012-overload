@@ -46,6 +46,7 @@ namespace EatMyDust.GameObjects
         public int fuel;
         private const int MAX_FUEL = 30;
         private const int FUEL_PER_SECOND = 2;
+        private const int FUEL_RECHARGE_PER_CLOUD = 1;
         private const int TURBO_FUEL_PER_SECOND = 3;
         private const float TURBO_MULTIPLIER = 1.5f;
         private TimeSpan fuelTimer;
@@ -356,7 +357,7 @@ namespace EatMyDust.GameObjects
         public void AddFuel()
         {
             if (fuel < MAX_FUEL)
-                fuel += FUEL_PER_SECOND;
+                fuel += FUEL_RECHARGE_PER_CLOUD;
         }
 
         public void CheckCollisionWithEdgeOfScreen()
