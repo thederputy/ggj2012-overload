@@ -27,7 +27,6 @@ namespace EatMyDust
         Hidden,
     }
 
-
     /// <summary>
     /// A screen is a single layer that has update and draw logic, and which
     /// can be combined with other layers to build up a complex menu system.
@@ -38,7 +37,6 @@ namespace EatMyDust
     public abstract class GameScreen
     {
         #region Properties
-
 
         /// <summary>
         /// Normally when one screen is brought up over the top of another,
@@ -95,7 +93,6 @@ namespace EatMyDust
 
         float transitionPosition = 1;
 
-
         /// <summary>
         /// Gets the current alpha of the screen transition, ranging
         /// from 1 (fully active, no transition) to 0 (transitioned
@@ -105,7 +102,6 @@ namespace EatMyDust
         {
             get { return 1f - TransitionPosition; }
         }
-
 
         /// <summary>
         /// Gets the current screen transition state.
@@ -117,7 +113,6 @@ namespace EatMyDust
         }
 
         ScreenState screenState = ScreenState.TransitionOn;
-
 
         /// <summary>
         /// There are two possible reasons why a screen might be transitioning
@@ -135,7 +130,6 @@ namespace EatMyDust
 
         bool isExiting = false;
 
-
         /// <summary>
         /// Checks whether this screen is active and can respond to user input.
         /// </summary>
@@ -151,7 +145,6 @@ namespace EatMyDust
 
         bool otherScreenHasFocus;
 
-
         /// <summary>
         /// Gets the manager that this screen belongs to.
         /// </summary>
@@ -162,7 +155,6 @@ namespace EatMyDust
         }
 
         ScreenManager screenManager;
-
 
         /// <summary>
         /// Gets the index of the player who is currently controlling this screen,
@@ -179,7 +171,6 @@ namespace EatMyDust
         }
 
         PlayerIndex? controllingPlayer;
-
 
         /// <summary>
         /// Gets the gestures the screen is interested in. Screens should be as specific
@@ -208,6 +199,7 @@ namespace EatMyDust
         GestureType enabledGestures = GestureType.None;
 
         protected InputManager inputManager;
+
         #endregion
 
         #region Initialization
@@ -239,8 +231,6 @@ namespace EatMyDust
                                                       bool coveredByOtherScreen)
         {
             this.otherScreenHasFocus = otherScreenHasFocus;
-
-            inputManager.Update(gameTime);
 
             if (isExiting)
             {

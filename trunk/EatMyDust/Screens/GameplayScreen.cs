@@ -215,6 +215,9 @@ namespace EatMyDust
         {
             base.Update(gameTime, otherScreenHasFocus, false);
 
+            // input
+            inputManager.Update(gameTime);
+
             // Gradually fade in or out depending on whether we are covered by the pause screen.
             if (coveredByOtherScreen)
                 pauseAlpha = Math.Min(pauseAlpha + 1f / 32, 1);

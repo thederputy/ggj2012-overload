@@ -29,8 +29,6 @@ namespace EatMyDust
 
         public HighScoreScreen(Game game)
         {
-            inputManager = new InputManager(game);
-
             HighScoreManager.LoadHighScores();
             highScores = HighScoreManager.highScoreList;
         }
@@ -42,6 +40,8 @@ namespace EatMyDust
             // but we need the one
             if (Content == null)
                 Content = new ContentManager(ScreenManager.Game.Services, "Content");
+
+            inputManager = new InputManager(ScreenManager.Game);
 
             font = Content.Load<SpriteFont>("HighScoreFont");
             // Get the screen size and width
@@ -82,6 +82,7 @@ namespace EatMyDust
         public override void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
         {
             base.Update(gameTime, otherScreenHasFocus, coveredByOtherScreen);
+            inputManager.Update(gameTime);
         }
 
         public override void Draw(GameTime gameTime)

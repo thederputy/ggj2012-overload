@@ -150,7 +150,7 @@ namespace EatMyDust.GameObjects
             velocity = Vector2.Zero;
 
             // Keyboard Controls
-            Keys[] keys = new Keys[5];
+            Keys[] keys = new Keys[6];
             switch (inputKeys)
             {
                 case InputKeys.WASD:
@@ -159,23 +159,25 @@ namespace EatMyDust.GameObjects
                     keys[2] = Keys.W;
                     keys[3] = Keys.S;
                     keys[4] = Keys.LeftShift;
+                    keys[5] = Keys.LeftControl;
                     break;
                 case InputKeys.Arrows:
                     keys[0] = Keys.Left;
                     keys[1] = Keys.Right;
                     keys[2] = Keys.Up;
                     keys[3] = Keys.Down;
-                    keys[4] = Keys.RightControl;
+                    keys[4] = Keys.RightShift;
+                    keys[5] = Keys.RightControl;
                     break;
             }
 
 #if DEBUG 
             if (inputManager.IsPressed(Keys.F, Buttons.LeftShoulder, playerIndex))
                 fuel = MAX_FUEL;
-
-            if (inputManager.IsPressed(Keys.E, Buttons.RightShoulder, playerIndex) || inputManager.IsPressed(Keys.RightShift, Buttons.RightShoulder, playerIndex))
-                SoundManager.playSound(honkInstance, 0.6f);
 #endif
+            if (inputManager.IsPressed(keys[5], Buttons.X, playerIndex))
+                SoundManager.playSound(honkInstance, 0.6f);
+
             Boolean isMoving = false;
             // Keyboard/Dpad velocity change
             if (inputManager.IsHeld(keys[0], Buttons.DPadLeft, playerIndex))
@@ -271,7 +273,7 @@ namespace EatMyDust.GameObjects
                 if (started)
                 {
                     float rumbleLeft = (float)1 / getFuelPercent();
-                    float rumbleRight = (float)1 / getFuelPercent();
+                    float rumbleRight = 0;//(float)1 / getFuelPercent();
                     GamePad.SetVibration(PlayerIndex.One, rumbleLeft, rumbleRight);
                     GamePad.SetVibration(PlayerIndex.Two, rumbleLeft, rumbleRight);
                 }
