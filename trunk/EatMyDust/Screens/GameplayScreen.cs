@@ -28,6 +28,12 @@ namespace EatMyDust
     /// </summary>
     public class GameplayScreen : GameScreen
     {
+        #region Tweaking vars
+        public static readonly float DefaultScrollSpeed = 15.0f;
+        public static readonly float GrassScrollSpeed = 8.0f;
+        public static readonly float BoostScrollSpeed = 25.0f;
+
+        #endregion
         #region Fields
 
         ContentManager content;
@@ -236,7 +242,7 @@ namespace EatMyDust
                 if (playerOne.fuel <= 0 && playerTwo.fuel <= 0)
                     GameOver();
                 else if (playerOne.boosting || playerTwo.boosting)
-                    ScrollSpeed = 20f;
+                    ScrollSpeed = BoostScrollSpeed;
 
 
                 dropTimer -= gameTime.ElapsedGameTime;
@@ -484,9 +490,9 @@ namespace EatMyDust
                 GameOver();
             }
             else if (player1Area == Track.TrackAreaType.Grass || player2Area == Track.TrackAreaType.Grass)
-                ScrollSpeed = 5;
+                ScrollSpeed = GrassScrollSpeed;
             else if (!playerOne.boosting && !playerTwo.boosting && (playerOne.started || playerTwo.started))
-                ScrollSpeed = 10;
+                ScrollSpeed = DefaultScrollSpeed;
 
             //check for collisions between the players and powersources
             foreach (PowerSource p in powerSources)
