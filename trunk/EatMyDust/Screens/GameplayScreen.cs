@@ -76,6 +76,10 @@ namespace EatMyDust
         TimeSpan powerupTimer;
         const int powerupDropInterval = 5000;
 
+        List<Obstacle> obstacles;
+        TimeSpan obstacleTimer;
+        int obstacleInterval;
+
         Random rand;
 
         int FUEL_BAR_Y = 10; 
@@ -157,6 +161,9 @@ namespace EatMyDust
             powerUps.Add(pup);
             */
             powerupTimer = TimeSpan.FromSeconds(10);
+
+            obstacles = new List<Obstacle>();
+            obstacleTimer = TimeSpan.FromSeconds(5);
             // Add the game components to the game
             // This allows each component's Initialize, Update, Draw to get called automatically.
             ScreenManager.Game.Components.Add(inputManager);
@@ -262,6 +269,28 @@ namespace EatMyDust
                     powerupTimer = TimeSpan.FromSeconds(8);
                 }
 
+                for (int i = 0; i < obstacles.Count; i++)
+                {
+                    if (obstacles[i].expired)
+                    {
+                        ScreenManager.Game.Components.Remove(obstacles[i]);
+                        obstacles.Remove(obstacles[i]);
+                        i--;
+                    }
+                    else
+                    {
+                        obstacles[i].Position2 += new Vector2(0, ScrollSpeed);
+                    }
+                }
+
+                obstacleTimer -= gameTime.ElapsedGameTime;
+                if (obstacleTimer <= TimeSpan.FromSeconds(0))
+                {
+                    Obstacle obs = new Obstacle(this);
+                    obstacles.Add(obs);
+                    obstacleTimer = TimeSpan.FromSeconds(rand.Next(2, 7));
+                }
+
                 // Check for game over state
                 if (playerOne.fuel == 0 || playerTwo.fuel == 0)
                 {
@@ -358,6 +387,13 @@ namespace EatMyDust
                 pup.Draw(spriteBatch);
             }
 
+            foreach (Obstacle obs in obstacles)
+            {
+                obs.Draw(spriteBatch);
+            }
+
+            spriteBatch.Draw(blank, new Rectangle(FUEL_BAR_INSET, ScreenManager.GraphicsDevice.Viewport.Height - (int)(FUEL_BAR_Y * playerOne.getFuelPercent()), FUEL_BAR_WIDTH, FUEL_BAR_HEIGHT), Color.Goldenrod);
+            spriteBatch.Draw(blank, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width - FUEL_BAR_WIDTH - FUEL_BAR_INSET, ScreenManager.GraphicsDevice.Viewport.Height - (int)(FUEL_BAR_Y * playerTwo.getFuelPercent()), FUEL_BAR_WIDTH, FUEL_BAR_HEIGHT), Color.Goldenrod);
 
             //sidebars
             //spriteBatch.Draw(blank, new Rectangle(FUEL_BAR_INSET, ScreenManager.GraphicsDevice.Viewport.Height - (int)(FUEL_BAR_Y * playerOne.getFuelPercent()), FUEL_BAR_WIDTH, FUEL_BAR_HEIGHT), Color.DarkRed);
@@ -447,6 +483,13 @@ namespace EatMyDust
                             pup.expired = true;
                         }
                     }
+                }
+            }
+            foreach (Obstacle obs in obstacles)
+            {
+                if (playerOne.boundingRect.Intersects(obs.boundingRect) || (playerOne.boundingRect.Intersects(obs.boundingRect)))
+                {
+                    GameOver();
                 }
             }
 
