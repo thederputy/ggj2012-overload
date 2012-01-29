@@ -60,7 +60,6 @@ namespace EatMyDust
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
         }
 
-
         #endregion
 
         #region Handle Input

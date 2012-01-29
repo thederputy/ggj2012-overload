@@ -149,6 +149,7 @@ namespace EatMyDust
         public override void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
         {
             base.Update(gameTime, otherScreenHasFocus, coveredByOtherScreen);
+            inputManager.Update(gameTime);
         }
 
         public override void Draw(GameTime gameTime)
