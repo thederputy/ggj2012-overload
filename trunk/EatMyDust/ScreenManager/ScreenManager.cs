@@ -15,6 +15,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input.Touch;
+using Microsoft.Xna.Framework.Audio;
 #endregion
 
 namespace EatMyDust
@@ -37,6 +38,13 @@ namespace EatMyDust
         SpriteBatch spriteBatch;
         SpriteFont font;
         Texture2D blankTexture;
+
+        SoundEffect keysFX;
+        public SoundEffectInstance keysInstance;
+        SoundEffect doorOpen;
+        public SoundEffectInstance doorOpenInstance;
+        SoundEffect doorClose;
+        public SoundEffectInstance doorCloseInstance;
 
         bool isInitialized;
 
@@ -106,7 +114,6 @@ namespace EatMyDust
             isInitialized = true;
         }
 
-
         /// <summary>
         /// Load your graphics content.
         /// </summary>
@@ -120,6 +127,14 @@ namespace EatMyDust
             blankTexture = content.Load<Texture2D>("blank");
             //font.LineSpacing = 245;
             //font.Spacing = 50;
+
+            // Effects for menus
+            keysFX = content.Load<SoundEffect>("Sounds/carKeysTinkling");
+            keysInstance = keysFX.CreateInstance();
+            doorOpen = content.Load<SoundEffect>("Sounds/doorOpen2");
+            doorOpenInstance = doorOpen.CreateInstance();
+            doorClose = content.Load<SoundEffect>("Sounds/doorClose2");
+            doorCloseInstance = doorClose.CreateInstance();
 
             // Tell each of the screens to load their content.
             foreach (GameScreen screen in screens)

@@ -49,7 +49,6 @@ namespace EatMyDust
 
         #region Initialization
 
-
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -76,6 +75,7 @@ namespace EatMyDust
             // Move to the previous menu entry?
             if (input.IsMenuUp(ControllingPlayer))
             {
+                SoundManager.playSound(ScreenManager.keysInstance, 0.1f);
                 selectedEntry--;
 
                 if (selectedEntry < 0)
@@ -85,6 +85,7 @@ namespace EatMyDust
             // Move to the next menu entry?
             if (input.IsMenuDown(ControllingPlayer))
             {
+                SoundManager.playSound(ScreenManager.keysInstance, 0.1f);
                 selectedEntry++;
 
                 if (selectedEntry >= menuEntries.Count)
@@ -114,6 +115,7 @@ namespace EatMyDust
         /// </summary>
         protected virtual void OnSelectEntry(int entryIndex, PlayerIndex playerIndex)
         {
+            SoundManager.playSound(ScreenManager.doorOpenInstance, 0.1f);
             menuEntries[entryIndex].OnSelectEntry(playerIndex);
         }
 
@@ -123,6 +125,7 @@ namespace EatMyDust
         /// </summary>
         protected virtual void OnCancel(PlayerIndex playerIndex)
         {
+            SoundManager.playSound(ScreenManager.doorCloseInstance, 0.1f);
             ExitScreen();
         }
 
