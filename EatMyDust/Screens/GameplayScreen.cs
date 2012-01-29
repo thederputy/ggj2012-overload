@@ -228,9 +228,6 @@ namespace EatMyDust
                     ScrollSpeed = 0f;
                 else if (playerOne.boosting || playerTwo.boosting)
                     ScrollSpeed = 20f;
-                else if (playerOne.Velocity.LengthSquared() > 0f || playerTwo.Velocity.LengthSquared() > 0f)
-                    ScrollSpeed = 10f;
-
 
 
                 dropTimer -= gameTime.ElapsedGameTime;
@@ -283,10 +280,6 @@ namespace EatMyDust
                         ScreenManager.Game.Components.Remove(obstacles[i]);
                         obstacles.Remove(obstacles[i]);
                         i--;
-                    }
-                    else
-                    {
-                        obstacles[i].Position2 += new Vector2(0, ScrollSpeed);
                     }
                 }
 
@@ -451,6 +444,18 @@ namespace EatMyDust
                 playerTwo.Velocity *= -1;
             }
 
+            Track.TrackAreaType player1Area = track.GetAreaAtPosition(new Vector2(playerOne.boundingRect.Center.X, playerOne.boundingRect.Center.Y));
+            Track.TrackAreaType player2Area = track.GetAreaAtPosition(new Vector2(playerTwo.boundingRect.Center.X, playerTwo.boundingRect.Center.Y));
+            if (player1Area == Track.TrackAreaType.None || player2Area == Track.TrackAreaType.None)
+            {
+                ScrollSpeed = 0;
+                GameOver();
+            }
+            else if (player1Area == Track.TrackAreaType.Grass || player2Area == Track.TrackAreaType.Grass)
+                ScrollSpeed = 5;
+            else if (!playerOne.boosting && !playerTwo.boosting && (playerOne.started || playerTwo.started))
+                ScrollSpeed = 10;
+
             //check for collisions between the players and powersources
             foreach (PowerSource p in powerSources)
             {
@@ -503,12 +508,12 @@ namespace EatMyDust
                 }
             }
 
-            //TODO: check for collisions between the players and powerups
 
         }
 
         private void GameOver()
         {
+            this.ScrollSpeed = 0;
             this.ExitScreen();
             
             //Replace call to message box with high score entry screen
