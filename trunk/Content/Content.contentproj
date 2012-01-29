@@ -248,6 +248,13 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="roadtile.bmp">
+      <Name>roadtile</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="Sounds\tireSqueak.wav">
       <Name>tireSqueak</Name>
       <Importer>WavImporter</Importer>
