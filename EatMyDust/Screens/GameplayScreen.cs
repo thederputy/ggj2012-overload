@@ -321,7 +321,7 @@ namespace EatMyDust
                     }
                 }
 
-                score += (int)Math.Round(Math.Abs(playerOne.Velocity.X) + Math.Abs(playerOne.Velocity.Y) + Math.Abs(playerTwo.Velocity.X) + Math.Abs(playerTwo.Velocity.Y));
+                score += (int)(Math.Ceiling(0.1f*ScrollSpeed));   //TODO: getting no score on the grass - is this awful?
 
 
                 // Check for game over state
@@ -481,7 +481,6 @@ namespace EatMyDust
             Track.TrackAreaType player2Area = track.GetAreaAtPosition(new Vector2(playerTwo.boundingRect.Center.X, playerTwo.boundingRect.Center.Y));
             if (player1Area == Track.TrackAreaType.None || player2Area == Track.TrackAreaType.None)
             {
-                ScrollSpeed = 0;
                 GameOver();
             }
             else if (player1Area == Track.TrackAreaType.Grass || player2Area == Track.TrackAreaType.Grass)
@@ -547,6 +546,8 @@ namespace EatMyDust
         private void GameOver()
         {
             this.ScrollSpeed = 0;
+            playerOne.Velocity = Vector2.Zero;
+            playerTwo.Velocity = Vector2.Zero;
             this.ExitScreen();
 
             GamePad.SetVibration(PlayerIndex.One, 0, 0);
