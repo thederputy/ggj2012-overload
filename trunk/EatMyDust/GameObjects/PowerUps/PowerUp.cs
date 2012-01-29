@@ -51,6 +51,7 @@ namespace EatMyDust.GameObjects
             textureFiles.Add("Sprites/Powerups/star");
             texture = gameplayScreen.ScreenManager.Game.Content.Load<Texture2D>(textureFiles[(int)currentType]);
             expired = false;
+            Position2 = new Vector2(rand.Next(300, 980), rand.Next(225, 400));
             base.Initialize();
         }
 
