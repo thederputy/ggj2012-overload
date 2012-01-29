@@ -510,8 +510,8 @@ namespace EatMyDust
 
 
             //top bars
-            spriteBatch.Draw(blank, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width / 2 - (int)(FUEL_BAR_HEIGHT* playerOne.getFuelPercent()), FUEL_BAR_WIDTH, (int)(FUEL_BAR_HEIGHT* playerOne.getFuelPercent()), FUEL_BAR_WIDTH-3), playerOneColor);
-            spriteBatch.Draw(blank, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width / 2, FUEL_BAR_WIDTH, (int)(FUEL_BAR_HEIGHT* playerTwo.getFuelPercent()), FUEL_BAR_WIDTH-3), playerTwoColor);
+            spriteBatch.Draw(blank, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width / 2 - (int)(FUEL_BAR_HEIGHT * playerOne.getFuelPercent()), FUEL_BAR_WIDTH, (int)(FUEL_BAR_HEIGHT* playerOne.getFuelPercent()), FUEL_BAR_WIDTH), playerOneColor);
+            spriteBatch.Draw(blank, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width / 2, FUEL_BAR_WIDTH, (int)(FUEL_BAR_HEIGHT* playerTwo.getFuelPercent()), FUEL_BAR_WIDTH), playerTwoColor);
             spriteBatch.Draw(gasBarLH, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width / 2 - (FUEL_BAR_HEIGHT+FUEL_BAR_INC), FUEL_BAR_WIDTH, FUEL_BAR_HEIGHT + FUEL_BAR_INC, FUEL_BAR_WIDTH), Color.White);
             spriteBatch.Draw(gasBarRH, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width / 2, FUEL_BAR_WIDTH, FUEL_BAR_HEIGHT + FUEL_BAR_INC, FUEL_BAR_WIDTH), Color.White);
             
@@ -662,6 +662,9 @@ namespace EatMyDust
             powerSources.Clear();
             obstacles.Clear();
             this.ExitScreen();
+
+            if (engineInstance != null)
+                SoundManager.stopSound(engineInstance);
 
             GamePad.SetVibration(PlayerIndex.One, 0, 0);
             GamePad.SetVibration(PlayerIndex.Two, 0, 0);
