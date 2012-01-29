@@ -33,6 +33,16 @@ namespace EatMyDust
         public static readonly float GrassScrollSpeed = 8.0f;
         public static readonly float BoostScrollSpeed = 25.0f;
 
+        public static readonly float PowerSourceDropTime = 0.1f;
+        public static readonly float PowerUpDropTime = 8f;
+
+        public static readonly float BarricadeSpawnTimeMin = 10f;
+        public static readonly float BarricadeSpawnTimeMax = 20f;
+
+        public static readonly Color playerOneColor = Color.Red;
+        public static readonly Color playerTwoColor = Color.Yellow;
+
+
         #endregion
         #region Fields
 
@@ -81,7 +91,6 @@ namespace EatMyDust
 
         List<PowerSource> powerSources;
         TimeSpan dropTimer;
-        const int dropInterval = 800; //milliseconds
 
         List<PowerUp> powerUps;
         TimeSpan powerupTimer;
@@ -165,7 +174,7 @@ namespace EatMyDust
             // it should not try to catch up.
             ScreenManager.Game.ResetElapsedTime();
 
-            dropTimer = TimeSpan.FromMilliseconds(dropInterval);
+            dropTimer = TimeSpan.FromSeconds(PowerSourceDropTime);
             powerSources = new List<PowerSource>();
 
             powerUps = new List<PowerUp>();
@@ -177,11 +186,11 @@ namespace EatMyDust
             pup.Position2 = new Vector2(ScreenManager.GraphicsDevice.Viewport.Width / 4, ScreenManager.GraphicsDevice.Viewport.Height / 4);
             powerUps.Add(pup);
             */
-            powerupTimer = TimeSpan.FromSeconds(10);
+            powerupTimer = TimeSpan.FromSeconds(PowerUpDropTime);
 
             obstacles = new List<Obstacle>();
             obstacleTimer = TimeSpan.FromSeconds(5);
-            barricadeTimer = TimeSpan.FromSeconds(2);
+            barricadeTimer = TimeSpan.FromSeconds(BarricadeSpawnTimeMax);
             // Add the game components to the game
             // This allows each component's Initialize, Update, Draw to get called automatically.
             ScreenManager.Game.Components.Add(inputManager);
@@ -254,13 +263,13 @@ namespace EatMyDust
                 bool gameStarted = playerOne.started || playerTwo.started;
                 if (dropTimer <= TimeSpan.FromSeconds(0))
                 {
-                    dropTimer = TimeSpan.FromMilliseconds(dropInterval);
+                    dropTimer = TimeSpan.FromSeconds(PowerSourceDropTime);
                     if (gameStarted)
                     {
-                        PowerSource ps = new PowerSource(this, playerOne.Position2 + new Vector2(0.5f * playerOne.texture.Width, playerOne.texture.Height), playerOne, Color.Yellow);
+                        PowerSource ps = new PowerSource(this, playerOne.Position2 + new Vector2(0.5f * playerOne.texture.Width, playerOne.texture.Height), playerOne, playerOneColor);
                         ps.Position2 += new Vector2(-0.5f * ps.texture.Width, -0.5f * ps.texture.Height);
                         powerSources.Add(ps);
-                        ps = new PowerSource(this, playerTwo.Position2 + new Vector2(0.5f * playerTwo.texture.Width, playerTwo.texture.Height), playerTwo, Color.Red);
+                        ps = new PowerSource(this, playerTwo.Position2 + new Vector2(0.5f * playerTwo.texture.Width, playerTwo.texture.Height), playerTwo, playerTwoColor);
                         ps.Position2 += new Vector2(-0.5f * ps.texture.Width, -0.5f * ps.texture.Height);
                         powerSources.Add(ps);
                     }
@@ -291,7 +300,7 @@ namespace EatMyDust
                 powerupTimer -= gameTime.ElapsedGameTime;
                 if (powerupTimer <= TimeSpan.FromSeconds(0))
                 {
-                    powerupTimer = TimeSpan.FromSeconds(8);
+                    powerupTimer = TimeSpan.FromSeconds(PowerUpDropTime);
 
                     if (gameStarted)
                     {
@@ -324,7 +333,7 @@ namespace EatMyDust
                 barricadeTimer -= gameTime.ElapsedGameTime;
                 if (barricadeTimer <= TimeSpan.FromSeconds(0))
                 {
-                    barricadeTimer = TimeSpan.FromSeconds(rand.Next(2, 3));
+                    barricadeTimer = TimeSpan.FromSeconds(BarricadeSpawnTimeMin + rand.NextDouble()*(BarricadeSpawnTimeMax-BarricadeSpawnTimeMin) );
                     if (gameStarted)
                     {
                         Barricade bar = new Barricade(this);
@@ -414,8 +423,8 @@ namespace EatMyDust
             //TODO: replace with road drawablegamecomponent draw call
             //spriteBatch.Draw(road, new Rectangle(0, 0, 1024, 768), Color.White);
             
-            playerOne.Draw(spriteBatch, Color.Red);
-            playerTwo.Draw(spriteBatch, Color.Yellow);
+            playerOne.Draw(spriteBatch, playerOneColor);
+            playerTwo.Draw(spriteBatch, playerTwoColor);
             
 
             //Debug
@@ -454,8 +463,8 @@ namespace EatMyDust
 
 
             //top bars
-            spriteBatch.Draw(blank, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width / 2 - (int)(FUEL_BAR_WIDTH* playerOne.getFuelPercent()), FUEL_BAR_HEIGHT, (int)(FUEL_BAR_WIDTH* playerOne.getFuelPercent()), FUEL_BAR_HEIGHT-3), Color.DarkRed);
-            spriteBatch.Draw(blank, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width / 2, FUEL_BAR_HEIGHT, (int)(FUEL_BAR_WIDTH* playerTwo.getFuelPercent()), FUEL_BAR_HEIGHT-3), Color.Yellow);
+            spriteBatch.Draw(blank, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width / 2 - (int)(FUEL_BAR_WIDTH* playerOne.getFuelPercent()), FUEL_BAR_HEIGHT, (int)(FUEL_BAR_WIDTH* playerOne.getFuelPercent()), FUEL_BAR_HEIGHT-3), playerOneColor);
+            spriteBatch.Draw(blank, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width / 2, FUEL_BAR_HEIGHT, (int)(FUEL_BAR_WIDTH* playerTwo.getFuelPercent()), FUEL_BAR_HEIGHT-3), playerTwoColor);
             spriteBatch.Draw(gasBarLH, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width / 2 - (FUEL_BAR_WIDTH+FUEL_BAR_INC), FUEL_BAR_HEIGHT, FUEL_BAR_WIDTH + FUEL_BAR_INC, FUEL_BAR_HEIGHT), Color.White);
             spriteBatch.Draw(gasBarRH, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width / 2, FUEL_BAR_HEIGHT, FUEL_BAR_WIDTH + FUEL_BAR_INC, FUEL_BAR_HEIGHT), Color.White);
         
