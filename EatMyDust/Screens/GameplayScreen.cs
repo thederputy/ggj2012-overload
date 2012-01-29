@@ -655,7 +655,6 @@ namespace EatMyDust
             powerUps.Clear();
             powerSources.Clear();
             obstacles.Clear();
-            //gameOverCondition = false;
             this.ExitScreen();
 
             GamePad.SetVibration(PlayerIndex.One, 0, 0);
