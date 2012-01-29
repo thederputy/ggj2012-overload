@@ -262,7 +262,8 @@ namespace GameStateManagement.GameObjects
             {
                 spinningOut = true;
                 //body.SetTransform(body.Position, (float)(body.Rotation + Math.PI / 16));
-                body.SetAngularVelocity((float)(Math.PI * 2 + Math.PI/32));
+                //body.SetAngularVelocity((float)(Math.PI * 2 + Math.PI/32));
+                body.SetAngularVelocity((float)(Math.PI/16));
                 spinDuration = TimeSpan.FromSeconds(1);
             }
         }

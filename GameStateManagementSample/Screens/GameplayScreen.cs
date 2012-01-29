@@ -399,7 +399,7 @@ namespace GameStateManagement
 
                 if (bNodeA is PlayerCar && bNodeB is PlayerCar)
                 {
-                    ((PlayerCar)bNodeA).fuel = 0;
+                    ((PlayerCar)bNodeA).SpinOut();
                 }
             }
         }
@@ -423,8 +423,9 @@ namespace GameStateManagement
             if (ps.createdBy != p)
             {
                 p.AddFuel();
-                powerSources.Remove(ps);
-                ScreenManager.Game.Components.Remove(ps);
+                ps.expired = true;
+                //powerSources.Remove(ps);
+                //ScreenManager.Game.Components.Remove(ps);
             }
         }
     }
