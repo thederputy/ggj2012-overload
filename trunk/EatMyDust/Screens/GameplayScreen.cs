@@ -598,12 +598,10 @@ namespace EatMyDust
                 if (p.createdBy != playerOne && playerOne.boundingRect.Intersects(p.boundingRect))
                 {
                     FuelUp(playerOne, p);
-                    score += 10;
                 }
                 if (p.createdBy != playerTwo && playerTwo.boundingRect.Intersects(p.boundingRect))
                 {
                     FuelUp(playerTwo, p);
-                    score += 10;
                 }
             }
             foreach (PowerUp pup in powerUps)
