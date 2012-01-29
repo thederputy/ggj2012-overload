@@ -136,6 +136,11 @@ namespace EatMyDust
             PowerUp pup = new PowerUp(this, PowerUp.Type.PositionSwap);
             pup.Position2 = Vector2.Zero;
             powerUps.Add(pup);
+
+            pup = new PowerUp(this, PowerUp.Type.SpeedBoost);
+            pup.Position2 = new Vector2(ScreenManager.GraphicsDevice.Viewport.Width / 4, ScreenManager.GraphicsDevice.Viewport.Height / 4);
+            powerUps.Add(pup);
+            
             
 
             // Add the game components to the game
@@ -184,11 +189,6 @@ namespace EatMyDust
         {
             base.Update(gameTime, otherScreenHasFocus, false);
 
-            
-           
-
-
-
             CheckForCollisions();
             // Gradually fade in or out depending on whether we are covered by the pause screen.
             if (coveredByOtherScreen)
@@ -213,6 +213,15 @@ namespace EatMyDust
                     {
                         ScreenManager.Game.Components.Remove(powerSources[i]);
                         powerSources.Remove(powerSources[i]);
+                        i--;
+                    }
+                }
+                for (int i = 0; i < powerUps.Count; i++)
+                {
+                    if (powerUps[i].expired)
+                    {
+                        ScreenManager.Game.Components.Remove(powerUps[i]);
+                        powerUps.Remove(powerUps[i]);
                         i--;
                     }
                 }
@@ -418,6 +427,40 @@ namespace EatMyDust
                 {
                     FuelUp(playerTwo, p);
                 }
+            }
+            foreach (PowerUp pup in powerUps)
+            {
+                // Either player powerups
+                if (playerOne.boundingRect.Intersects(pup.boundingRect) || playerTwo.boundingRect.Intersects(pup.boundingRect))
+                {
+                    if (pup.currentType == PowerUp.Type.PositionSwap)
+                    {
+                        Vector2 tmp = playerOne.Position2;
+                        playerOne.Position2 = playerTwo.Position2;
+                        playerTwo.Position2 = tmp;
+                        pup.expired = true;
+                    }
+                    
+                    // Single player powerups
+                    if (playerOne.boundingRect.Intersects(pup.boundingRect))
+                    {
+                        if (pup.currentType == PowerUp.Type.SpeedBoost)
+                        {
+                            playerOne.boosting = true;
+                            pup.expired = true;
+                        }
+                    }
+                    if (playerTwo.boundingRect.Intersects(pup.boundingRect))
+                    {
+                        if (pup.currentType == PowerUp.Type.SpeedBoost)
+                        {
+                            playerTwo.boosting = true;
+                            pup.expired = true;
+                        }
+                    }
+                }
+               
+
             }
 
             //TODO: check for collisions between the players and powerups
