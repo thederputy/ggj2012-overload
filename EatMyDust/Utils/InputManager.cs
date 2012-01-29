@@ -48,7 +48,10 @@ namespace EatMyDust
             currentMouseState = Mouse.GetState();
 
             //get gamepad state
-            lastGamePadStates = currentGamePadStates;
+            lastGamePadStates[0] = currentGamePadStates[0];
+            lastGamePadStates[1] = currentGamePadStates[1];
+            lastGamePadStates[2] = currentGamePadStates[2];
+            lastGamePadStates[3] = currentGamePadStates[3];
             currentGamePadStates[0] = GamePad.GetState(PlayerIndex.One);
             currentGamePadStates[1] = GamePad.GetState(PlayerIndex.Two);
             currentGamePadStates[2] = GamePad.GetState(PlayerIndex.Three);
@@ -64,6 +67,7 @@ namespace EatMyDust
         /// </summary>
         /// <param name="key">The Key to check.</param>
         /// <param name="button">The Button to check.</param>
+        /// <param name="playerIndex">The player index to check, 0-3.</param>
         /// <returns>True if the Key or Button is pressed for the first time.</returns>
         public bool IsPressed(Keys key, Buttons button, int playerIndex)
         {
