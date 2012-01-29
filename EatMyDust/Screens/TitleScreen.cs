@@ -116,7 +116,7 @@ namespace EatMyDust
             if (CAR_DRIVING)
             {
                 previousCarLocations.Add(carLocation);
-                carVelocity.X += .04f;
+                carVelocity.X += .16f;
                 carLocation.X -= carVelocity.X;
                 base.Update(gameTime, otherScreenHasFocus, coveredByOtherScreen);
 
