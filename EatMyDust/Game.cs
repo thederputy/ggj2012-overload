@@ -10,7 +10,12 @@
 #region Using Statements
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Storage;
 using System;
+
+#if XBOX
+using Microsoft.Xna.Framework.GamerServices;
+#endif
 #endregion
 
 namespace EatMyDust
@@ -65,6 +70,11 @@ namespace EatMyDust
 
             Components.Add(screenManager);
 
+#if XBOX
+            // Required for !Guide.IsVisible calls
+            this.Components.Add(new GamerServicesComponent(this));
+#endif
+
             // Activate the first screens.
             // TJH PUT THESE BACK TO DO THE MENUS
             screenManager.AddScreen(new BackgroundScreen(), null);
@@ -90,7 +100,6 @@ namespace EatMyDust
 
         #region Draw
 
-
         /// <summary>
         /// This is called when the game should draw itself.
         /// </summary>
@@ -98,21 +107,44 @@ namespace EatMyDust
         {
             graphics.GraphicsDevice.Clear(Color.Black);
 
-            // The real drawing happens inside the screen manager component.
-
-            //System.TimeSpan hey = new GameTimeSpanTime();
-            
-           //int test = 45;
-            //GameTime.ElapsedGameTime;
-            //System.TimeSpan.
-           //test++;
-
-          
-           //System.Console.WriteLine(test);
-
             base.Draw(gameTime);
         }
 
+        protected override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
+
+            // Will prompt at start of game for a storage device
+            if (HighScoreManager.storageDevice == null)
+            {
+#if WINDOWS
+                if (!HighScoreManager.deviceRequested)
+                {
+                    HighScoreManager.deviceRequested = true;
+                    HighScoreManager.syncResult = StorageDevice.BeginShowSelector(PlayerIndex.One, null, null);
+                }
+#elif XBOX
+                if ((!Guide.IsVisible) && !HighScoreManager.deviceRequested)
+                {
+                    HighScoreManager.deviceRequested = true;
+                    HighScoreManager.syncResult = StorageDevice.BeginShowSelector(PlayerIndex.One, null, null);
+                }
+#endif
+            }
+
+            if ((HighScoreManager.deviceRequested) && (HighScoreManager.syncResult.IsCompleted))
+            {
+                // Storage device is chosen, save the reference to it.
+                HighScoreManager.deviceRequested = false;
+                HighScoreManager.GetStorageDevice();
+            }
+
+            // If there are no more screens, exit the game
+            if (screenManager.GetScreens().Length == 0)
+            {
+                this.Exit();
+            }
+        }
 
         #endregion
     }
