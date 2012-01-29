@@ -223,6 +223,9 @@ namespace EatMyDust.GameObjects
                 velocity.Normalize();
             }
 
+            if (playerIndex == 1)
+                velocity = Vector2.Multiply(velocity, 0.75f);
+
             if (inputManager.IsHeld(keys[4], Buttons.A, playerIndex))
                 velocity = Vector2.Multiply(velocity, TURBO_MULTIPLIER);
             
