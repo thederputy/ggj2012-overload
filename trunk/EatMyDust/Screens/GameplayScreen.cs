@@ -248,6 +248,10 @@ namespace EatMyDust
                         powerUps.Remove(powerUps[i]);
                         i--;
                     }
+                    else
+                    {
+                        powerUps[i].Position2 += new Vector2(0, ScrollSpeed/2);
+                    }
                 }
 
                 powerupTimer -= gameTime.ElapsedGameTime;
