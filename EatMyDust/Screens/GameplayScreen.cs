@@ -207,7 +207,12 @@ namespace EatMyDust
                 CheckForCollisions();
 
                 if (playerOne.fuel <= 0 && playerTwo.fuel <= 0)
-                    track.Speed = 0f;
+                    ScrollSpeed = 0f;
+                else if (playerOne.boosting || playerTwo.boosting)
+                    ScrollSpeed = 20f;
+                else if (playerOne.Velocity.LengthSquared() > 0f || playerTwo.Velocity.LengthSquared() > 0f)
+                    ScrollSpeed = 10f;
+
 
 
                 dropTimer -= gameTime.ElapsedGameTime;

@@ -45,6 +45,8 @@ namespace EatMyDust.GameObjects
                 expired = true;
             handleFading();
 
+            position.Y += gameplayScreen.ScrollSpeed;
+
             base.Update(gameTime);
         }
 
