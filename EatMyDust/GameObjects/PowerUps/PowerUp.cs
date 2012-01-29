@@ -26,10 +26,17 @@ namespace EatMyDust.GameObjects.PowerUps
             SpeedBoost
         }
 
-        public PowerUp(GameplayScreen gameplayScreen)
+        public List<String> textureFiles;
+
+        public Type currentType;
+
+        public PowerUp(GameplayScreen gameplayScreen, Type type)
             : base(gameplayScreen)
         {
             // TODO: Construct any child components here
+            currentType = type;
+            textureFiles = new List<string>();
+            textureFiles.Add("Sprites\\Powerups\\positionswap");
         }
 
         /// <summary>
@@ -39,6 +46,7 @@ namespace EatMyDust.GameObjects.PowerUps
         public override void Initialize()
         {
             // TODO: Add your initialization code here
+            texture = gameplayScreen.ScreenManager.Game.Content.Load<Texture2D>(textureFiles[(int)currentType]);
 
             base.Initialize();
         }
