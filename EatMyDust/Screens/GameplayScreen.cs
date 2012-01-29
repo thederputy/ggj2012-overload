@@ -445,8 +445,15 @@ namespace EatMyDust
 
         private void GameOver()
         {
-            ScreenManager.AddScreen(new MessageBoxScreen("Game Over", true), 0);
             this.ExitScreen();
+            
+            //Replace call to message box with high score entry screen
+            LoadingScreen.Load(ScreenManager, false, null, new BackgroundScreen(),
+                                                           new MainMenuScreen(),
+                                                           new MessageBoxScreen("Game Over", true));
+            //ScreenManager.AddScreen(new MainMenuScreen(), null);
+            //ScreenManager.AddScreen(new MessageBoxScreen("Game Over", true), 0);
+            
         }
     }
 }
