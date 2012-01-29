@@ -238,6 +238,8 @@ namespace EatMyDust.GameObjects
             {
                 //SoundManager.playSound(jesusHornInstance, 0.1f);
                 velocity = Vector2.Zero;
+                GamePad.SetVibration(PlayerIndex.One, 0f, 0f);
+                GamePad.SetVibration(PlayerIndex.Two, 0f, 0f);
             }
             if (fuelTimer <= TimeSpan.FromSeconds(0))
             {
@@ -270,13 +272,8 @@ namespace EatMyDust.GameObjects
             }
             else
             {
-                if (started)
-                {
-                    float rumbleLeft = (float)1 / getFuelPercent();
-                    float rumbleRight = 0;//(float)1 / getFuelPercent();
-                    GamePad.SetVibration(PlayerIndex.One, rumbleLeft, rumbleRight);
-                    GamePad.SetVibration(PlayerIndex.Two, rumbleLeft, rumbleRight);
-                }
+                GamePad.SetVibration(PlayerIndex.One, 0f, 0f);
+                GamePad.SetVibration(PlayerIndex.Two, 0f, 0f);
             }
 
             if (bfTimer <= TimeSpan.FromSeconds(0))
@@ -291,8 +288,6 @@ namespace EatMyDust.GameObjects
 
             position.X = futurePosition.X;
             position.Y = futurePosition.Y;
-
-            //position += velocity * 8;
 
             tempX = (int)(Position3.X + camera.View.Translation.X) * -1;
             tempY = (int)(Position3.Y + camera.View.Translation.Y) * -1;
