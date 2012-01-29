@@ -46,6 +46,7 @@ namespace EatMyDust.GameObjects
         private TimeSpan bfTimer;
         Random rnd = new Random();
         private const float turboMultiplier = 1.5f;
+        protected bool started = false;
 
 
         TimeSpan spinDuration;
@@ -173,7 +174,11 @@ namespace EatMyDust.GameObjects
                 isMoving = true;
             }
 
-            if(isMoving && fuel > 0 && engineInstance.State == SoundState.Stopped) SoundManager.playSound(startupInstance, 0.6f);
+            if (isMoving && fuel > 0 && !started)
+            {
+                SoundManager.playSound(startupInstance, 0.6f);
+                started = true;
+            }
             if(isMoving && fuel > 0) SoundManager.playSound(engineInstance, 0.6f);
             else SoundManager.stopSound(engineInstance);
 
