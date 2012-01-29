@@ -515,12 +515,14 @@ namespace EatMyDust
         {
             this.ScrollSpeed = 0;
             this.ExitScreen();
-            
+
+            GamePad.SetVibration(PlayerIndex.One, 0, 0);
+            GamePad.SetVibration(PlayerIndex.Two, 0, 0);
             //Replace call to message box with high score entry screen
             LoadingScreen.Load(ScreenManager, false, null, new BackgroundScreen(),
                                                            new MainMenuScreen(),
-                                                           new HighScoreScreen(ScreenManager.Game));/*,
-                                                           new HighScoreEntryScreen());*/
+                                                           new HighScoreScreen(ScreenManager.Game),
+                                                           new HighScoreEntryScreen(score));
         }
     }
 }

@@ -240,6 +240,8 @@ namespace EatMyDust
         {
             this.otherScreenHasFocus = otherScreenHasFocus;
 
+            inputManager.Update(gameTime);
+
             if (isExiting)
             {
                 // If the screen is going away to die, it should transition off.

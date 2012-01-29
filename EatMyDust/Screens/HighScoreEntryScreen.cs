@@ -49,8 +49,11 @@ namespace EatMyDust
             if (Content == null)
                 Content = new ContentManager(ScreenManager.Game.Services, "Content");
 
+            // Input
+            inputManager = new InputManager(ScreenManager.Game);
+
             menuFont = Content.Load<SpriteFont>("menuFont");
-            initialsFont = Content.Load<SpriteFont>("initialsFont");
+            initialsFont = Content.Load<SpriteFont>("InitialsFont");
             selectionIndicator = Content.Load<Texture2D>("blank");
 
             // Get the screen size and width
@@ -146,7 +149,6 @@ namespace EatMyDust
         public override void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
         {
             base.Update(gameTime, otherScreenHasFocus, coveredByOtherScreen);
-            inputManager.Update(gameTime);
         }
 
         public override void Draw(GameTime gameTime)
