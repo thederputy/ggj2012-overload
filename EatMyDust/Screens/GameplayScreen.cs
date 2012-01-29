@@ -293,8 +293,8 @@ namespace EatMyDust
                 
                 //player collision!
                 Vector2 difference = playerTwo.Position2 - playerOne.Position2;
-                playerTwo.Position2 += difference;
-                playerOne.Position2 -= difference;
+                playerTwo.Position2 += difference / 2;
+                playerOne.Position2 -= difference / 2;
                 playerOne.Velocity *= -1;
                 playerTwo.Velocity *= -1;
 
