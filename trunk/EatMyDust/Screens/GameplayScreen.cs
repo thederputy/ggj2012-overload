@@ -100,6 +100,10 @@ namespace EatMyDust
         List<PowerSource> powerSources;
         TimeSpan dropTimer;
 
+        TimeSpan flashTimerP1;
+        TimeSpan flashTimerP2;
+        int flashSpeed = 2000;
+
         List<PowerUp> powerUps;
         TimeSpan powerupTimer;
         const int powerupDropInterval = 5000;
@@ -108,7 +112,7 @@ namespace EatMyDust
         TimeSpan obstacleTimer;
         TimeSpan barricadeTimer;
 
-        const int BILLBOARD_INSET = 60;
+        const int BILLBOARD_INSET = 80;
         float billBoard_Y;
 
         Random rand;
@@ -119,6 +123,7 @@ namespace EatMyDust
         const int FUEL_BAR_INSET = 30;
         const int FUEL_BAR_INC = 70;
         float waveDDisplace = 0;
+        const int BILLBOARD_UPPERSET_Y_INSET = 400;
 
 
         // sounds effects and music         
@@ -205,7 +210,8 @@ namespace EatMyDust
             powerUps.Add(pup);
             */
             powerupTimer = TimeSpan.FromSeconds(PowerUpDropTime);
-
+            flashTimerP1 = TimeSpan.FromMilliseconds(flashSpeed);
+            flashTimerP2 = TimeSpan.FromMilliseconds(flashSpeed);
             obstacles = new List<Obstacle>();
             obstacleTimer = TimeSpan.FromSeconds(ObstacleSpawnTimeMax);
             barricadeTimer = TimeSpan.FromSeconds(BarricadeSpawnTimeMax);
@@ -461,7 +467,7 @@ namespace EatMyDust
             
 
             //Debug
-            spriteBatch.DrawString(gameFont, "Score: " + score.ToString(), new Vector2(25), Color.White);
+            //spriteBatch.DrawString(gameFont, "Score: " + score.ToString(), new Vector2(25), Color.White);
             //spriteBatch.DrawString(gameFont, String.Format("Pos: {0}", playerTwo.Position2.ToString()), playerTwo.Position2, Color.White);
             
 
@@ -495,9 +501,12 @@ namespace EatMyDust
             
             billBoard_Y += ScrollSpeed;
 
-            //billBoardLeft
+            //billBoard
             spriteBatch.Draw(billBoardLeft, new Rectangle(BILLBOARD_INSET, (int)(billBoard_Y), billBoardLeft.Width, billBoardLeft.Height), Color.White);
             spriteBatch.Draw(billBoardRight, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width - billBoardRight.Width - BILLBOARD_INSET, (int)(billBoard_Y), billBoardLeft.Width, billBoardLeft.Height), Color.White);
+
+            spriteBatch.Draw(billBoardLeft, new Rectangle(BILLBOARD_INSET, (int)(billBoard_Y) - BILLBOARD_UPPERSET_Y_INSET, billBoardLeft.Width, billBoardLeft.Height), Color.White);
+            spriteBatch.Draw(billBoardRight, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width - billBoardRight.Width - BILLBOARD_INSET, (int)(billBoard_Y) - BILLBOARD_UPPERSET_Y_INSET, billBoardLeft.Width, billBoardLeft.Height), Color.White);
 
 
             //if (billBoard_Y >= billBoardLeft.Height * 5) billBoard_Y = -billBoardLeft.Height;
@@ -512,9 +521,28 @@ namespace EatMyDust
             //top bars
             spriteBatch.Draw(blank, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width / 2 - (int)(FUEL_BAR_HEIGHT * playerOne.getFuelPercent()), FUEL_BAR_WIDTH, (int)(FUEL_BAR_HEIGHT* playerOne.getFuelPercent()), FUEL_BAR_WIDTH), playerOneColor);
             spriteBatch.Draw(blank, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width / 2, FUEL_BAR_WIDTH, (int)(FUEL_BAR_HEIGHT* playerTwo.getFuelPercent()), FUEL_BAR_WIDTH), playerTwoColor);
-            spriteBatch.Draw(gasBarLH, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width / 2 - (FUEL_BAR_HEIGHT+FUEL_BAR_INC), FUEL_BAR_WIDTH, FUEL_BAR_HEIGHT + FUEL_BAR_INC, FUEL_BAR_WIDTH), Color.White);
-            spriteBatch.Draw(gasBarRH, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width / 2, FUEL_BAR_WIDTH, FUEL_BAR_HEIGHT + FUEL_BAR_INC, FUEL_BAR_WIDTH), Color.White);
-            
+
+            flashTimerP1 -= gameTime.ElapsedGameTime;
+            Color c;
+            c = Color.White;
+            if (flashTimerP1 <= TimeSpan.FromSeconds(0)){
+                flashTimerP1 = TimeSpan.FromMilliseconds(flashSpeed * playerOne.getFuelPercent());
+                c = Color.Red;
+            }
+
+            spriteBatch.Draw(gasBarLH, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width / 2 - (FUEL_BAR_HEIGHT + FUEL_BAR_INC), FUEL_BAR_WIDTH, FUEL_BAR_HEIGHT + FUEL_BAR_INC, FUEL_BAR_WIDTH + 5), c);
+
+            flashTimerP2 -= gameTime.ElapsedGameTime;
+            c = Color.White;
+            if (flashTimerP2 <= TimeSpan.FromSeconds(0))
+            {
+                flashTimerP2 = TimeSpan.FromMilliseconds(flashSpeed * playerTwo.getFuelPercent());
+                c = Color.Red;
+            }
+
+            spriteBatch.Draw(gasBarRH, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width / 2, FUEL_BAR_WIDTH, FUEL_BAR_HEIGHT + FUEL_BAR_INC, FUEL_BAR_WIDTH + 5), c);
+
+            spriteBatch.DrawString(gameFont, "Score: " + score.ToString(), new Vector2(25), Color.White);
             //draw helper
             if (!gameStarted)
             {

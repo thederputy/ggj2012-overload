@@ -29,6 +29,7 @@ namespace EatMyDust.GameObjects
         protected int CAMERA_PAN_SPEED = 5;//5
         protected const int VERT_OFFSET = 175;//175
         protected float speed;
+        protected int PreviousFuel;
         public float Speed
         {
             get { return speed; }
@@ -261,7 +262,7 @@ namespace EatMyDust.GameObjects
                 fuelTimer = TimeSpan.FromSeconds(1);
 
             }
-            else
+            else if(started)
                 fuelTimer -= gameTime.ElapsedGameTime;
 
             if (boosting)
@@ -345,11 +346,11 @@ namespace EatMyDust.GameObjects
 
         public float getFuelPercent()
         {
-            //int temp = 1;
+            int temp = 1;
 
-            //if (fuelTimer.Milliseconds == 0) temp = 0;
-
-            return (float)fuel / (float)MAX_FUEL;// +((float)(fuelTimer.Milliseconds) / 1000 / (float)(MAX_FUEL));
+            if (fuelTimer.Milliseconds == 0) temp = 1 - (PreviousFuel-fuel);
+            PreviousFuel = fuel;
+            return (float)(fuel - temp) / (float)MAX_FUEL + ((float)(fuelTimer.Milliseconds) / 1000 / (float)(MAX_FUEL));
         }
 
         public void AddFuel()
