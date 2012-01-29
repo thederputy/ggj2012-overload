@@ -88,6 +88,9 @@ namespace EatMyDust
         Texture2D gasBarR;
         Texture2D gasBarLH;
         Texture2D gasBarRH;
+        Texture2D billBoardLeft;
+        Texture2D billBoardRight;
+        Texture2D waves;
         Texture2D explosion;
 
         Vector2 explosionPosition;
@@ -105,6 +108,9 @@ namespace EatMyDust
         TimeSpan obstacleTimer;
         TimeSpan barricadeTimer;
 
+        const int BILLBOARD_INSET = 60;
+        float billBoard_Y;
+
         Random rand;
 
         int FUEL_BAR_Y = 10; 
@@ -112,7 +118,9 @@ namespace EatMyDust
         int FUEL_BAR_HEIGHT = 30;
         const int FUEL_BAR_INSET = 30;
         const int FUEL_BAR_INC = 70;
-        
+        float waveDDisplace = 0;
+
+
         // sounds effects and music         
         SoundEffect collectPower; // BG Music
         SoundEffectInstance collectPowerInstance;
@@ -171,7 +179,11 @@ namespace EatMyDust
             gasBarR = this.content.Load<Texture2D>("Sprites/gasBar_B");
             gasBarLH = this.content.Load<Texture2D>("Sprites/gasBar_D");
             gasBarRH = this.content.Load<Texture2D>("Sprites/gasBar_C");
+            billBoardLeft = this.content.Load<Texture2D>("Sprites/billboardA");
+            billBoardRight = this.content.Load<Texture2D>("Sprites/billboardB");
+            waves = this.content.Load<Texture2D>("waves");
             explosion = this.content.Load<Texture2D>("Sprites/bigboom");
+
 
             track = new Track(this);
 
@@ -204,6 +216,8 @@ namespace EatMyDust
             //set fuel bar to use the whole screen
             FUEL_BAR_Y = ScreenManager.GraphicsDevice.Viewport.Height / 2;
             FUEL_BAR_HEIGHT = ScreenManager.GraphicsDevice.Viewport.Width / 4;
+            billBoard_Y = ScreenManager.GraphicsDevice.Viewport.Height - 300;
+            waveDDisplace = -waves.Height;
 
             //MUSIC AND SOUND LOADING
             
@@ -405,6 +419,19 @@ namespace EatMyDust
 
             SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
 
+
+
+            spriteBatch.Begin();
+            for(int i = (int)(waveDDisplace); i <= ScreenManager.GraphicsDevice.Viewport.Height + 200; i += waves.Height/2){
+               spriteBatch.Draw(waves, new Rectangle(0, i - 200, waves.Width, waves.Height/2), Color.White);
+            }
+            spriteBatch.End();
+            waveDDisplace = (waveDDisplace + ScrollSpeed) % (waves.Height / 2);
+            
+            //if (waveDDisplace >= 500) waveDDisplace = -waves.Height - 500 - waveDDisplace % (waves.Height/2);
+            
+
+
             // Drawing HUD stuff for now
             track.Draw(gameTime);
             spriteBatch.Begin(SpriteSortMode.Deferred, null, null, DepthStencilState.Default, null);
@@ -463,6 +490,17 @@ namespace EatMyDust
                 spriteBatch.Draw(explosion, explosionPosition, Color.White);
 
             Viewport viewPort = ScreenManager.GraphicsDevice.Viewport;
+
+
+            
+            billBoard_Y += ScrollSpeed;
+
+            //billBoardLeft
+            spriteBatch.Draw(billBoardLeft, new Rectangle(BILLBOARD_INSET, (int)(billBoard_Y), billBoardLeft.Width, billBoardLeft.Height), Color.White);
+            spriteBatch.Draw(billBoardRight, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width - billBoardRight.Width - BILLBOARD_INSET, (int)(billBoard_Y), billBoardLeft.Width, billBoardLeft.Height), Color.White);
+
+
+            //if (billBoard_Y >= billBoardLeft.Height * 5) billBoard_Y = -billBoardLeft.Height;
 
             //side bars
             //spriteBatch.Draw(blank, new Rectangle(FUEL_BAR_INSET, viewPort.Height - (int)(FUEL_BAR_Y * playerOne.getFuelPercent()), FUEL_BAR_HEIGHT, (int)(FUEL_BAR_WIDTH* playerOne.getFuelPercent() )), Color.DarkRed);

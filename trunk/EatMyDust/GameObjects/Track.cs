@@ -44,7 +44,7 @@ namespace EatMyDust.GameObjects
 
         protected override void LoadContent()
         {
-            texture = Game.Content.Load<Texture2D>("roadtile");
+            texture = Game.Content.Load<Texture2D>("roadtileB");
             mEffect = new BasicEffect(gameplayScreen.ScreenManager.GraphicsDevice);
             mEffect.LightingEnabled = false;
             mEffect.Texture = texture;

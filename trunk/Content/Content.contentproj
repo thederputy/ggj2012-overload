@@ -512,6 +512,20 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="waves.png">
+      <Name>waves</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="roadtileB.png">
+      <Name>roadtileB</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="Sprites\bigboom.png">
       <Name>bigboom</Name>
       <Importer>TextureImporter</Importer>
