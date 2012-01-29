@@ -3,7 +3,7 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
-namespace GameStateManagement
+namespace EatMyDust
 {
     public enum MouseButtons
     {
