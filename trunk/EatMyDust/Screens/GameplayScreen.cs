@@ -170,6 +170,7 @@ namespace EatMyDust
             gameFont = content.Load<SpriteFont>("gamefont");
 
             // Music
+            MediaPlayer.Stop();
             MediaPlayer.Play(ScreenManager.gameplayMusic);
             MediaPlayer.Volume = 0.25f;
 
