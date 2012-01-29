@@ -13,7 +13,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 #endregion
 
-namespace GameStateManagement
+namespace EatMyDust
 {
     /// <summary>
     /// Sample showing how to manage different game states, with transitions
@@ -21,7 +21,7 @@ namespace GameStateManagement
     /// menu. This main game class is extremely simple: all the interesting
     /// stuff happens in the ScreenManager component.
     /// </summary>
-    public class GameStateManagementGame : Microsoft.Xna.Framework.Game
+    public class EatMyDustGame : Microsoft.Xna.Framework.Game
     {
         #region Fields
 
@@ -45,7 +45,7 @@ namespace GameStateManagement
         /// <summary>
         /// The main game constructor.
         /// </summary>
-        public GameStateManagementGame()
+        public EatMyDustGame()
         {
             Content.RootDirectory = "Content";
 
@@ -127,7 +127,7 @@ namespace GameStateManagement
     {
         static void Main()
         {
-            using (GameStateManagementGame game = new GameStateManagementGame())
+            using (EatMyDustGame game = new EatMyDustGame())
             {
                 game.Run();
             }
