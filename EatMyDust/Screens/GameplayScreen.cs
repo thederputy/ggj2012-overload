@@ -286,12 +286,8 @@ namespace EatMyDust
             spriteBatch.Begin(SpriteSortMode.Deferred, null, null, DepthStencilState.Default, null);
 
             DrawGameScreen(spriteBatch, gameTime);
-
-            //FUEL_BAR_Y
-            //FUEL_BAR_HEIGHT
-
+            
             spriteBatch.End();
-
 
             if (TransitionPosition > 0 || pauseAlpha > 0)
             {
@@ -302,18 +298,9 @@ namespace EatMyDust
 
         protected void DrawGameScreen(SpriteBatch spriteBatch, GameTime gameTime)
         {
-            //TODO: replace with road drawablegamecomponent draw call
-            //spriteBatch.Draw(road, new Rectangle(0, 0, 1024, 768), Color.White);
-            
             playerOne.Draw(spriteBatch, Color.Blue);
             playerTwo.Draw(spriteBatch, Color.Red);
             
-
-            //Debug
-            //spriteBatch.DrawString(gameFont, String.Format("Pos: {0}", playerOne.Position2.ToString()), playerOne.Position2, Color.White);
-            //spriteBatch.DrawString(gameFont, String.Format("Pos: {0}", playerTwo.Position2.ToString()), playerTwo.Position2, Color.White);
-            
-
             //draw game items:
             foreach(PowerSource ps in powerSources)
             {
