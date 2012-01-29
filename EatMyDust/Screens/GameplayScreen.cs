@@ -542,7 +542,7 @@ namespace EatMyDust
 
             spriteBatch.Draw(gasBarRH, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width / 2, FUEL_BAR_WIDTH, FUEL_BAR_HEIGHT + FUEL_BAR_INC, FUEL_BAR_WIDTH + 5), c);
 
-            spriteBatch.DrawString(gameFont, "Score: " + score.ToString(), new Vector2(25), Color.White);
+            spriteBatch.DrawString(gameFont, score.ToString() + "m", new Vector2(25), Color.White);
             //draw helper
             if (!gameStarted)
             {

@@ -73,7 +73,7 @@ namespace EatMyDust
 
             sb.Begin();
 
-            sb.DrawString(font, "HIGH SCORES", new Vector2(600, 50), Color.White);
+            sb.DrawString(font, "LONGEST RUNS", new Vector2(600, 50), Color.White);
 
             int initialsX = 125;
             int scoreX = 325;
@@ -89,7 +89,7 @@ namespace EatMyDust
                     string initialsOne = currentPair.Value.Substring(0, 3);
                     string initialsTwo = currentPair.Value.Substring(3);
                     sb.DrawString(font, i++.ToString() + ". " + initialsOne + ", " + initialsTwo, new Vector2(initialsX, bothY), Color.White);
-                    sb.DrawString(font, currentPair.Key.ToString(), new Vector2(scoreX, bothY), Color.White);
+                    sb.DrawString(font, currentPair.Key.ToString() + "m", new Vector2(scoreX, bothY), Color.White);
                     bothY += 50;
                     if (i == 11)
                     {
