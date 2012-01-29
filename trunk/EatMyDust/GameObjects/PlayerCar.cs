@@ -60,19 +60,19 @@ namespace EatMyDust.GameObjects
         private int playerIndex;
 
         SoundEffect engineFX; // BG Music
-        SoundEffectInstance engineInstance;
+        public SoundEffectInstance engineInstance;
         SoundEffect honkFX; // BG Music
-        SoundEffectInstance honkInstance;
+        public SoundEffectInstance honkInstance;
         SoundEffect backFireFX; // BG Music
-        SoundEffectInstance backFireInstance;
+        public SoundEffectInstance backFireInstance;
         SoundEffect startupFX; // BG Music
-        SoundEffectInstance startupInstance;
+        public SoundEffectInstance startupInstance;
         SoundEffect jesusHornFX;
-        SoundEffectInstance jesusHornInstance;
+        public SoundEffectInstance jesusHornInstance;
         SoundEffect carEngineRevFX;
-        SoundEffectInstance carEngineRevInstance;
+        public SoundEffectInstance carEngineRevInstance;
         SoundEffect crashFX;
-        SoundEffectInstance crashInstance;
+        public SoundEffectInstance crashInstance;
 
         protected int backfireSoundRangeMax = 8;
         protected int backfireSoundRangeMin = 2;

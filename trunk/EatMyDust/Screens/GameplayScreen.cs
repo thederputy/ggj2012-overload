@@ -647,36 +647,44 @@ namespace EatMyDust
                 {
                     if (((Barricade)obs).CheckCollision(playerOne.boundingRect))
                     {
-                        if (!boosting)
-                            gameOverCondition = true;
                         obs.expired = true;
-                        explosionPosition = playerOne.Position2;
-                        SoundManager.playSound(ScreenManager.crashInstance, 0.6f);
+                        if (!boosting)
+                        {
+                            gameOverCondition = true;
+                            explosionPosition = playerOne.Position2;
+                            SoundManager.playSound(ScreenManager.crashInstance, 0.6f);
+                        }
                     }
                     if (((Barricade)obs).CheckCollision(playerTwo.boundingRect))
                     {
-                        if (!boosting)
-                            gameOverCondition = true;
                         obs.expired = true;
-                        explosionPosition = playerTwo.Position2;
-                        SoundManager.playSound(ScreenManager.crashInstance, 0.6f);
+                        if (!boosting)
+                        {
+                            gameOverCondition = true;
+                            explosionPosition = playerTwo.Position2;
+                            SoundManager.playSound(ScreenManager.crashInstance, 0.6f);
+                        }
                     }
                 }
                 if (playerOne.boundingRect.Intersects(obs.boundingRect))
                 {
-                    if (!boosting)
-                        gameOverCondition = true;
                     obs.expired = true;
-                    explosionPosition = playerOne.Position2;
-                    SoundManager.playSound(ScreenManager.crashInstance, 0.6f);
+                    if (!boosting)
+                    {
+                        gameOverCondition = true;
+                        explosionPosition = playerOne.Position2;
+                        SoundManager.playSound(ScreenManager.crashInstance, 0.6f);
+                    }
                 }
                 if (playerTwo.boundingRect.Intersects(obs.boundingRect))
                 {
-                    if (!boosting)
-                        gameOverCondition = true;
                     obs.expired = true;
-                    explosionPosition = playerTwo.Position2;
-                    SoundManager.playSound(ScreenManager.crashInstance, 0.6f);
+                    if (!boosting)
+                    {
+                        gameOverCondition = true;
+                        explosionPosition = playerTwo.Position2;
+                        SoundManager.playSound(ScreenManager.crashInstance, 0.6f);
+                    }
                 }
             }
         }
@@ -689,10 +697,12 @@ namespace EatMyDust
             powerUps.Clear();
             powerSources.Clear();
             obstacles.Clear();
-            this.ExitScreen();
+            if (playerOne.engineInstance != null)
+                SoundManager.stopSound(playerOne.engineInstance);
+            if (playerTwo.engineInstance != null)
+                SoundManager.stopSound(playerTwo.engineInstance);
 
-            if (engineInstance != null)
-                SoundManager.stopSound(engineInstance);
+            this.ExitScreen();
 
             GamePad.SetVibration(PlayerIndex.One, 0, 0);
             GamePad.SetVibration(PlayerIndex.Two, 0, 0);
