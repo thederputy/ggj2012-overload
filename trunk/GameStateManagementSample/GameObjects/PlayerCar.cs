@@ -172,7 +172,7 @@ namespace GameStateManagement.GameObjects
             else
                 fuelTimer -= gameTime.ElapsedGameTime;
             
-            body.ApplyLinearImpulse(velocity * 8, body.GetPosition());
+            body.ApplyLinearImpulse(velocity * 100, body.GetPosition());
 
             if (spinningOut)
             {
@@ -182,7 +182,6 @@ namespace GameStateManagement.GameObjects
                     body.SetAngularVelocity(0);
                     spinningOut = false;
                 }
-                
             }
 
             tempX = (int)(Position3.X + camera.View.Translation.X) * -1;
@@ -235,6 +234,7 @@ namespace GameStateManagement.GameObjects
             def.userData = this;
             def.position = position;
             def.type = BodyType.Dynamic;
+            def.linearDamping = 0.75f;
             body = physicsWorld.CreateBody(def);
             PolygonShape shape = new PolygonShape();
             shape.SetAsBox(1, 1);

@@ -63,7 +63,7 @@ namespace GameStateManagement
 
         List<PowerSource> powerSources;
         TimeSpan dropTimer;
-        const int dropInterval = 300; //milliseconds
+        const int dropInterval = 800; //milliseconds
 
         int FUEL_BAR_Y = 10; 
         int FUEL_BAR_HEIGHT = 30;
@@ -361,7 +361,6 @@ namespace GameStateManagement
             {
                 ps.Draw(spriteBatch, ps.color);
             }
-
 
             spriteBatch.End();
 
