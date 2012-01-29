@@ -24,13 +24,12 @@ namespace EatMyDust.GameObjects
 
         public override void Initialize()
         {
-            foreach (Tile t in tiles)
-                spriteBatch.Draw(t.texture, new Rectangle((int)t.position.X, (int)t.position.Y, (int)t.texture.Width, (int)t.texture.Height), Color.White);
+            //foreach (Tile t in tiles)
+                //spriteBatch.Draw(t.texture, new Rectangle((int)t.position.X, (int)t.position.Y, (int)t.texture.Width, (int)t.texture.Height), Color.White);
         }
 
         public void generateTiles()
         {
-        
         }
 
         public void generateNewTileSet()
