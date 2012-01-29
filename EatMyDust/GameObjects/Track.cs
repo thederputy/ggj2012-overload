@@ -12,8 +12,14 @@ namespace EatMyDust.GameObjects
     {
         public static readonly int mDivisions = 15;
         private VertexPositionColorTexture[] mVertices  = new VertexPositionColorTexture[mDivisions * 6];
+        private float[] mOffsets = new float[mDivisions + 1];
         private BasicEffect mEffect;
         private float mSpeed;
+
+        private float mNextOffsetDistance = 0;
+        private float mNextOffsetTime = 0;
+        private float mNextOffsetDelay = 0;
+
 
         public float Speed
         {
@@ -45,8 +51,8 @@ namespace EatMyDust.GameObjects
             mEffect.TextureEnabled = true;
             mEffect.VertexColorEnabled = true;
             Viewport viewPort = gameplayScreen.ScreenManager.GraphicsDevice.Viewport;
-            mEffect.World = Matrix.CreateTranslation(new Vector3(-0.5f * viewPort.Width, -0.5f * viewPort.Height, -99.0f));
-            mEffect.View = Matrix.CreateLookAt(3f * Vector3.UnitZ, Vector3.Zero, Vector3.Up);
+            mEffect.World = Matrix.CreateTranslation(new Vector3(-0.5f * viewPort.Width, -0.5f * viewPort.Height, -1.0f));
+            mEffect.View = Matrix.CreateLookAt(Vector3.UnitZ, Vector3.Zero, Vector3.Up);
             mEffect.Projection = Matrix.CreateOrthographic(viewPort.Width, viewPort.Height, 1f, 1000f);
             base.LoadContent();
         }
@@ -62,22 +68,48 @@ namespace EatMyDust.GameObjects
 
         private void GenerateVertices(float dt)
         {
-            //generate the vertices
             float viewportWidth = gameplayScreen.ScreenManager.GraphicsDevice.Viewport.Width;
             float viewportHeight = gameplayScreen.ScreenManager.GraphicsDevice.Viewport.Height;
+
+            //update the offsets
+            mNextOffsetDelay -= dt;
+            if (mNextOffsetDelay < 0f)
+            {
+                //randomise the next offset
+                Random random = new Random();
+                mNextOffsetTime = 0.5f + 3.0f * (float)random.NextDouble();
+                float roadFraction = 0.5f;
+                mNextOffsetDistance = (roadFraction * viewportWidth * (float)random.NextDouble()) - 0.5f*roadFraction * viewportWidth;
+                mNextOffsetDelay = 10f * (float)random.NextDouble();
+            }
+
+            //generate the vertices
             float divisionHeight = viewportHeight / (float)mDivisions;
             float zValue = -1.0f;
             vOffset += mSpeed * dt;
 
+            if (vOffset > 1.0f)
+            {
+                vOffset -= 1.0f;
+                //push all the offsets down
+                for (int i = 0; i < mDivisions; ++i)
+                {
+                    mOffsets[i] = mOffsets[i + 1];
+                }
+                mOffsets[mDivisions] = mOffsets[mDivisions - 1] + (mNextOffsetDistance - mOffsets[mDivisions - 1]) * dt;
+            }
+
             for (int i = 0, index = 0; i < mDivisions; ++i, index += 6)
             {
-                mVertices[index] = new VertexPositionColorTexture(new Vector3(viewportWidth, i * divisionHeight, zValue), Color.White, new Vector2(1, vOffset));
-                mVertices[index + 1] = new VertexPositionColorTexture(new Vector3(0, i * divisionHeight, zValue), Color.White, new Vector2(0, vOffset));
-                mVertices[index + 2] = new VertexPositionColorTexture(new Vector3(viewportWidth, (i + 1) * divisionHeight, zValue), Color.White, new Vector2(1, 1f + vOffset));
+                float offsetBottom = mOffsets[i];
+                float offsetTop = mOffsets[i+1];
+                mVertices[index] = new VertexPositionColorTexture(new Vector3(viewportWidth + offsetBottom, i * divisionHeight, zValue), Color.White, new Vector2(1, vOffset));
+                mVertices[index + 1] = new VertexPositionColorTexture(new Vector3(offsetBottom, i * divisionHeight, zValue), Color.White, new Vector2(0, vOffset));
+                mVertices[index + 2] = new VertexPositionColorTexture(new Vector3(viewportWidth + offsetTop, (i + 1) * divisionHeight, zValue), Color.White, new Vector2(1, 1f + vOffset));
 
-                mVertices[index + 3] = new VertexPositionColorTexture(new Vector3(0, i * divisionHeight, zValue), Color.White, new Vector2(0, vOffset));
-                mVertices[index + 4] = new VertexPositionColorTexture(new Vector3(0, (i + 1) * divisionHeight, zValue), Color.White, new Vector2(0, 1f + vOffset));
-                mVertices[index + 5] = new VertexPositionColorTexture(new Vector3(viewportWidth, (i + 1) * divisionHeight, zValue), Color.White, new Vector2(1, 1f + vOffset));
+                mVertices[index + 3] = new VertexPositionColorTexture(new Vector3(offsetBottom, i * divisionHeight, zValue), Color.White, new Vector2(0, vOffset));
+                mVertices[index + 4] = new VertexPositionColorTexture(new Vector3(offsetTop, (i + 1) * divisionHeight, zValue), Color.White, new Vector2(0, 1f + vOffset));
+                mVertices[index + 5] = new VertexPositionColorTexture(new Vector3(viewportWidth + offsetTop, (i + 1) * divisionHeight, zValue), Color.White, new Vector2(1, 1f + vOffset));
             }
         }
 
