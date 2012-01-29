@@ -126,7 +126,7 @@ namespace EatMyDust
         public int score;
 
         bool gameOverCondition;
-
+        bool gameStarted = false;
         #endregion
 
         #region Initialization
@@ -266,7 +266,7 @@ namespace EatMyDust
 
 
                 dropTimer -= gameTime.ElapsedGameTime;
-                bool gameStarted = playerOne.started || playerTwo.started;
+                gameStarted = playerOne.started || playerTwo.started;
                 if (dropTimer <= TimeSpan.FromSeconds(0))
                 {
                     dropTimer = TimeSpan.FromSeconds(PowerSourceDropTime);
@@ -476,7 +476,13 @@ namespace EatMyDust
             spriteBatch.Draw(blank, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width / 2, FUEL_BAR_WIDTH, (int)(FUEL_BAR_HEIGHT* playerTwo.getFuelPercent()), FUEL_BAR_WIDTH-3), playerTwoColor);
             spriteBatch.Draw(gasBarLH, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width / 2 - (FUEL_BAR_HEIGHT+FUEL_BAR_INC), FUEL_BAR_WIDTH, FUEL_BAR_HEIGHT + FUEL_BAR_INC, FUEL_BAR_WIDTH), Color.White);
             spriteBatch.Draw(gasBarRH, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width / 2, FUEL_BAR_WIDTH, FUEL_BAR_HEIGHT + FUEL_BAR_INC, FUEL_BAR_WIDTH), Color.White);
-        
+            
+            //draw helper
+            if (!gameStarted)
+            {
+                spriteBatch.DrawString(gameFont, "Press up to start!", new Vector2((ScreenManager.GraphicsDevice.Viewport.Width / 2) - (int)(gameFont.MeasureString("Press up to start!").X / 2), ScreenManager.GraphicsDevice.Viewport.Height - (int)(gameFont.MeasureString("Press up to start!").Y)), Color.White);
+            }
+
         }
 
         #endregion
