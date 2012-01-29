@@ -18,7 +18,8 @@ namespace EatMyDust
         public static IAsyncResult syncResult;  // to asynchronously get a storage device
         public static bool deviceRequested; // to coordinate so the EndShowSelector only gets called once. 
         public static List<KeyValuePair<int, string>> highScoreList = new List<KeyValuePair<int, string>>(); // high score list that is in memory
-        public static char[] tempInitials = { 'A', 'A', 'A' }; //starting initials for high score entry
+        public static char[] tempInitialsOne = { 'A', 'A', 'A' }; //starting initials for high score entry
+        public static char[] tempInitialsTwo = { 'A', 'A', 'A' }; //starting initials for high score entry
 
         /// <summary>
         /// Stores a reference to the active storage device.
@@ -53,9 +54,9 @@ namespace EatMyDust
         {
             highScoreList.Add(new KeyValuePair<int, string>(highScore, initials));
             highScoreList.Sort(CompareScores);
-            if (highScoreList.Count > 10)
+            if (highScoreList.Count > 30)
             {
-                highScoreList.RemoveAt(10);
+                highScoreList.RemoveAt(30);
             }
         }
 

@@ -53,7 +53,6 @@ namespace EatMyDust
         float dustCloudMyFade = 1.0f;
         float dustCloudDustFade = 1.0f;
 
-
         #region Initialization
 
         /// <summary>

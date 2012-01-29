@@ -61,10 +61,10 @@ namespace EatMyDust
 #if !DEBUG
             graphics.IsFullScreen = true;
 #endif
-            //force a fixed 60FPS game update
-            this.IsFixedTimeStep = true;
-            this.TargetElapsedTime = TimeSpan.FromSeconds(1.0f / 60.0f);
 
+#if DEBUG
+            this.IsMouseVisible = true;
+#endif
             // Create the screen manager component.
             screenManager = new ScreenManager(this);
 
