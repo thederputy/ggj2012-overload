@@ -49,6 +49,7 @@ namespace EatMyDust.GameObjects
         TimeSpan spinDuration;
 
         public Rectangle boundingRect;
+        public Vector2 previousPosition;
 
         #endregion
 
@@ -151,6 +152,8 @@ namespace EatMyDust.GameObjects
         public override void Update(GameTime gameTime)
         {
             camera.Update(new Vector3(tempX, tempY, Position3.Z));
+
+            previousPosition = position;
 
             if (fuel <= 0)
             {

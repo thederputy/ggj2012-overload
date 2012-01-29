@@ -14,7 +14,7 @@ namespace EatMyDust.GameObjects
         public Texture2D texture;
 
         protected float scaleFactor;
-
+                
         protected Vector2 position;
         public Vector2 Position2
         {
