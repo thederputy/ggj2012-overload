@@ -31,6 +31,7 @@ namespace EatMyDust.GameObjects
         public GameObject(GameplayScreen gameplayScreen)
             : base(gameplayScreen.ScreenManager.Game)
         {
+            this.gameplayScreen = gameplayScreen;
         }
 
         public override void Initialize()
