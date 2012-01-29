@@ -76,6 +76,7 @@ namespace EatMyDust
             if (inputManager.IsPressed(Keys.Escape, Buttons.Back, 0))
             {
                 ExitScreen();
+                LoadingScreen.Load(ScreenManager, false, null, new BackgroundScreen(), new TitleScreen());
             }
         }
 
