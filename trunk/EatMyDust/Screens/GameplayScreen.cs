@@ -52,7 +52,7 @@ namespace EatMyDust
 
         int FUEL_BAR_Y = 10; 
         int FUEL_BAR_HEIGHT = 30;
-        const int FUEL_BAR_WIDTH = 30; 
+        const int FUEL_BAR_WIDTH = 30;
 
         #endregion
 
@@ -139,6 +139,7 @@ namespace EatMyDust
         {
             base.Update(gameTime, otherScreenHasFocus, false);
 
+            CheckForCollisions();
             // Gradually fade in or out depending on whether we are covered by the pause screen.
             if (coveredByOtherScreen)
                 pauseAlpha = Math.Min(pauseAlpha + 1f / 32, 1);
@@ -275,6 +276,31 @@ namespace EatMyDust
                 p.AddFuel();
                 ps.expired = true;
             }
+        }
+
+        private void CheckForCollisions()
+        {
+            //check for collisions between the players
+            if (playerOne.texture.Bounds.Intersects(playerTwo.texture.Bounds))
+            {
+                //player collision!
+            }
+
+            //check for collisions between the players and powersources
+            foreach (PowerSource p in powerSources)
+            {
+                if (p.createdBy != playerOne && playerOne.texture.Bounds.Intersects(p.texture.Bounds))
+                {
+                    FuelUp(playerOne, p);
+                }
+                if (p.createdBy != playerTwo && playerTwo.texture.Bounds.Intersects(p.texture.Bounds))
+                {
+                    FuelUp(playerTwo, p);
+                }
+            }
+
+            //TODO: check for collisions between the players and powerups
+
         }
     }
 }
