@@ -233,16 +233,10 @@ namespace EatMyDust.GameObjects
 
             Vector2 futurePosition = position + Vector2.Multiply(velocity, 8);
 
-            if (futurePosition.X < gameplayScreen.ScreenManager.GraphicsDevice.Viewport.Width - texture.Width
-                && futurePosition.X > 0)
-                    position.X = futurePosition.X;
-            if (futurePosition.Y < gameplayScreen.ScreenManager.GraphicsDevice.Viewport.Height - texture.Height
-                && futurePosition.Y > 0)
-                    position.Y = futurePosition.Y;
+            position.X = futurePosition.X;
+            position.Y = futurePosition.Y;
 
             //position += velocity * 8;
-
-
 
             tempX = (int)(Position3.X + camera.View.Translation.X) * -1;
             tempY = (int)(Position3.Y + camera.View.Translation.Y) * -1;
