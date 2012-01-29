@@ -93,7 +93,7 @@ namespace EatMyDust.GameObjects
         public override void Initialize()
         {
             fuelTimer = TimeSpan.FromSeconds(1);
-            fuel = 40;
+            fuel = MAX_FUEL;
             tempX = (int)(Position3.X);
             tempY = (int)(Position3.Y);
             scaleFactor = 3.0f;
