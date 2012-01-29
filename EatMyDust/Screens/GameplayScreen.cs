@@ -15,7 +15,6 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using EatMyDust.GameObjects;
-using Box2D.XNA;
 using System.Collections.Generic;
 #endregion
 
@@ -26,7 +25,7 @@ namespace EatMyDust
     /// placeholder to get the idea across: you'll probably want to
     /// put some more interesting gameplay in here!
     /// </summary>
-    class GameplayScreen : GameScreen, IContactListener
+    class GameplayScreen : GameScreen
     {
         #region Fields
 
@@ -267,49 +266,6 @@ namespace EatMyDust
             }
 
             spriteBatch.End();
-        }
-
-        #endregion
-
-        #region IContactListener Members
-
-        public void BeginContact(Contact contact)
-        {
-            Body bodyA = contact.GetFixtureA().GetBody();
-            Body bodyB = contact.GetFixtureB().GetBody();
-
-            if (bodyA.GetUserData() != null && bodyB.GetUserData() != null)
-            {
-                GameObject bNodeA = (GameObject)bodyA.GetUserData();
-                GameObject bNodeB = (GameObject)bodyB.GetUserData();
-
-                //Collision scenarios
-                if (bNodeA is PlayerCar && bNodeB is PowerSource)
-                {
-                    FuelUp((PlayerCar)bNodeA, (PowerSource)bNodeB);
-                }
-                if (bNodeA is PowerSource && bNodeB is PlayerCar)
-                {
-                    FuelUp((PlayerCar)bNodeB, (PowerSource)bNodeA);
-                }
-
-                if (bNodeA is PlayerCar && bNodeB is PlayerCar)
-                {
-                    ((PlayerCar)bNodeA).SpinOut();
-                }
-            }
-        }
-
-        public void EndContact(Contact contact)
-        {
-        }
-
-        public void PreSolve(Contact contact, ref Manifold oldManifold)
-        {
-        }
-
-        public void PostSolve(Contact contact, ref ContactImpulse impulse)
-        {
         }
 
         #endregion

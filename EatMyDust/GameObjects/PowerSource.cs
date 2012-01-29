@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Box2D.XNA;
 
 namespace EatMyDust.GameObjects
 {
@@ -17,7 +16,6 @@ namespace EatMyDust.GameObjects
         public PowerSource(ScreenManager screenManager, Vector2 position, PlayerCar createdBy, Color color)
             : base(screenManager)
         {
-            CreateBody(position);
             this.createdBy = createdBy;
             this.color = color;
         }
@@ -44,21 +42,6 @@ namespace EatMyDust.GameObjects
                 expired = true;
 
             base.Update(gameTime);
-        }
-
-        public override void CreateBody(Vector2 position)
-        {
-            BodyDef def = new BodyDef();
-            def.userData = this;
-            def.position = position;
-            def.type = BodyType.Static;
-            position = physicsWorld.CreateBody(def);
-            CircleShape shape = new CircleShape();
-            shape._radius = 10.0f;
-            FixtureDef fixtureDef = new FixtureDef();
-            fixtureDef.isSensor = true;
-            fixtureDef.shape = shape;
-            position.CreateFixture(shape, 1.0f);
         }
     }
 }
