@@ -111,6 +111,8 @@ namespace EatMyDust
 
         public int score;
 
+        bool gameOverCondition;
+
         #endregion
 
         #region Initialization
@@ -179,7 +181,7 @@ namespace EatMyDust
 
             obstacles = new List<Obstacle>();
             obstacleTimer = TimeSpan.FromSeconds(5);
-            barricadeTimer = TimeSpan.FromSeconds(8);
+            barricadeTimer = TimeSpan.FromSeconds(2);
             // Add the game components to the game
             // This allows each component's Initialize, Update, Draw to get called automatically.
             ScreenManager.Game.Components.Add(inputManager);
@@ -201,6 +203,9 @@ namespace EatMyDust
 
             //SCORING
             score = 0;
+
+            //GAME STATE
+            gameOverCondition = false;
         }
 
         /// <summary>
@@ -319,7 +324,7 @@ namespace EatMyDust
                 barricadeTimer -= gameTime.ElapsedGameTime;
                 if (barricadeTimer <= TimeSpan.FromSeconds(0))
                 {
-                    barricadeTimer = TimeSpan.FromSeconds(rand.Next(9, 12));
+                    barricadeTimer = TimeSpan.FromSeconds(rand.Next(2, 3));
                     if (gameStarted)
                     {
                         Barricade bar = new Barricade(this);
@@ -333,8 +338,11 @@ namespace EatMyDust
                 // Check for game over state
                 if (playerOne.fuel == 0 || playerTwo.fuel == 0)
                 {
-                    GameOver();
+                    gameOverCondition = true;
                 }
+
+                if (gameOverCondition)
+                    GameOver();
             }
         }
 
@@ -538,11 +546,21 @@ namespace EatMyDust
                     }
                 }
             }
+
             foreach (Obstacle obs in obstacles)
             {
+                if (obs is Barricade)
+                {
+                    if (((Barricade)obs).CheckCollision(playerOne.boundingRect) || ((Barricade)obs).CheckCollision(playerTwo.boundingRect))
+                    {
+                        gameOverCondition = true;
+                        obs.expired = true;
+                    }
+                }
                 if (playerOne.boundingRect.Intersects(obs.boundingRect) || (playerTwo.boundingRect.Intersects(obs.boundingRect)))
                 {
-                    GameOver();
+                    gameOverCondition = true;
+                    obs.expired = true;
                 }
             }
 
@@ -554,6 +572,10 @@ namespace EatMyDust
             this.ScrollSpeed = 0;
             playerOne.Velocity = Vector2.Zero;
             playerTwo.Velocity = Vector2.Zero;
+            powerUps.Clear();
+            powerSources.Clear();
+            obstacles.Clear();
+            gameOverCondition = false;
             this.ExitScreen();
 
             GamePad.SetVibration(PlayerIndex.One, 0, 0);
