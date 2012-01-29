@@ -32,8 +32,17 @@ namespace EatMyDust
         ContentManager content;
         SpriteFont gameFont;
         
-        public PlayerCar playerOne;
-        public PlayerCar playerTwo;
+        PlayerCar playerOne;
+        public PlayerCar PlayerOne
+        {
+            get { return playerOne; }
+        }
+        
+        PlayerCar playerTwo;
+        public PlayerCar PlayerTwo
+        {
+            get { return playerTwo; }
+        }
 
         Track track;
 
