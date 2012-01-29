@@ -66,6 +66,7 @@ namespace EatMyDust
             spriteBatch.Begin();
             spriteBatch.Draw(gameOverTexture, new Rectangle((int)gameOverLocation.X, (int)gameOverLocation.Y, gameOverTexture.Width, gameOverTexture.Height), Color.White);
             spriteBatch.DrawString(font, "Score: " + score, new Vector2((ScreenManager.GraphicsDevice.Viewport.Width / 2) - (int)(font.MeasureString("Score: " + score).X / 2), (ScreenManager.GraphicsDevice.Viewport.Height / 2)), Color.White);
+            spriteBatch.DrawString(font, "Press Enter/Start to continue", new Vector2((ScreenManager.GraphicsDevice.Viewport.Width / 2) - (int)(font.MeasureString("Press Enter/Start to continue").X / 2), ScreenManager.GraphicsDevice.Viewport.Height - (int)(font.MeasureString("Press Enter/Start to continue").Y)), Color.White);
             spriteBatch.End();
             base.Draw(gameTime);
         }
