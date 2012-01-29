@@ -14,6 +14,12 @@ namespace EatMyDust.GameObjects
         private VertexPositionColorTexture[] mVertices  = new VertexPositionColorTexture[mDivisions * 6];
         private BasicEffect mEffect;
         private float mSpeed;
+
+        public float Speed
+        {
+            get { return mSpeed; }
+            set { mSpeed = value; }
+        }
         private float vOffset;
 
         public Track(GameplayScreen gameplayScreen)
@@ -49,7 +55,7 @@ namespace EatMyDust.GameObjects
 
         public override void Initialize()
         {
-            mSpeed = 10f;
+            mSpeed = 0f;
             GenerateVertices(0);
             base.Initialize();
         }

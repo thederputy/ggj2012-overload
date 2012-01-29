@@ -47,6 +47,11 @@ namespace EatMyDust
 
         Track track;
 
+        public Track Track
+        {
+            get { return track; }
+        }
+
         Random random = new Random();
         InputManager inputManager;
 
@@ -189,7 +194,6 @@ namespace EatMyDust
         {
             base.Update(gameTime, otherScreenHasFocus, false);
 
-            CheckForCollisions();
             // Gradually fade in or out depending on whether we are covered by the pause screen.
             if (coveredByOtherScreen)
                 pauseAlpha = Math.Min(pauseAlpha + 1f / 32, 1);
@@ -198,6 +202,12 @@ namespace EatMyDust
 
             if (IsActive)
             {
+                CheckForCollisions();
+
+                if (playerOne.fuel <= 0 && playerTwo.fuel <= 0)
+                    track.Speed = 0f;
+
+
                 dropTimer -= gameTime.ElapsedGameTime;
                 if (dropTimer <= TimeSpan.FromSeconds(0))
                 {
