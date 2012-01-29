@@ -69,6 +69,10 @@ namespace EatMyDust
         const int dropInterval = 800; //milliseconds
 
         List<PowerUp> powerUps;
+        TimeSpan powerupTimer;
+        const int powerupDropInterval = 5000;
+
+        Random rand;
 
         int FUEL_BAR_Y = 10; 
         int FUEL_BAR_HEIGHT = 30;
@@ -95,6 +99,7 @@ namespace EatMyDust
         {
             TransitionOnTime = TimeSpan.FromSeconds(1.5);
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
+            rand = new Random();
         }
 
         /// <summary>
@@ -138,14 +143,15 @@ namespace EatMyDust
             powerSources = new List<PowerSource>();
 
             powerUps = new List<PowerUp>();
-            PowerUp pup = new PowerUp(this, PowerUp.Type.PositionSwap);
+            /*PowerUp pup = new PowerUp(this, PowerUp.Type.PositionSwap);
             pup.Position2 = Vector2.Zero;
             powerUps.Add(pup);
 
             pup = new PowerUp(this, PowerUp.Type.SpeedBoost);
             pup.Position2 = new Vector2(ScreenManager.GraphicsDevice.Viewport.Width / 4, ScreenManager.GraphicsDevice.Viewport.Height / 4);
             powerUps.Add(pup);
-
+            */
+            powerupTimer = TimeSpan.FromSeconds(10);
             // Add the game components to the game
             // This allows each component's Initialize, Update, Draw to get called automatically.
             ScreenManager.Game.Components.Add(inputManager);
@@ -234,6 +240,16 @@ namespace EatMyDust
                         powerUps.Remove(powerUps[i]);
                         i--;
                     }
+                }
+
+                powerupTimer -= gameTime.ElapsedGameTime;
+                if (powerupTimer <= TimeSpan.FromSeconds(0))
+                {
+                    int i = rand.Next(2);
+                    PowerUp pup = new PowerUp(this, (PowerUp.Type)i);
+                    pup.Position2 = new Vector2(rand.Next(0, 1280), rand.Next(0, 720));
+                    powerUps.Add(pup);
+                    powerupTimer = TimeSpan.FromSeconds(2);
                 }
             }
         }
