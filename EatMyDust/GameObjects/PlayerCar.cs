@@ -243,7 +243,7 @@ namespace EatMyDust.GameObjects
 
             if (boosting)
             {
-                SoundManager.playSound(carEngineRevInstance, 0.1f);
+                SoundManager.playSound(carEngineRevInstance, 0.6f);
                 boostTimer -= gameTime.ElapsedGameTime;
                 if (boostTimer <= TimeSpan.FromSeconds(0))
                 {
