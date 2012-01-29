@@ -41,7 +41,6 @@ namespace EatMyDust.GameObjects
             // ***ORDER OF STRINGS MUST CORRESPOND TO ORDER OF ENUM***
             textureFiles.Add("Sprites\\Powerups\\positionswap");
             textureFiles.Add("Sprites\\Powerups\\boost");
-
         }
 
         /// <summary>

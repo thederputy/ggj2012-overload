@@ -51,6 +51,8 @@ namespace EatMyDust.GameObjects
         public bool boosting;
         private TimeSpan boostTimer;
 
+        private int playerIndex;
+
 
         SoundEffect engineFX; // BG Music
         SoundEffectInstance engineInstance;
@@ -67,18 +69,20 @@ namespace EatMyDust.GameObjects
 
         #region Initialization
 
-        public PlayerCar(GameplayScreen gameplayScreen, Vector2 position)
+        public PlayerCar(GameplayScreen gameplayScreen, Vector2 position, int index)
             : base(gameplayScreen)
         {
             this.position = position;
+            this.playerIndex = index;
             camera = new Camera(gameplayScreen.ScreenManager.GraphicsDevice.Viewport, Position3);
-          
-            
         }
 
         protected override void LoadContent()
         {
-            texture = Game.Content.Load<Texture2D>("Sprites/cars/car1");
+            if (playerIndex == 1)
+                texture = Game.Content.Load<Texture2D>("Sprites/Cars/car1");
+            if (playerIndex == 2)
+                texture = Game.Content.Load<Texture2D>("Sprites/Cars/car2");
             base.LoadContent();
             tempX = (int)(Position3.X);
             tempY = (int)(Position3.Y);
@@ -111,7 +115,6 @@ namespace EatMyDust.GameObjects
 
             startupFX = Game.Content.Load<SoundEffect>("Sounds/startup");
             startupInstance = startupFX.CreateInstance();
-
        }
 
         #endregion
@@ -318,6 +321,38 @@ namespace EatMyDust.GameObjects
         {
             if (fuel < maxFuel)
                 fuel += fuelPerSecond;
+        }
+
+        public void CheckCollisionWithEdgeOfScreen()
+        {
+            //right side
+            if (Position2.X > gameplayScreen.ScreenManager.GraphicsDevice.Viewport.Width - texture.Width)
+            {
+                float difference = Math.Abs(Position2.X - gameplayScreen.ScreenManager.GraphicsDevice.Viewport.Width);
+                Position2 = new Vector2(Position2.X - difference, Position2.Y);
+                Velocity = new Vector2(Velocity.X * -1, Velocity.Y);
+            }
+            //left
+            if (Position2.X < 0)
+            {
+                float difference = Math.Abs(Position2.X - 0);
+                Position2 = new Vector2(Position2.X + difference, Position2.Y);
+                Velocity = new Vector2(Velocity.X * -1, Velocity.Y);
+            }
+            //bottom
+            if (Position2.Y > gameplayScreen.ScreenManager.GraphicsDevice.Viewport.Height - texture.Height)
+            {
+                float difference = Math.Abs(Position2.Y - gameplayScreen.ScreenManager.GraphicsDevice.Viewport.Height);
+                Position2 = new Vector2(Position2.X, Position2.Y - difference);
+                Velocity = new Vector2(Velocity.X, Velocity.Y * -1);
+            }
+            //top
+            if (Position2.Y < 200)
+            {
+                float difference = Math.Abs(Position2.Y - 200);
+                Position2 = new Vector2(Position2.X, Position2.Y + difference);
+                Velocity = new Vector2(Velocity.X, Velocity.Y * -1);
+            }
         }
     }
 }

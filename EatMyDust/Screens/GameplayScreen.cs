@@ -53,7 +53,6 @@ namespace EatMyDust
             set { track.Speed = value; }
         }
         
-
         Random random = new Random();
         InputManager inputManager;
 
@@ -85,7 +84,6 @@ namespace EatMyDust
         SoundEffect doubleHonkFX;
         SoundEffectInstance doubleHonkInstance;
 
-
         #endregion
 
         #region Initialization
@@ -113,10 +111,10 @@ namespace EatMyDust
             inputManager = new InputManager(ScreenManager.Game);
 
             // Players
-            playerOne = new PlayerCar(this, new Vector2(ScreenManager.GraphicsDevice.Viewport.Width/2, ScreenManager.GraphicsDevice.Viewport.Height/2));
+            playerOne = new PlayerCar(this, new Vector2(ScreenManager.GraphicsDevice.Viewport.Width/2, ScreenManager.GraphicsDevice.Viewport.Height/2), 1);
             //playerOne.Position2 -= new Vector2(playerOne.texture.Width * 2, 0);
             playerOne.Position2 += new Vector2(-128, -32);
-            playerTwo = new PlayerCar(this, new Vector2(ScreenManager.GraphicsDevice.Viewport.Width/2, ScreenManager.GraphicsDevice.Viewport.Height/2));
+            playerTwo = new PlayerCar(this, new Vector2(ScreenManager.GraphicsDevice.Viewport.Width/2, ScreenManager.GraphicsDevice.Viewport.Height/2), 2);
             //playerTwo.Position2 += new Vector2(playerTwo.texture.Width, 0);
             playerTwo.Position2 += new Vector2(64, -32);
 
@@ -147,8 +145,6 @@ namespace EatMyDust
             pup = new PowerUp(this, PowerUp.Type.SpeedBoost);
             pup.Position2 = new Vector2(ScreenManager.GraphicsDevice.Viewport.Width / 4, ScreenManager.GraphicsDevice.Viewport.Height / 4);
             powerUps.Add(pup);
-            
-            
 
             // Add the game components to the game
             // This allows each component's Initialize, Update, Draw to get called automatically.
@@ -157,7 +153,6 @@ namespace EatMyDust
             //set fuel bar to use the whole screen
             FUEL_BAR_Y = ScreenManager.GraphicsDevice.Viewport.Height / 2;
             FUEL_BAR_HEIGHT = ScreenManager.GraphicsDevice.Viewport.Height / 2;
-
 
             //MUSIC AND SOUND LOADING
             
@@ -171,7 +166,6 @@ namespace EatMyDust
             doubleHonkInstance = doubleHonkFX.CreateInstance();
         }
 
-
         /// <summary>
         /// Unload graphics content used by the game.
         /// </summary>
@@ -179,7 +173,6 @@ namespace EatMyDust
         {
             content.Unload();
         }
-
 
         #endregion
 
@@ -351,70 +344,11 @@ namespace EatMyDust
         private void CheckForCollisions()
         {
             //check for edge of screen detection
-            #region playerOne
-            //right side
-            if (playerOne.Position2.X > ScreenManager.GraphicsDevice.Viewport.Width - playerOne.texture.Width)
-            {
-                float difference = Math.Abs(playerOne.Position2.X - ScreenManager.GraphicsDevice.Viewport.Width);
-                playerOne.Position2 = new Vector2(playerOne.Position2.X - difference, playerOne.Position2.Y);
-                playerOne.Velocity = new Vector2(playerOne.Velocity.X * -1, playerOne.Velocity.Y);
-            }
-            //left
-            if (playerOne.Position2.X < 0)
-            {
-                float difference = Math.Abs(playerOne.Position2.X - 0);
-                playerOne.Position2 = new Vector2(playerOne.Position2.X + difference, playerOne.Position2.Y);
-                playerOne.Velocity = new Vector2(playerOne.Velocity.X * -1, playerOne.Velocity.Y);
-            }
-            //bottom
-            if (playerOne.Position2.Y > ScreenManager.GraphicsDevice.Viewport.Height - playerOne.texture.Height)
-            {
-                float difference = Math.Abs(playerOne.Position2.Y - ScreenManager.GraphicsDevice.Viewport.Height);
-                playerOne.Position2 = new Vector2(playerOne.Position2.X, playerOne.Position2.Y - difference);
-                playerOne.Velocity = new Vector2(playerOne.Velocity.X, playerOne.Velocity.Y * -1);
-            }
-            //top
-            if (playerOne.Position2.Y < 200)
-            {
-                float difference = Math.Abs(playerOne.Position2.Y - 200);
-                playerOne.Position2 = new Vector2(playerOne.Position2.X, playerOne.Position2.Y + difference);
-                playerOne.Velocity = new Vector2(playerOne.Velocity.X, playerOne.Velocity.Y * -1);
-            }
-            #endregion
-            #region playerTwo
-            //right side
-            if (playerTwo.Position2.X > ScreenManager.GraphicsDevice.Viewport.Width - playerTwo.texture.Width)
-            {
-                float difference = Math.Abs(playerTwo.Position2.X - ScreenManager.GraphicsDevice.Viewport.Width);
-                playerTwo.Position2 = new Vector2(playerTwo.Position2.X - difference, playerTwo.Position2.Y);
-                playerTwo.Velocity = new Vector2(playerTwo.Velocity.X * -1, playerTwo.Velocity.Y);
-            }
-            //left
-            if (playerTwo.Position2.X < 0)
-            {
-                float difference = Math.Abs(playerTwo.Position2.X - 0);
-                playerTwo.Position2 = new Vector2(playerTwo.Position2.X + difference, playerTwo.Position2.Y);
-                playerTwo.Velocity = new Vector2(playerTwo.Velocity.X * -1, playerTwo.Velocity.Y);
-            }
-            //bottom
-            if (playerTwo.Position2.Y > ScreenManager.GraphicsDevice.Viewport.Height - playerTwo.texture.Height)
-            {
-                float difference = Math.Abs(playerTwo.Position2.Y - ScreenManager.GraphicsDevice.Viewport.Height);
-                playerTwo.Position2 = new Vector2(playerTwo.Position2.X, playerTwo.Position2.Y - difference);
-                playerTwo.Velocity = new Vector2(playerTwo.Velocity.X, playerTwo.Velocity.Y * -1);
-            }
-            //top
-            if (playerTwo.Position2.Y < 200)
-            {
-                float difference = Math.Abs(playerTwo.Position2.Y - 200);
-                playerTwo.Position2 = new Vector2(playerTwo.Position2.X, playerTwo.Position2.Y + difference);
-                playerTwo.Velocity = new Vector2(playerTwo.Velocity.X, playerTwo.Velocity.Y * -1);
-            }
-            #endregion 
+            playerOne.CheckCollisionWithEdgeOfScreen();
+            playerTwo.CheckCollisionWithEdgeOfScreen();
 
             if (playerOne.boundingRect.Intersects(playerTwo.boundingRect))
             {
-                
                 //player collision!
                 SoundManager.playSound(collideInstance, 0.1f);
                 SoundManager.playSound(doubleHonkInstance, 0.1f);
@@ -423,7 +357,6 @@ namespace EatMyDust
                 playerOne.Position2 -= difference / 2;
                 playerOne.Velocity *= -1;
                 playerTwo.Velocity *= -1;
-
             }
 
             //check for collisions between the players and powersources
@@ -469,8 +402,6 @@ namespace EatMyDust
                         }
                     }
                 }
-               
-
             }
 
             //TODO: check for collisions between the players and powerups
