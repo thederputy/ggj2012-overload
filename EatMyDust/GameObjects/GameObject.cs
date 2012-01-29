@@ -9,7 +9,7 @@ namespace EatMyDust.GameObjects
 {
     public abstract class GameObject : DrawableGameComponent
     {
-        protected ScreenManager screenManager;
+        public GameplayScreen gameplayScreen;
 
         public Texture2D texture;
 
@@ -28,8 +28,8 @@ namespace EatMyDust.GameObjects
             set { position = new Vector2(value.X, value.Y); }
         }
 
-        public GameObject(ScreenManager screenManager)
-            : base(screenManager.Game)
+        public GameObject(GameplayScreen gameplayScreen)
+            : base(gameplayScreen.ScreenManager.Game)
         {
         }
 

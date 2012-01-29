@@ -13,8 +13,8 @@ namespace EatMyDust.GameObjects
         public PlayerCar createdBy;
         public Color color;
 
-        public PowerSource(ScreenManager screenManager, Vector2 position, PlayerCar createdBy, Color color)
-            : base(screenManager)
+        public PowerSource(GameplayScreen gameplayScreen, Vector2 position, PlayerCar createdBy, Color color)
+            : base(gameplayScreen)
         {
             this.createdBy = createdBy;
             this.color = color;
@@ -31,7 +31,7 @@ namespace EatMyDust.GameObjects
 
         protected override void LoadContent()
         {
-            texture = Game.Content.Load<Texture2D>("Sprites\\powersource");
+            texture = Game.Content.Load<Texture2D>("Sprites/powersource");
             base.LoadContent();
         }
 
