@@ -34,7 +34,7 @@ namespace EatMyDust.GameObjects
 
         protected override void LoadContent()
         {
-            texture = Game.Content.Load<Texture2D>("Sprites/powersource");
+            texture = Game.Content.Load<Texture2D>("Sprites/dust");
             base.LoadContent();
         }
 

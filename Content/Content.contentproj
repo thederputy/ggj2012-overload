@@ -440,6 +440,13 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Sprites\dust.png">
+      <Name>dust</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="Sounds\crash.wav">
       <Name>crash</Name>
       <Importer>WavImporter</Importer>

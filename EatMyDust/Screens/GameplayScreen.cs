@@ -46,6 +46,11 @@ namespace EatMyDust
         }
 
         Track track;
+        public Track Track
+        {
+            get { return track; }
+            set { track = value; }
+        }
 
         public float ScrollSpeed
         {
@@ -229,21 +234,25 @@ namespace EatMyDust
                 CheckForCollisions();
 
                 if (playerOne.fuel <= 0 && playerTwo.fuel <= 0)
-                    ScrollSpeed = 0f;
+                    GameOver();
                 else if (playerOne.boosting || playerTwo.boosting)
                     ScrollSpeed = 20f;
 
 
                 dropTimer -= gameTime.ElapsedGameTime;
+                bool gameStarted = playerOne.started || playerTwo.started;
                 if (dropTimer <= TimeSpan.FromSeconds(0))
                 {
                     dropTimer = TimeSpan.FromMilliseconds(dropInterval);
-                    PowerSource ps = new PowerSource(this, playerOne.Position2 + new Vector2(0.5f*playerOne.texture.Width, playerOne.texture.Height), playerOne, Color.Yellow);
-                    ps.Position2 += new Vector2(-0.5f * ps.texture.Width, -0.5f * ps.texture.Height);
-                    powerSources.Add(ps);
-                    ps = new PowerSource(this, playerTwo.Position2 + new Vector2(0.5f * playerTwo.texture.Width, playerTwo.texture.Height), playerTwo, Color.Red);
-                    ps.Position2 += new Vector2(-0.5f * ps.texture.Width, -0.5f * ps.texture.Height);
-                    powerSources.Add(ps);
+                    if (gameStarted)
+                    {
+                        PowerSource ps = new PowerSource(this, playerOne.Position2 + new Vector2(0.5f * playerOne.texture.Width, playerOne.texture.Height), playerOne, Color.Yellow);
+                        ps.Position2 += new Vector2(-0.5f * ps.texture.Width, -0.5f * ps.texture.Height);
+                        powerSources.Add(ps);
+                        ps = new PowerSource(this, playerTwo.Position2 + new Vector2(0.5f * playerTwo.texture.Width, playerTwo.texture.Height), playerTwo, Color.Red);
+                        ps.Position2 += new Vector2(-0.5f * ps.texture.Width, -0.5f * ps.texture.Height);
+                        powerSources.Add(ps);
+                    }
                 }
                 for (int i = 0; i < powerSources.Count; i++)
                 {
@@ -271,10 +280,13 @@ namespace EatMyDust
                 powerupTimer -= gameTime.ElapsedGameTime;
                 if (powerupTimer <= TimeSpan.FromSeconds(0))
                 {
-                    
-                    PowerUp pup = new PowerUp(this);
-                    powerUps.Add(pup);
                     powerupTimer = TimeSpan.FromSeconds(8);
+
+                    if (gameStarted)
+                    {
+                        PowerUp pup = new PowerUp(this);
+                        powerUps.Add(pup);
+                    }
                 }
 
                 for (int i = 0; i < obstacles.Count; i++)
@@ -290,17 +302,23 @@ namespace EatMyDust
                 obstacleTimer -= gameTime.ElapsedGameTime;
                 if (obstacleTimer <= TimeSpan.FromSeconds(0))
                 {
-                    Obstacle obs = new Obstacle(this);
-                    obstacles.Add(obs);
                     obstacleTimer = TimeSpan.FromSeconds(rand.Next(2, 7));
+                    if (gameStarted)
+                    {
+                        Obstacle obs = new Obstacle(this);
+                        obstacles.Add(obs);
+                    }
                 }
 
                 barricadeTimer -= gameTime.ElapsedGameTime;
                 if (barricadeTimer <= TimeSpan.FromSeconds(0))
                 {
-                    Barricade bar = new Barricade(this);
-                    obstacles.Add(bar);
                     barricadeTimer = TimeSpan.FromSeconds(rand.Next(9, 12));
+                    if (gameStarted)
+                    {
+                        Barricade bar = new Barricade(this);
+                        obstacles.Add(bar);
+                    }
                 }
 
                 score += (int)Math.Round(Math.Abs(playerOne.Velocity.X) + Math.Abs(playerOne.Velocity.Y) + Math.Abs(playerTwo.Velocity.X) + Math.Abs(playerTwo.Velocity.Y));
@@ -412,22 +430,20 @@ namespace EatMyDust
                     obs.Draw(spriteBatch);
             }
 
-            //spriteBatch.Draw(blank, new Rectangle(FUEL_BAR_INSET, ScreenManager.GraphicsDevice.Viewport.Height - (int)(FUEL_BAR_Y * playerOne.getFuelPercent()), FUEL_BAR_WIDTH, FUEL_BAR_HEIGHT), Color.Goldenrod);
-            //spriteBatch.Draw(blank, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width - FUEL_BAR_WIDTH - FUEL_BAR_INSET, ScreenManager.GraphicsDevice.Viewport.Height - (int)(FUEL_BAR_Y * playerTwo.getFuelPercent()), FUEL_BAR_WIDTH, FUEL_BAR_HEIGHT), Color.Goldenrod);
-
-            //sidebars
-            //spriteBatch.Draw(blank, new Rectangle(FUEL_BAR_INSET, ScreenManager.GraphicsDevice.Viewport.Height - (int)(FUEL_BAR_Y * playerOne.getFuelPercent()), FUEL_BAR_WIDTH, FUEL_BAR_HEIGHT), Color.DarkRed);
-            //spriteBatch.Draw(blank, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width - FUEL_BAR_WIDTH - FUEL_BAR_INSET, ScreenManager.GraphicsDevice.Viewport.Height - (int)(FUEL_BAR_Y * playerTwo.getFuelPercent()), FUEL_BAR_WIDTH, FUEL_BAR_HEIGHT), Color.DarkRed);
-            spriteBatch.Draw(blank, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width / 2 - (int)(FUEL_BAR_WIDTH* playerOne.getFuelPercent()), ScreenManager.GraphicsDevice.Viewport.Height - FUEL_BAR_HEIGHT, (int)(FUEL_BAR_WIDTH* playerOne.getFuelPercent()), FUEL_BAR_HEIGHT-3), Color.DarkRed);
-            spriteBatch.Draw(blank, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width / 2, ScreenManager.GraphicsDevice.Viewport.Height - FUEL_BAR_HEIGHT, (int)(FUEL_BAR_WIDTH* playerTwo.getFuelPercent()), FUEL_BAR_HEIGHT-3), Color.DarkRed);
-
-
+            Viewport viewPort = ScreenManager.GraphicsDevice.Viewport;
 
             //side bars
-            //spriteBatch.Draw(gasBarL, new Rectangle(FUEL_BAR_INSET, ScreenManager.GraphicsDevice.Viewport.Height - FUEL_BAR_Y - 10, FUEL_BAR_WIDTH + 1, FUEL_BAR_HEIGHT + 15), Color.White);
-            //spriteBatch.Draw(gasBarR, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width - FUEL_BAR_WIDTH - FUEL_BAR_INSET, ScreenManager.GraphicsDevice.Viewport.Height - FUEL_BAR_Y - 10, FUEL_BAR_WIDTH + 1, FUEL_BAR_HEIGHT + 15), Color.White);
-            spriteBatch.Draw(gasBarLH, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width / 2 - (FUEL_BAR_WIDTH+FUEL_BAR_INC), ScreenManager.GraphicsDevice.Viewport.Height - FUEL_BAR_HEIGHT, FUEL_BAR_WIDTH + FUEL_BAR_INC, FUEL_BAR_HEIGHT), Color.White);
-            spriteBatch.Draw(gasBarRH, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width / 2, ScreenManager.GraphicsDevice.Viewport.Height - FUEL_BAR_HEIGHT, FUEL_BAR_WIDTH + FUEL_BAR_INC, FUEL_BAR_HEIGHT), Color.White);
+            //spriteBatch.Draw(blank, new Rectangle(FUEL_BAR_INSET, viewPort.Height - (int)(FUEL_BAR_Y * playerOne.getFuelPercent()), FUEL_BAR_HEIGHT, (int)(FUEL_BAR_WIDTH* playerOne.getFuelPercent() )), Color.DarkRed);
+            //spriteBatch.Draw(blank, new Rectangle(viewPort.Width - FUEL_BAR_HEIGHT - FUEL_BAR_INSET, viewPort.Height - (int)(FUEL_BAR_Y * playerTwo.getFuelPercent()), FUEL_BAR_HEIGHT, (int)(FUEL_BAR_WIDTH * playerTwo.getFuelPercent() )), Color.Yellow);
+            //spriteBatch.Draw(gasBarL, new Rectangle(FUEL_BAR_INSET, FUEL_BAR_Y, FUEL_BAR_HEIGHT, FUEL_BAR_WIDTH), Color.White);
+            //spriteBatch.Draw(gasBarR, new Rectangle(viewPort.Width - FUEL_BAR_HEIGHT - FUEL_BAR_INSET, FUEL_BAR_Y, FUEL_BAR_HEIGHT, FUEL_BAR_WIDTH), Color.White);
+
+
+            //top bars
+            spriteBatch.Draw(blank, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width / 2 - (int)(FUEL_BAR_WIDTH* playerOne.getFuelPercent()), FUEL_BAR_HEIGHT, (int)(FUEL_BAR_WIDTH* playerOne.getFuelPercent()), FUEL_BAR_HEIGHT-3), Color.DarkRed);
+            spriteBatch.Draw(blank, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width / 2, FUEL_BAR_HEIGHT, (int)(FUEL_BAR_WIDTH* playerTwo.getFuelPercent()), FUEL_BAR_HEIGHT-3), Color.Yellow);
+            spriteBatch.Draw(gasBarLH, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width / 2 - (FUEL_BAR_WIDTH+FUEL_BAR_INC), FUEL_BAR_HEIGHT, FUEL_BAR_WIDTH + FUEL_BAR_INC, FUEL_BAR_HEIGHT), Color.White);
+            spriteBatch.Draw(gasBarRH, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width / 2, FUEL_BAR_HEIGHT, FUEL_BAR_WIDTH + FUEL_BAR_INC, FUEL_BAR_HEIGHT), Color.White);
         
         }
 
