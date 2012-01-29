@@ -62,6 +62,10 @@ namespace EatMyDust.GameObjects
         SoundEffectInstance backFireInstance;
         SoundEffect startupFX; // BG Music
         SoundEffectInstance startupInstance;
+        SoundEffect jesusHornFX;
+        SoundEffectInstance jesusHornInstance;
+        SoundEffect carEngineRevFX;
+        SoundEffectInstance carEngineRevInstance;
 
         protected int bfRngMax = 8;
         protected int bfRngMin = 2;
@@ -112,9 +116,14 @@ namespace EatMyDust.GameObjects
             backFireFX = Game.Content.Load<SoundEffect>("Sounds/backFire");
             backFireInstance = backFireFX.CreateInstance();
 
-
             startupFX = Game.Content.Load<SoundEffect>("Sounds/startup");
             startupInstance = startupFX.CreateInstance();
+
+            jesusHornFX = Game.Content.Load<SoundEffect>("Sounds/jesusHorn");
+            jesusHornInstance = jesusHornFX.CreateInstance();
+
+            carEngineRevFX = Game.Content.Load<SoundEffect>("Sounds/carEngineRev");
+            carEngineRevInstance = carEngineRevFX.CreateInstance();
        }
 
         #endregion
@@ -216,6 +225,7 @@ namespace EatMyDust.GameObjects
 
             if (fuel <= 0)
             {
+                SoundManager.playSound(jesusHornInstance, 0.1f);
                 velocity = Vector2.Zero;
             }
             if (fuelTimer <= TimeSpan.FromSeconds(0))
@@ -233,12 +243,12 @@ namespace EatMyDust.GameObjects
 
             if (boosting)
             {
+                SoundManager.playSound(carEngineRevInstance, 0.1f);
                 boostTimer -= gameTime.ElapsedGameTime;
                 if (boostTimer <= TimeSpan.FromSeconds(0))
                 {
                     boosting = false;
                     boostTimer = TimeSpan.FromSeconds(3);
-                        
                 }
                 else
                     velocity *= turboMultiplier;
@@ -246,14 +256,11 @@ namespace EatMyDust.GameObjects
 
             if (bfTimer <= TimeSpan.FromSeconds(0))
             {
-
                 if (engineInstance.State == SoundState.Playing) SoundManager.playSound(backFireInstance, 0.1f);
                 bfTimer = TimeSpan.FromSeconds(bfRngMin + rnd.Next(bfRngMax - bfRngMin));
-
             }
             else
                 bfTimer -= gameTime.ElapsedGameTime;
-
 
             Vector2 futurePosition = position + Vector2.Multiply(velocity, 8);
 
