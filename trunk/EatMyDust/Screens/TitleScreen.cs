@@ -205,9 +205,9 @@ namespace EatMyDust
 
         #region Handle Input
 
-        public void handleInput()
+        public override void HandleInput()
         {
-            if (inputManager.IsPressed(Keys.Enter, Buttons.Start, 0))
+            if (inputManager.IsPressed(Keys.Enter, Buttons.Start, Buttons.A, 0))
             {
                 setFinalPosition();
                 drawHelper = false;
