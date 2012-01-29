@@ -39,13 +39,13 @@ namespace EatMyDust.GameObjects
         }
 
         public int fuel;
-        private const int maxFuel = 40;
-        private const int fuelPerSecond = 1;
-        private const int turboFuelPerSecond = 2;
+        private const int MAX_FUEL = 30;
+        private const int FUEL_PER_SECOND = 1;
+        private const int TURBO_FUEL_PER_SECOND = 3;
+        private const float TURBO_MULTIPLIER = 1.5f;
         private TimeSpan fuelTimer;
         private TimeSpan bfTimer;
         Random rnd = new Random();
-        private const float turboMultiplier = 1.5f;
         protected bool started = false;
 
         public bool boosting;
@@ -67,8 +67,8 @@ namespace EatMyDust.GameObjects
         SoundEffect carEngineRevFX;
         SoundEffectInstance carEngineRevInstance;
 
-        protected int bfRngMax = 8;
-        protected int bfRngMin = 2;
+        protected int backfireSoundRangeMax = 8;
+        protected int backfireSoundRangeMin = 2;
         #endregion
 
         #region Initialization
@@ -105,7 +105,7 @@ namespace EatMyDust.GameObjects
             boostTimer = TimeSpan.FromSeconds(3);
             base.Initialize();
 
-            bfTimer = TimeSpan.FromSeconds(bfRngMin + rnd.Next(bfRngMax - bfRngMin));
+            bfTimer = TimeSpan.FromSeconds(backfireSoundRangeMin + rnd.Next(backfireSoundRangeMax - backfireSoundRangeMin));
 
             engineFX = Game.Content.Load<SoundEffect>("Sounds/engine");
             engineInstance = engineFX.CreateInstance();
@@ -161,7 +161,7 @@ namespace EatMyDust.GameObjects
 
 #if DEBUG 
             if (inputManager.IsPressed(Keys.F, Buttons.LeftShoulder, playerIndex))
-                fuel = maxFuel;
+                fuel = MAX_FUEL;
 
             if (inputManager.IsPressed(Keys.E, Buttons.RightShoulder, playerIndex) || inputManager.IsPressed(Keys.RightShift, Buttons.RightShoulder, playerIndex))
                 SoundManager.playSound(honkInstance, 0.6f);
@@ -213,7 +213,7 @@ namespace EatMyDust.GameObjects
             }
 
             if (inputManager.IsHeld(keys[4], Buttons.A, playerIndex))
-                velocity = Vector2.Multiply(velocity, turboMultiplier);
+                velocity = Vector2.Multiply(velocity, TURBO_MULTIPLIER);
             
         }
 
@@ -231,9 +231,9 @@ namespace EatMyDust.GameObjects
             if (fuelTimer <= TimeSpan.FromSeconds(0))
             {
                 if (velocity.Length() > 1.0f)
-                    fuel -= turboFuelPerSecond;
+                    fuel -= TURBO_FUEL_PER_SECOND;
                 else
-                    fuel -= fuelPerSecond;
+                    fuel -= FUEL_PER_SECOND;
                
                 fuelTimer = TimeSpan.FromSeconds(1);
 
@@ -253,7 +253,7 @@ namespace EatMyDust.GameObjects
                     boostTimer = TimeSpan.FromSeconds(3);
                 }
                 else
-                    velocity *= turboMultiplier;
+                    velocity *= TURBO_MULTIPLIER;
             }
             else
             {
@@ -264,7 +264,7 @@ namespace EatMyDust.GameObjects
             if (bfTimer <= TimeSpan.FromSeconds(0))
             {
                 if (engineInstance.State == SoundState.Playing) SoundManager.playSound(backFireInstance, 0.1f);
-                bfTimer = TimeSpan.FromSeconds(bfRngMin + rnd.Next(bfRngMax - bfRngMin));
+                bfTimer = TimeSpan.FromSeconds(backfireSoundRangeMin + rnd.Next(backfireSoundRangeMax - backfireSoundRangeMin));
             }
             else
                 bfTimer -= gameTime.ElapsedGameTime;
@@ -328,13 +328,13 @@ namespace EatMyDust.GameObjects
 
             if (fuelTimer.Milliseconds == 0) temp = 0;
  
-            return (float)(fuel - temp) / (float)maxFuel + ((float)(fuelTimer.Milliseconds) / 1000 / (float)(maxFuel));
+            return (float)(fuel - temp) / (float)MAX_FUEL + ((float)(fuelTimer.Milliseconds) / 1000 / (float)(MAX_FUEL));
         }
 
         public void AddFuel()
         {
-            if (fuel < maxFuel)
-                fuel += fuelPerSecond;
+            if (fuel < MAX_FUEL)
+                fuel += FUEL_PER_SECOND;
         }
 
         public void CheckCollisionWithEdgeOfScreen()
