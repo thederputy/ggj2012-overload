@@ -10,19 +10,32 @@ namespace EatMyDust.GameObjects
 {
     public class Track : GameObject
     {
+
+        public List<Tile> tiles;
+
+        int roadWidthTiles = 15;
+
         public Track(GameplayScreen gameplayScreen)
             : base(gameplayScreen)
         {
+            tiles = new List<Tile>();
+
         }
 
         public override void Initialize()
         {
-            base.Initialize();
+            foreach (Tile t in tiles)
+                spriteBatch.Draw(t.texture, new Rectangle((int)t.position.X, (int)t.position.Y, (int)t.texture.Width, (int)t.texture.Height), Color.White);
         }
 
-        protected override void LoadContent()
+        public void generateTiles()
         {
-            base.LoadContent();
+        
+        }
+
+        public void generateNewTileSet()
+        {
+
         }
 
         public override void Update(GameTime gameTime)
