@@ -16,6 +16,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using EatMyDust.GameObjects;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework.Audio;
 #endregion
 
 namespace EatMyDust
@@ -64,6 +65,15 @@ namespace EatMyDust
         int FUEL_BAR_Y = 10; 
         int FUEL_BAR_HEIGHT = 30;
         const int FUEL_BAR_WIDTH = 30;
+        
+        // sounds effects and music         
+        SoundEffect collectPower; // BG Music
+        SoundEffectInstance collectPowerInstance;
+        SoundEffect collideFX; // BG Music
+        SoundEffectInstance collideInstance;
+        SoundEffect engineFX; // BG Music
+        SoundEffectInstance engineInstance;
+
 
         #endregion
 
@@ -125,6 +135,18 @@ namespace EatMyDust
             //set fuel bar to use the whole screen
             FUEL_BAR_Y = ScreenManager.GraphicsDevice.Viewport.Height / 2;
             FUEL_BAR_HEIGHT = ScreenManager.GraphicsDevice.Viewport.Height / 2;
+
+
+            //MUSIC AND SOUND LOADING
+            
+            collectPower = this.content.Load<SoundEffect>("Sounds/collect");
+            collectPowerInstance = collectPower.CreateInstance();
+
+            collideFX = this.content.Load<SoundEffect>("Sounds/hit");
+            collideInstance = collideFX.CreateInstance();
+
+            
+
         }
 
 
@@ -151,6 +173,11 @@ namespace EatMyDust
                                                        bool coveredByOtherScreen)
         {
             base.Update(gameTime, otherScreenHasFocus, false);
+
+            
+           
+
+
 
             CheckForCollisions();
             // Gradually fade in or out depending on whether we are covered by the pause screen.
@@ -282,6 +309,7 @@ namespace EatMyDust
             if (ps.createdBy != p)
             {
                 p.AddFuel();
+                //SoundManager.playSound(collectPowerInstance, 0.1f);
                 ps.expired = true;
             }
         }
@@ -292,6 +320,7 @@ namespace EatMyDust
             {
                 
                 //player collision!
+                SoundManager.playSound(collideInstance, 0.1f);
                 Vector2 difference = playerTwo.Position2 - playerOne.Position2;
                 playerTwo.Position2 += difference / 2;
                 playerOne.Position2 -= difference / 2;
