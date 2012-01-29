@@ -83,14 +83,10 @@ namespace EatMyDust.GameObjects
 
         protected override void LoadContent()
         {
-            if (playerIndex == 0)
-                texture = Game.Content.Load<Texture2D>("Sprites/Cars/car1");
-            if (playerIndex == 1)
-                texture = Game.Content.Load<Texture2D>("Sprites/Cars/car2");
             base.LoadContent();
             tempX = (int)(Position3.X);
             tempY = (int)(Position3.Y);
-            boundingRect = new Rectangle((int)Position2.X, (int)Position2.Y, texture.Width, texture.Height);
+            
         }
 
         public override void Initialize()
@@ -127,6 +123,15 @@ namespace EatMyDust.GameObjects
        }
 
         #endregion
+
+        public void SetTexture()
+        {
+            if (playerIndex == 0)
+                texture = Game.Content.Load<Texture2D>("Sprites/Cars/car1");
+            if (playerIndex == 1)
+                texture = Game.Content.Load<Texture2D>("Sprites/Cars/car2");
+            boundingRect = new Rectangle((int)Position2.X, (int)Position2.Y, texture.Width, texture.Height);
+        }
 
         /// <summary>
         /// Handles keyboard/controller input for the player.
