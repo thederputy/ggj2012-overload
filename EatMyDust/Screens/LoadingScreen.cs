@@ -11,6 +11,7 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Threading;
 #endregion
 
 namespace EatMyDust
@@ -53,7 +54,7 @@ namespace EatMyDust
             this.loadingIsSlow = loadingIsSlow;
             this.screensToLoad = screensToLoad;
 
-            TransitionOnTime = TimeSpan.FromSeconds(0.5);
+            TransitionOnTime = TimeSpan.FromSeconds(1.5);
         }
 
 
@@ -145,14 +146,22 @@ namespace EatMyDust
                 Viewport viewport = ScreenManager.GraphicsDevice.Viewport;
                 Vector2 viewportSize = new Vector2(viewport.Width, viewport.Height);
                 Vector2 textSize = font.MeasureString(message);
-                Vector2 textPosition = (viewportSize - textSize) / 2;
+                Vector2 textPosition = new Vector2(viewport.Width / 3, 0.5f*viewport.Height);
 
                 Color color = Color.White * TransitionAlpha;
 
                 // Draw the text.
                 spriteBatch.Begin();
-                spriteBatch.DrawString(font, message, textPosition, color);
+
+                spriteBatch.DrawString(font, "HOW TO PLAY:", textPosition, color);
+                spriteBatch.DrawString(font, "Avoid Obstacles!", textPosition + new Vector2(0, textSize.Y), color);
+                spriteBatch.DrawString(font, "Grab Powerups!", textPosition + new Vector2(0, 2*textSize.Y), color);
+                spriteBatch.DrawString(font, "Use each others fuel to get as far as possible!", textPosition + new Vector2(0, 3*textSize.Y), color);
+
+                spriteBatch.DrawString(font, message, new Vector2(0, viewport.Height - textSize.Y), color);
                 spriteBatch.End();
+
+                Thread.Sleep(1000);
             }
         }
 
