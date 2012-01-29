@@ -51,7 +51,7 @@ namespace EatMyDust.GameObjects
             textureFiles.Add("Sprites/Powerups/star");
             texture = gameplayScreen.ScreenManager.Game.Content.Load<Texture2D>(textureFiles[(int)currentType]);
             expired = false;
-            Position2 = new Vector2(rand.Next(300, 980), rand.Next(225, 400));
+            Position2 = new Vector2(rand.Next(300, 980), rand.Next(50, 400));
             base.Initialize();
         }
 
@@ -62,7 +62,8 @@ namespace EatMyDust.GameObjects
         public override void Update(GameTime gameTime)
         {
             // TODO: Add your update code here
-
+            if (position.Y > gameplayScreen.ScreenManager.GraphicsDevice.Viewport.Height)
+                expired = true;
             base.Update(gameTime);
         }
     }
