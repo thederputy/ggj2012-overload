@@ -53,7 +53,7 @@ namespace EatMyDust.GameObjects
 
         public void Draw(SpriteBatch spriteBatch, Color color)
         {
-            spriteBatch.Draw(texture, position, Color.White);
+            spriteBatch.Draw(texture, position, color);
 
             //base.Draw(gameTime);
         }
