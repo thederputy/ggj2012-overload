@@ -41,6 +41,8 @@ namespace EatMyDust
 
         bool drawHelper = true;
 
+        bool playedSoundClip = false;
+
         float totalTitleTime = 0;
 
         Vector2 titleLocation;
@@ -135,10 +137,17 @@ namespace EatMyDust
                 dustCloudCarFade -= .007f;
                 dustCloudLocationCar.Y -= .3f;
                 if (totalTitleTime >= 1.0)
+                {
                     EAT = true;
-                if (totalTitleTime >= 2.0)
+                    if (!playedSoundClip)
+                    {
+                        playedSoundClip = true;
+                        SoundManager.playSound(ScreenManager.eatMyDustInstance, 1.0f);
+                    }
+                }
+                if (totalTitleTime >= 1.38)
                     MY = true;
-                if (totalTitleTime >= 3.0)
+                if (totalTitleTime >= 1.80)
                     DUST = true;
 
                 if (EAT)
