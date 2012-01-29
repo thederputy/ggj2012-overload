@@ -62,6 +62,8 @@ namespace EatMyDust
         TimeSpan dropTimer;
         const int dropInterval = 800; //milliseconds
 
+        List<PowerUp> powerUps;
+
         int FUEL_BAR_Y = 10; 
         int FUEL_BAR_HEIGHT = 30;
         const int FUEL_BAR_WIDTH = 30;
@@ -127,6 +129,12 @@ namespace EatMyDust
 
             dropTimer = TimeSpan.FromMilliseconds(dropInterval);
             powerSources = new List<PowerSource>();
+
+            powerUps = new List<PowerUp>();
+            PowerUp pup = new PowerUp(this, PowerUp.Type.PositionSwap);
+            pup.Position2 = Vector2.Zero;
+            powerUps.Add(pup);
+            
 
             // Add the game components to the game
             // This allows each component's Initialize, Update, Draw to get called automatically.
@@ -284,7 +292,7 @@ namespace EatMyDust
         protected void DrawGameScreen(SpriteBatch spriteBatch, GameTime gameTime)
         {
             //TODO: replace with road drawablegamecomponent draw call
-            spriteBatch.Draw(road, new Rectangle(0, 0, 1024, 768), Color.White);
+            //spriteBatch.Draw(road, new Rectangle(0, 0, 1024, 768), Color.White);
             
             playerOne.Draw(spriteBatch, Color.Green);
             playerTwo.Draw(spriteBatch, Color.Red);
@@ -296,6 +304,11 @@ namespace EatMyDust
             foreach(PowerSource ps in powerSources)
             {
                 ps.Draw(spriteBatch, ps.color);
+            }
+
+            foreach (PowerUp pup in powerUps)
+            {
+                pup.Draw(spriteBatch);
             }
 
             spriteBatch.Draw(blank, new Rectangle(0, ScreenManager.GraphicsDevice.Viewport.Height - (int)(FUEL_BAR_Y * playerOne.getFuelPercent()), FUEL_BAR_WIDTH, FUEL_BAR_HEIGHT), Color.Goldenrod);
@@ -332,11 +345,11 @@ namespace EatMyDust
             //check for collisions between the players and powersources
             foreach (PowerSource p in powerSources)
             {
-                if (p.createdBy != playerOne && playerOne.texture.Bounds.Intersects(p.texture.Bounds))
+                if (p.createdBy != playerOne && playerOne.boundingRect.Intersects(p.boundingRect))
                 {
                     FuelUp(playerOne, p);
                 }
-                if (p.createdBy != playerTwo && playerTwo.texture.Bounds.Intersects(p.texture.Bounds))
+                if (p.createdBy != playerTwo && playerTwo.boundingRect.Intersects(p.boundingRect))
                 {
                     FuelUp(playerTwo, p);
                 }
