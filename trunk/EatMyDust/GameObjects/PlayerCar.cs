@@ -243,6 +243,8 @@ namespace EatMyDust.GameObjects
 
             if (boosting)
             {
+                GamePad.SetVibration(PlayerIndex.One, 0.5f, 0.5f);
+                GamePad.SetVibration(PlayerIndex.Two, 0.5f, 0.5f);
                 SoundManager.playSound(carEngineRevInstance, 0.6f);
                 boostTimer -= gameTime.ElapsedGameTime;
                 if (boostTimer <= TimeSpan.FromSeconds(0))
@@ -252,6 +254,11 @@ namespace EatMyDust.GameObjects
                 }
                 else
                     velocity *= turboMultiplier;
+            }
+            else
+            {
+                GamePad.SetVibration(PlayerIndex.One, 0, 0);
+                GamePad.SetVibration(PlayerIndex.Two, 0, 0);
             }
 
             if (bfTimer <= TimeSpan.FromSeconds(0))
