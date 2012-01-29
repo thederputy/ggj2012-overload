@@ -72,6 +72,9 @@ namespace EatMyDust.GameObjects
             float divisionHeight = gameplayScreen.ScreenManager.GraphicsDevice.Viewport.Height / (float)(mDivisions - 1);
 
             int index = division*6;
+            if (index >= mDivisions * 6)
+                return TrackAreaType.Road;
+
             Vector3 topLeftVertex = mVertices[index+4].Position;
             Vector3 bottomLeftVertex = mVertices[index+1].Position;
             Vector3 bottomRightVertex = mVertices[index].Position;

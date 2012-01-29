@@ -42,6 +42,9 @@ namespace EatMyDust
         public static readonly Color playerOneColor = Color.Red;
         public static readonly Color playerTwoColor = Color.Yellow;
 
+        public static readonly float ObstacleSpawnTimeMin = 1f;
+        public static readonly float ObstacleSpawnTimeMax = 6f;
+
 
         #endregion
         #region Fields
@@ -103,8 +106,8 @@ namespace EatMyDust
         Random rand;
 
         int FUEL_BAR_Y = 10; 
-        int FUEL_BAR_HEIGHT = 40;
-        int FUEL_BAR_WIDTH = 30;
+        int FUEL_BAR_WIDTH = 40;
+        int FUEL_BAR_HEIGHT = 30;
         const int FUEL_BAR_INSET = 30;
         const int FUEL_BAR_INC = 70;
         
@@ -189,7 +192,7 @@ namespace EatMyDust
             powerupTimer = TimeSpan.FromSeconds(PowerUpDropTime);
 
             obstacles = new List<Obstacle>();
-            obstacleTimer = TimeSpan.FromSeconds(5);
+            obstacleTimer = TimeSpan.FromSeconds(ObstacleSpawnTimeMax);
             barricadeTimer = TimeSpan.FromSeconds(BarricadeSpawnTimeMax);
             // Add the game components to the game
             // This allows each component's Initialize, Update, Draw to get called automatically.
@@ -197,7 +200,7 @@ namespace EatMyDust
 
             //set fuel bar to use the whole screen
             FUEL_BAR_Y = ScreenManager.GraphicsDevice.Viewport.Height / 2;
-            FUEL_BAR_WIDTH = ScreenManager.GraphicsDevice.Viewport.Width / 4;
+            FUEL_BAR_HEIGHT = ScreenManager.GraphicsDevice.Viewport.Width / 4;
 
             //MUSIC AND SOUND LOADING
             
@@ -322,7 +325,7 @@ namespace EatMyDust
                 obstacleTimer -= gameTime.ElapsedGameTime;
                 if (obstacleTimer <= TimeSpan.FromSeconds(0))
                 {
-                    obstacleTimer = TimeSpan.FromSeconds(rand.Next(2, 7));
+                    obstacleTimer = TimeSpan.FromSeconds(ObstacleSpawnTimeMin + rand.NextDouble() * (ObstacleSpawnTimeMax - ObstacleSpawnTimeMin));
                     if (gameStarted)
                     {
                         Obstacle obs = new Obstacle(this);
@@ -341,7 +344,7 @@ namespace EatMyDust
                     }
                 }
 
-                score += (int)(Math.Ceiling(0.1f*ScrollSpeed));   //TODO: getting no score on the grass - is this awful?
+                score += (int)(Math.Ceiling(0.1f*ScrollSpeed));
 
 
                 // Check for game over state
@@ -463,10 +466,10 @@ namespace EatMyDust
 
 
             //top bars
-            spriteBatch.Draw(blank, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width / 2 - (int)(FUEL_BAR_WIDTH* playerOne.getFuelPercent()), FUEL_BAR_HEIGHT, (int)(FUEL_BAR_WIDTH* playerOne.getFuelPercent()), FUEL_BAR_HEIGHT-3), playerOneColor);
-            spriteBatch.Draw(blank, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width / 2, FUEL_BAR_HEIGHT, (int)(FUEL_BAR_WIDTH* playerTwo.getFuelPercent()), FUEL_BAR_HEIGHT-3), playerTwoColor);
-            spriteBatch.Draw(gasBarLH, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width / 2 - (FUEL_BAR_WIDTH+FUEL_BAR_INC), FUEL_BAR_HEIGHT, FUEL_BAR_WIDTH + FUEL_BAR_INC, FUEL_BAR_HEIGHT), Color.White);
-            spriteBatch.Draw(gasBarRH, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width / 2, FUEL_BAR_HEIGHT, FUEL_BAR_WIDTH + FUEL_BAR_INC, FUEL_BAR_HEIGHT), Color.White);
+            spriteBatch.Draw(blank, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width / 2 - (int)(FUEL_BAR_HEIGHT* playerOne.getFuelPercent()), FUEL_BAR_WIDTH, (int)(FUEL_BAR_HEIGHT* playerOne.getFuelPercent()), FUEL_BAR_WIDTH-3), playerOneColor);
+            spriteBatch.Draw(blank, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width / 2, FUEL_BAR_WIDTH, (int)(FUEL_BAR_HEIGHT* playerTwo.getFuelPercent()), FUEL_BAR_WIDTH-3), playerTwoColor);
+            spriteBatch.Draw(gasBarLH, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width / 2 - (FUEL_BAR_HEIGHT+FUEL_BAR_INC), FUEL_BAR_WIDTH, FUEL_BAR_HEIGHT + FUEL_BAR_INC, FUEL_BAR_WIDTH), Color.White);
+            spriteBatch.Draw(gasBarRH, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width / 2, FUEL_BAR_WIDTH, FUEL_BAR_HEIGHT + FUEL_BAR_INC, FUEL_BAR_WIDTH), Color.White);
         
         }
 
@@ -556,22 +559,28 @@ namespace EatMyDust
                 }
             }
 
+            bool boosting = playerOne.boosting || playerTwo.boosting;
+
             foreach (Obstacle obs in obstacles)
             {
                 if (obs is Barricade)
                 {
                     if (((Barricade)obs).CheckCollision(playerOne.boundingRect) || ((Barricade)obs).CheckCollision(playerTwo.boundingRect))
                     {
-                        gameOverCondition = true;
+                        if (!boosting)
+                            gameOverCondition = true;
                         obs.expired = true;
                     }
                 }
                 if (playerOne.boundingRect.Intersects(obs.boundingRect) || (playerTwo.boundingRect.Intersects(obs.boundingRect)))
                 {
-                    gameOverCondition = true;
+                    if (!boosting)
+                        gameOverCondition = true;
                     obs.expired = true;
                 }
             }
+            if (gameOverCondition)
+                GameOver();
 
 
         }
