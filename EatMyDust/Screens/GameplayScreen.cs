@@ -622,7 +622,6 @@ namespace EatMyDust
             GamePad.SetVibration(PlayerIndex.Two, 0, 0);
             //Replace call to message box with high score entry screen
             LoadingScreen.Load(ScreenManager, false, null, new BackgroundScreen(),
-                                                           new MainMenuScreen(),
                                                            new HighScoreScreen(ScreenManager.Game),
                                                            new HighScoreEntryScreen(score),
                                                            new GameOverScreen(score));

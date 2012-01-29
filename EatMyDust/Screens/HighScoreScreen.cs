@@ -20,13 +20,6 @@ namespace EatMyDust
 
         ContentManager Content;
 
-        // Holds the background color of the console window
-        private Texture2D rectangleTexture;
-
-        // size and position of the console window
-        private Rectangle bgrect;
-        private Vector2 bgpos;
-
         public HighScoreScreen(Game game)
         {
             HighScoreManager.LoadHighScores();
@@ -44,39 +37,26 @@ namespace EatMyDust
             inputManager = new InputManager(ScreenManager.Game);
 
             font = Content.Load<SpriteFont>("HighScoreFont");
-            // Get the screen size and width
-            int x, y, w, h;
-            x = ScreenManager.GraphicsDevice.Viewport.X;
-            y = ScreenManager.GraphicsDevice.Viewport.Y;
-            w = ScreenManager.GraphicsDevice.Viewport.Width;
-            h = ScreenManager.GraphicsDevice.Viewport.Height;
-
-            // Create the rectangle with a small "border" around it
-            bgrect = new Rectangle(x, y, w - 176, h - 64);
-            bgpos = new Vector2(x + 86, y + 32);
-
-            // Create a texture to apply to the rectangle
-            rectangleTexture = new Texture2D(ScreenManager.GraphicsDevice, bgrect.Width, bgrect.Height, false, SurfaceFormat.Color);
-
-            Color[] color = new Color[bgrect.Width * bgrect.Height];
-
-            // loop through all the colors setting them to a dark blue
-            for (int i = 0; i < color.Length; i++)
-            {
-                color[i] = new Color(43, 61, 89, 128);
-            }
-
-            rectangleTexture.SetData(color);
         }
 
         public override void HandleInput(InputState input)
         {
             base.HandleInput(input);
 
-            if (inputManager.IsPressed(Keys.Escape, Buttons.Back, 0))
+            if (inputManager.IsPressed(Keys.Escape, Buttons.B, Buttons.Back, 0)
+                || inputManager.IsPressed(Keys.Back, Buttons.B, Buttons.Back, 1))
             {
                 ExitScreen();
-                LoadingScreen.Load(ScreenManager, false, null, new BackgroundScreen(), new TitleScreen());
+                LoadingScreen.Load(ScreenManager, false, null, new BackgroundScreen(), new BackgroundScreen(),
+                                                                                        new MainMenuScreen(),
+                                                                                        new TitleScreen());
+            }
+
+            if (inputManager.IsPressed(Keys.Space, Buttons.A, Buttons.Start, 0)
+                || inputManager.IsPressed(Keys.Space, Buttons.A, Buttons.Start, 1))
+            {
+                ExitScreen();
+                LoadingScreen.Load(ScreenManager, false, PlayerIndex.One, new GameplayScreen());
             }
         }
 
@@ -93,11 +73,7 @@ namespace EatMyDust
 
             sb.Begin();
 
-            // Draw the transparent background
-            sb.Draw(rectangleTexture, bgpos, Color.White);
-
-            sb.DrawString(font, "HIGH SCORES", new Vector2(300, 50), Color.White);
-            sb.DrawString(font, "Press Esc or Back to Exit", new Vector2(100, bgrect.Height - 40), Color.White);
+            sb.DrawString(font, "HIGH SCORES", new Vector2(600, 50), Color.White);
 
             int initialsX = 125;
             int scoreX = 325;
@@ -110,16 +86,29 @@ namespace EatMyDust
                 while (ScoreEnumerator.MoveNext()) //Till not finished do print
                 {
                     KeyValuePair<int, String> currentPair = (KeyValuePair<int, String>)ScoreEnumerator.Current;
-                    sb.DrawString(font, i++.ToString() + ". " + currentPair.Value, new Vector2(initialsX, bothY), Color.White);
+                    string initialsOne = currentPair.Value.Substring(0, 3);
+                    string initialsTwo = currentPair.Value.Substring(3);
+                    sb.DrawString(font, i++.ToString() + ". " + initialsOne + ", " + initialsTwo, new Vector2(initialsX, bothY), Color.White);
                     sb.DrawString(font, currentPair.Key.ToString(), new Vector2(scoreX, bothY), Color.White);
                     bothY += 50;
-                    if (i == 6)
+                    if (i == 11)
                     {
-                        scoreX += 305;
-                        initialsX += 305;
-                        bothY = 150;
+                        scoreX += 355;
+                        initialsX += 355;
+                        bothY = 100;
+                    }
+                    if (i == 21)
+                    {
+                        scoreX += 355;
+                        initialsX += 355;
+                        bothY = 100;
                     }
                 }
+#if WINDOWS
+                sb.DrawString(font, "Press Space to Play Again, Escape / Backspace to go to the Main Menu", new Vector2(175, 600), Color.White);
+#elif XBOX
+                sb.DrawString(font, "Press A / Start to Play Again, B / Back to go to the Main Menu", new Vector2(250, 600), Color.White);
+#endif
             }
 
             sb.End();
