@@ -283,6 +283,7 @@ namespace EatMyDust
             SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
 
             // Drawing HUD stuff for now
+            track.Draw(gameTime);
             spriteBatch.Begin(SpriteSortMode.Deferred, null, null, DepthStencilState.Default, null);
 
             DrawGameScreen(spriteBatch, gameTime);

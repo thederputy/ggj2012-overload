@@ -27,7 +27,7 @@ namespace EatMyDust.GameObjects
         {
         }
 
-        public override void Draw(GameTime gameTime)
+        public new void Draw(GameTime gameTime)
         {
             SamplerState ss = new SamplerState();
             ss.AddressU = TextureAddressMode.Wrap;
