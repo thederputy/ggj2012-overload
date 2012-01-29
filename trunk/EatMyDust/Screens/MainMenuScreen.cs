@@ -93,7 +93,8 @@ namespace EatMyDust
 
             confirmExitMessageBox.Accepted += ConfirmExitMessageBoxAccepted;
 
-            ScreenManager.AddScreen(confirmExitMessageBox, playerIndex);
+            ScreenManager.Game.Exit(); //ScreenManager.AddScreen(confirmExitMessageBox, playerIndex);
+            //LoadingScreen.Load(ScreenManager, false, playerIndex, confirmExitMessageBox);
         }
 
 
