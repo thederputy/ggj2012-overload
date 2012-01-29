@@ -6,7 +6,7 @@ using Box2D.XNA;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace GameStateManagement
+namespace EatMyDust
 {
     class DebugRenderer : Box2D.XNA.DebugDraw
     {

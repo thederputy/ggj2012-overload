@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using Box2D.XNA;
 
-namespace GameStateManagement.GameObjects.PowerUps
+namespace EatMyDust.GameObjects.PowerUps
 {
     /// <summary>
     /// This is a game component that implements IUpdateable.
