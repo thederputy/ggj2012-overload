@@ -72,7 +72,7 @@ namespace EatMyDust
             spriteBatch.DrawString(font, string1, new Vector2((ScreenManager.GraphicsDevice.Viewport.Width / 2) - measurements.X / 2, ScreenManager.GraphicsDevice.Viewport.Height - 2*measurements.Y), Color.White);
             string1 = "Press ESC/Back to play again";
             measurements = font.MeasureString(string1);
-            spriteBatch.DrawString(font, "Press Space/Back to play again", new Vector2((ScreenManager.GraphicsDevice.Viewport.Width / 2) - measurements.X / 2, ScreenManager.GraphicsDevice.Viewport.Height - measurements.Y), Color.White);
+            spriteBatch.DrawString(font, "Press ESC/Back to play again", new Vector2((ScreenManager.GraphicsDevice.Viewport.Width / 2) - measurements.X / 2, ScreenManager.GraphicsDevice.Viewport.Height - measurements.Y), Color.White);
             spriteBatch.End();
             base.Draw(gameTime);
         }
