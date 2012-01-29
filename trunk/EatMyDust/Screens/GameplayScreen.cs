@@ -253,15 +253,17 @@ namespace EatMyDust
                 powerupTimer -= gameTime.ElapsedGameTime;
                 if (powerupTimer <= TimeSpan.FromSeconds(0))
                 {
-                    int i = rand.Next(1000);
-                    if (i < 500)
-                        i = 1;
-                    else
-                        i = 0;
-                    PowerUp pup = new PowerUp(this, (PowerUp.PowerUpType)i);
+                    
+                    PowerUp pup = new PowerUp(this);
                     pup.Position2 = new Vector2(rand.Next(0, 1280), rand.Next(0, 720));
                     powerUps.Add(pup);
                     powerupTimer = TimeSpan.FromSeconds(8);
+                }
+
+                // Check for game over state
+                if (playerOne.fuel == 0 || playerTwo.fuel == 0)
+                {
+                    GameOver();
                 }
             }
         }
@@ -439,6 +441,12 @@ namespace EatMyDust
 
             //TODO: check for collisions between the players and powerups
 
+        }
+
+        private void GameOver()
+        {
+            ScreenManager.AddScreen(new MessageBoxScreen("Game Over", true), 0);
+            this.ExitScreen();
         }
     }
 }

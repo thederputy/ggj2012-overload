@@ -83,9 +83,9 @@ namespace EatMyDust.GameObjects
 
         protected override void LoadContent()
         {
-            if (playerIndex == 1)
+            if (playerIndex == 0)
                 texture = Game.Content.Load<Texture2D>("Sprites/Cars/car1");
-            if (playerIndex == 2)
+            if (playerIndex == 1)
                 texture = Game.Content.Load<Texture2D>("Sprites/Cars/car2");
             base.LoadContent();
             tempX = (int)(Position3.X);
@@ -225,7 +225,7 @@ namespace EatMyDust.GameObjects
 
             if (fuel <= 0)
             {
-                SoundManager.playSound(jesusHornInstance, 0.1f);
+                //SoundManager.playSound(jesusHornInstance, 0.1f);
                 velocity = Vector2.Zero;
             }
             if (fuelTimer <= TimeSpan.FromSeconds(0))

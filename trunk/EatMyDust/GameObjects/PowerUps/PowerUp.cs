@@ -31,11 +31,10 @@ namespace EatMyDust.GameObjects
 
         public PowerUpType currentType;
 
-        public PowerUp(GameplayScreen gameplayScreen, PowerUpType powerUpType)
+        public PowerUp(GameplayScreen gameplayScreen)
             : base(gameplayScreen)
         {
             // TODO: Construct any child components here
-            currentType = powerUpType;
         }
 
         /// <summary>
@@ -44,7 +43,8 @@ namespace EatMyDust.GameObjects
         /// </summary>
         public override void Initialize()
         {
-            // TODO: Add your initialization code here
+            Random rand = new Random();
+            currentType = (PowerUpType)rand.Next(2);
             textureFiles = new List<string>();
             // ***ORDER OF STRINGS MUST CORRESPOND TO ORDER OF ENUM***
             textureFiles.Add("Sprites/Powerups/swap");
