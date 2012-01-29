@@ -50,6 +50,9 @@ namespace GameStateManagement.GameObjects
 
         private const float turboMultiplier = 1.5f;
 
+        bool spinningOut;
+        TimeSpan spinDuration;
+
         #endregion
 
         #region Initialization
@@ -76,6 +79,8 @@ namespace GameStateManagement.GameObjects
             tempX = (int)(Position3.X);
             tempY = (int)(Position3.Y);
             scaleFactor = 3.0f;
+            spinningOut = false;
+            spinDuration = TimeSpan.FromSeconds(1);
             base.Initialize();
        }
 
@@ -115,6 +120,8 @@ namespace GameStateManagement.GameObjects
 #if DEBUG 
             if (inputManager.IsPressed(Keys.F, Buttons.LeftShoulder, playerIndex))
                 fuel = maxFuel;
+            if (inputManager.IsPressed(Keys.B, Buttons.LeftShoulder, playerIndex))
+                SpinOut();
 #endif
 
             // Keyboard/Dpad velocity change
@@ -152,7 +159,6 @@ namespace GameStateManagement.GameObjects
 
         public override void Update(GameTime gameTime)
         {
-            
             camera.Update(new Vector3(tempX, tempY, Position3.Z));
 
             if (fuel <= 0)
@@ -170,10 +176,20 @@ namespace GameStateManagement.GameObjects
             else
                 fuelTimer -= gameTime.ElapsedGameTime;
             
-
             body.Position += velocity * 8;
 
-            
+            if (spinningOut)
+            {
+                
+                spinDuration -= gameTime.ElapsedGameTime;
+                if (spinDuration <= TimeSpan.FromSeconds(0))
+                {
+                    body.SetAngularVelocity(0);
+                    spinningOut = false;
+                }
+                
+            }
+
             tempX = (int)(Position3.X + camera.View.Translation.X) * -1;
             tempY = (int)(Position3.Y + camera.View.Translation.Y) * -1;
             //int cnt = 0;
@@ -182,44 +198,28 @@ namespace GameStateManagement.GameObjects
 
             if (Math.Abs(tempX) > X_LIMIT || Math.Abs(tempY) > Y_LIMIT)
             {
-                //camera.Update(new Vector3(Position3.X + MathHelper.Clamp(tempX, -X_LIMIT, X_LIMIT), Position3.Y + MathHelper.Clamp(tempY, -Y_LIMIT, Y_LIMIT), Position3.Z));
                 tempX = (int)(Position3.X + MathHelper.Clamp(tempX, -X_LIMIT, X_LIMIT));
                 tempY = (int)(Position3.Y + MathHelper.Clamp(tempY, -Y_LIMIT, Y_LIMIT));
-              // tempX = (int)(Position3.X );
-               //tempY = (int)(Position3.Y );
-           
 
             }
             else if (cameraEase.X >= -1 && cameraEase.Y >= -1)
             {
-
-                
-
                 if (Math.Abs(MathHelper.Clamp(tempX, -X_LIMIT, X_LIMIT) - cameraEase.X * CAMERA_PAN_SPEED) < CAMERA_PAN_SPEED)
                 {
-
                     tempX = (int)(Position3.X + MathHelper.Clamp(tempX, -X_LIMIT, X_LIMIT));
                 }
                 else
                 {
-
-                    tempX = (int)(Position3.X + MathHelper.Clamp(tempX, -X_LIMIT, X_LIMIT) - cameraEase.X * CAMERA_PAN_SPEED);
-                   
+                    tempX = (int)(Position3.X + MathHelper.Clamp(tempX, -X_LIMIT, X_LIMIT) - cameraEase.X * CAMERA_PAN_SPEED); 
                 }
-
                 if (Math.Abs(MathHelper.Clamp(tempY, -Y_LIMIT, Y_LIMIT) - cameraEase.Y * CAMERA_PAN_SPEED) < CAMERA_PAN_SPEED)
                 {
                     tempY = (int)(Position3.Y + MathHelper.Clamp(tempY, -Y_LIMIT, Y_LIMIT));                  
                 }
                 else
-                {
-                    
-                    tempY = (int)(Position3.Y + MathHelper.Clamp(tempY, -Y_LIMIT, Y_LIMIT) - cameraEase.Y * CAMERA_PAN_SPEED);
-                   
+                {                  
+                    tempY = (int)(Position3.Y + MathHelper.Clamp(tempY, -Y_LIMIT, Y_LIMIT) - cameraEase.Y * CAMERA_PAN_SPEED);                
                 }
-
-
-                //camera.Update(new Vector3(Position3.X + tempX, Position3.Y + tempY, Position3.Z));
 
             }
             else
@@ -255,6 +255,17 @@ namespace GameStateManagement.GameObjects
         {
             if (fuel < maxFuel)
                 fuel += fuelPerSecond;
+        }
+
+        public void SpinOut()
+        {
+            if (!spinningOut)
+            {
+                spinningOut = true;
+                //body.SetTransform(body.Position, (float)(body.Rotation + Math.PI / 16));
+                body.SetAngularVelocity((float)(Math.PI * 2 + Math.PI/32));
+                spinDuration = TimeSpan.FromSeconds(1);
+            }
         }
 
     }
