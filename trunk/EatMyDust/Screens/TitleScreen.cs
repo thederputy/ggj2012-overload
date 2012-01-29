@@ -15,6 +15,9 @@ namespace EatMyDust
     class TitleScreen : GameScreen
     {
         ContentManager content;
+
+        SpriteFont font;
+
         Texture2D carTexture;
         Texture2D eatTitleTexture;
         Texture2D myTitleTexture;
@@ -35,6 +38,8 @@ namespace EatMyDust
         bool EAT = false;
         bool MY = false;
         bool DUST = false;
+
+        bool drawHelper = true;
 
         float totalTitleTime = 0;
 
@@ -65,6 +70,9 @@ namespace EatMyDust
                 content = new ContentManager(ScreenManager.Game.Services, "Content");
 
             inputManager = new InputManager(ScreenManager.Game);
+
+            //load font
+            font = content.Load<SpriteFont>("gamefont"); 
 
             //load textures
             carTexture = content.Load<Texture2D>("Sprites/titlescreen_car"); 
@@ -186,7 +194,9 @@ namespace EatMyDust
                 spriteBatch.Draw(dustTitleTexture, new Rectangle((int)titleLocation.X, (int)titleLocation.Y, eatTitleTexture.Width, eatTitleTexture.Height), Color.White);
                 spriteBatch.Draw(dustCloudTexture, new Rectangle((int)dustCloudLocationDust.X, (int)dustCloudLocationDust.Y, dustCloudTexture.Width, dustCloudTexture.Height), Color.White * dustCloudDustFade);
                 spriteBatch.Draw(dustCloudBigTexture, new Rectangle((int)dustCloudLocationDust.X + 20, (int)dustCloudLocationDust.Y - 30, dustCloudBigTexture.Width, dustCloudBigTexture.Height), Color.White * dustCloudDustFade);
-                spriteBatch.Draw(dustCloudBigTexture, new Rectangle((int)dustCloudLocationDust.X - 40, (int)dustCloudLocationDust.Y - 10, dustCloudBigTexture.Width, dustCloudBigTexture.Height), Color.White * dustCloudDustFade); 
+                spriteBatch.Draw(dustCloudBigTexture, new Rectangle((int)dustCloudLocationDust.X - 40, (int)dustCloudLocationDust.Y - 10, dustCloudBigTexture.Width, dustCloudBigTexture.Height), Color.White * dustCloudDustFade);
+                if (drawHelper)
+                    spriteBatch.DrawString(font, "Press Enter/Start!", new Vector2((ScreenManager.GraphicsDevice.Viewport.Width / 2) - (int)(font.MeasureString("Press Enter/Start!").X / 2), carFinalLocation.Y + carTexture.Height), Color.White);
             }
             spriteBatch.End();
             base.Draw(gameTime);
@@ -200,13 +210,15 @@ namespace EatMyDust
             if (inputManager.IsPressed(Keys.Enter, Buttons.Start, 0))
             {
                 setFinalPosition();
+                drawHelper = false;
                 ScreenManager.AddScreen(new MainMenuScreen(), null);
             }
         }
 
         public void setFinalPosition()
         {
-            carLocation = carFinalLocation;
+            if (!DUST)
+                carLocation = carFinalLocation;
 
         }
 
