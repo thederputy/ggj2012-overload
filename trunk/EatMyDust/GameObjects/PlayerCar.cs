@@ -50,7 +50,7 @@ namespace EatMyDust.GameObjects
 
         public bool boosting;
         private TimeSpan boostTimer;
-        public bool isExploded = false;
+        public bool ignoreInput = false;
 
         private int playerIndex;
 
@@ -149,7 +149,7 @@ namespace EatMyDust.GameObjects
             // Otherwise move the player position.
             velocity = Vector2.Zero;
 
-            if (isExploded)
+            if (ignoreInput)
                 return;
 
             // Keyboard Controls
