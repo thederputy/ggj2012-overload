@@ -32,6 +32,9 @@ namespace EatMyDust
             if (inputManager.currentKeyboardState.IsKeyDown(Keys.Escape))
             {
                 ExitScreen();
+                LoadingScreen.Load(ScreenManager, false, null, new BackgroundScreen(), new BackgroundScreen(),
+                                                                                        new MainMenuScreen(),
+                                                                                        new TitleScreen());
             }
             base.Update(gameTime, otherScreenHasFocus, coveredByOtherScreen);
         }
