@@ -158,7 +158,9 @@ namespace EatMyDust
                 spriteBatch.DrawString(font, "HOW TO PLAY:", textPosition, color);
                 spriteBatch.DrawString(font, "Avoid Obstacles!", textPosition + new Vector2(0, textSize.Y), color);
                 spriteBatch.DrawString(font, "Grab Powerups!", textPosition + new Vector2(0, 2*textSize.Y), color);
-                spriteBatch.DrawString(font, "Use each other's exhaust to get as far as possible!", textPosition + new Vector2(0, 3*textSize.Y), color);
+                spriteBatch.DrawString(font, "Use each other's exhaust to get as far as possible!", textPosition + new Vector2(0, 3 * textSize.Y), color);
+                spriteBatch.DrawString(font, "Player1: W, A, S, D , LeftCtrl", textPosition + new Vector2(0, 4 * textSize.Y), color);
+                spriteBatch.DrawString(font, "Player2: Arrow Keys , RightCtrl", textPosition + new Vector2(0, 5 * textSize.Y), color);
 
                 spriteBatch.DrawString(font, message, new Vector2(0, viewport.Height - textSize.Y), color);
                 spriteBatch.End();
