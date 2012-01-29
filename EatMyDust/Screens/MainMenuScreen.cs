@@ -67,12 +67,18 @@ namespace EatMyDust
         /// </summary>
         void HighScoreMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
-            ScreenManager.AddScreen(new HighScoreScreen(ScreenManager.Game), e.PlayerIndex);
+            //ScreenManager.AddScreen(new HighScoreScreen(ScreenManager.Game), e.PlayerIndex);
+            LoadingScreen.Load(ScreenManager, false, e.PlayerIndex,
+                                new BackgroundScreen(),
+                                new HighScoreScreen(ScreenManager.Game));
         }
 
         void CreditsMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
-            ScreenManager.AddScreen(new CreditScreen(), e.PlayerIndex);
+            //ScreenManager.AddScreen(new CreditScreen(), e.PlayerIndex);
+            LoadingScreen.Load(ScreenManager, false, e.PlayerIndex,
+                               new BackgroundScreen(),
+                               new CreditScreen());
         }
 
 
