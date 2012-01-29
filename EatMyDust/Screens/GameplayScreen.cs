@@ -570,10 +570,12 @@ namespace EatMyDust
                 if (p.createdBy != playerOne && playerOne.boundingRect.Intersects(p.boundingRect))
                 {
                     FuelUp(playerOne, p);
+                    score += 10;
                 }
                 if (p.createdBy != playerTwo && playerTwo.boundingRect.Intersects(p.boundingRect))
                 {
                     FuelUp(playerTwo, p);
+                    score += 10;
                 }
             }
             foreach (PowerUp pup in powerUps)
@@ -621,6 +623,7 @@ namespace EatMyDust
                             gameOverCondition = true;
                         obs.expired = true;
                         explosionPosition = playerOne.Position2;
+                        SoundManager.playSound(ScreenManager.crashInstance, 0.6f);
                     }
                     if (((Barricade)obs).CheckCollision(playerTwo.boundingRect))
                     {
@@ -628,6 +631,7 @@ namespace EatMyDust
                             gameOverCondition = true;
                         obs.expired = true;
                         explosionPosition = playerTwo.Position2;
+                        SoundManager.playSound(ScreenManager.crashInstance, 0.6f);
                     }
                 }
                 if (playerOne.boundingRect.Intersects(obs.boundingRect))
@@ -636,6 +640,7 @@ namespace EatMyDust
                         gameOverCondition = true;
                     obs.expired = true;
                     explosionPosition = playerOne.Position2;
+                    SoundManager.playSound(ScreenManager.crashInstance, 0.6f);
                 }
                 if (playerTwo.boundingRect.Intersects(obs.boundingRect))
                 {
@@ -643,6 +648,7 @@ namespace EatMyDust
                         gameOverCondition = true;
                     obs.expired = true;
                     explosionPosition = playerTwo.Position2;
+                    SoundManager.playSound(ScreenManager.crashInstance, 0.6f);
                 }
             }
         }
