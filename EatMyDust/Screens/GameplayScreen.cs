@@ -88,7 +88,9 @@ namespace EatMyDust
         Texture2D gasBarR;
         Texture2D gasBarLH;
         Texture2D gasBarRH;
+        Texture2D explosion;
 
+        Vector2 explosionPosition;
 
         BasicEffect effect;
 
@@ -169,6 +171,7 @@ namespace EatMyDust
             gasBarR = this.content.Load<Texture2D>("Sprites/gasBar_B");
             gasBarLH = this.content.Load<Texture2D>("Sprites/gasBar_D");
             gasBarRH = this.content.Load<Texture2D>("Sprites/gasBar_C");
+            explosion = this.content.Load<Texture2D>("Sprites/bigboom");
 
             track = new Track(this);
 
@@ -450,11 +453,14 @@ namespace EatMyDust
             {
                 if (obs is Barricade)
                 {
-                    ((Barricade)obs).Draw(spriteBatch, 7);
+                    ((Barricade)obs).Draw(spriteBatch); 
                 }
                 else
                     obs.Draw(spriteBatch);
             }
+
+            if (gameOverCondition)
+                spriteBatch.Draw(explosion, explosionPosition, Color.White);
 
             Viewport viewPort = ScreenManager.GraphicsDevice.Viewport;
 
@@ -565,24 +571,34 @@ namespace EatMyDust
             {
                 if (obs is Barricade)
                 {
-                    if (((Barricade)obs).CheckCollision(playerOne.boundingRect) || ((Barricade)obs).CheckCollision(playerTwo.boundingRect))
+                    if (((Barricade)obs).CheckCollision(playerOne.boundingRect))
                     {
                         if (!boosting)
                             gameOverCondition = true;
                         obs.expired = true;
+                        explosionPosition = playerOne.Position2;
+                    }
+                    if (((Barricade)obs).CheckCollision(playerTwo.boundingRect))
+                    {
+                        gameOverCondition = true;
+                        obs.expired = true;
+                        explosionPosition = playerTwo.Position2;
                     }
                 }
-                if (playerOne.boundingRect.Intersects(obs.boundingRect) || (playerTwo.boundingRect.Intersects(obs.boundingRect)))
+                if (playerOne.boundingRect.Intersects(obs.boundingRect))
                 {
                     if (!boosting)
                         gameOverCondition = true;
                     obs.expired = true;
+                    explosionPosition = playerOne.Position2;
+                }
+                if (playerTwo.boundingRect.Intersects(obs.boundingRect))
+                {
+                    gameOverCondition = true;
+                    obs.expired = true;
+                    explosionPosition = playerTwo.Position2;
                 }
             }
-            if (gameOverCondition)
-                GameOver();
-
-
         }
 
         private void GameOver()
@@ -593,7 +609,7 @@ namespace EatMyDust
             powerUps.Clear();
             powerSources.Clear();
             obstacles.Clear();
-            gameOverCondition = false;
+            //gameOverCondition = false;
             this.ExitScreen();
 
             GamePad.SetVibration(PlayerIndex.One, 0, 0);
