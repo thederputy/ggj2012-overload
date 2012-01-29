@@ -64,9 +64,9 @@ namespace GameStateManagement
         TimeSpan dropTimer;
         const int dropInterval = 300; //milliseconds
 
-        const int FUEL_BAR_Y = 10; 
-        const int FUEL_BAR_HEIGHT = 30; 
-        int FUEL_BAR_WIDTH; 
+        int FUEL_BAR_Y = 10; 
+        int FUEL_BAR_HEIGHT = 30;
+        const int FUEL_BAR_WIDTH = 30; 
 
         #endregion
 
@@ -172,7 +172,8 @@ namespace GameStateManagement
             ScreenManager.Game.Components.Add(inputManager);
 
             //set fuel bar to use the whole screen
-            FUEL_BAR_WIDTH = ScreenManager.GraphicsDevice.Viewport.Width / 2;
+            FUEL_BAR_Y = ScreenManager.GraphicsDevice.Viewport.Height / 2;
+            FUEL_BAR_HEIGHT = ScreenManager.GraphicsDevice.Viewport.Height / 2;
         }
 
 
@@ -322,13 +323,16 @@ namespace GameStateManagement
 
             // Drawing HUD stuff for now
             spriteBatch.Begin();
-            spriteBatch.Draw(blank, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width / 2 - (int)(FUEL_BAR_WIDTH * playerOne.getFuelPercent()), FUEL_BAR_Y, (int)(FUEL_BAR_WIDTH * playerOne.getFuelPercent()), FUEL_BAR_HEIGHT), Color.Goldenrod);
-            spriteBatch.Draw(blank, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width / 2, FUEL_BAR_Y, (int)(FUEL_BAR_WIDTH * playerTwo.getFuelPercent()), FUEL_BAR_HEIGHT), Color.Goldenrod);
-            spriteBatch.Draw(blank, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width / 2 - 1, 0, 3, ScreenManager.GraphicsDevice.Viewport.Height), Color.Black); // Draws Black bar down Center
+            spriteBatch.Draw(blank, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width / 2 - FUEL_BAR_WIDTH, ScreenManager.GraphicsDevice.Viewport.Height - (int)(FUEL_BAR_Y * playerOne.getFuelPercent()), FUEL_BAR_WIDTH, FUEL_BAR_HEIGHT), Color.Goldenrod);
+            spriteBatch.Draw(blank, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width / 2, ScreenManager.GraphicsDevice.Viewport.Height - (int)(FUEL_BAR_Y * playerTwo.getFuelPercent()), FUEL_BAR_WIDTH, FUEL_BAR_HEIGHT), Color.Goldenrod);
+            spriteBatch.Draw(blank, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width / 2 - 2, 0, 5, ScreenManager.GraphicsDevice.Viewport.Height), Color.Black); // Draws Black bar down Center
             //spriteBatch.Draw(blank, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width / 2, 0, 100, 5), Color.Pink);
 
-            spriteBatch.DrawString(gameFont, "FUEL", new Vector2(ScreenManager.GraphicsDevice.Viewport.Width / 2 + 10, -5), Color.Black);
-            spriteBatch.DrawString(gameFont, "FUEL", new Vector2(ScreenManager.GraphicsDevice.Viewport.Width / 2 - 95, -5), Color.Black);
+            //FUEL_BAR_Y
+            //FUEL_BAR_HEIGHT
+
+            spriteBatch.DrawString(gameFont, "FUEL", new Vector2(ScreenManager.GraphicsDevice.Viewport.Width / 2 + 10, ScreenManager.GraphicsDevice.Viewport.Height - 60), Color.Black);
+            spriteBatch.DrawString(gameFont, "FUEL", new Vector2(ScreenManager.GraphicsDevice.Viewport.Width / 2 - 95, ScreenManager.GraphicsDevice.Viewport.Height - 60), Color.Black);
 
             debugRenderer.FinishDrawString();
             spriteBatch.End();
