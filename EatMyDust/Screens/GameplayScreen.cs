@@ -624,7 +624,8 @@ namespace EatMyDust
             LoadingScreen.Load(ScreenManager, false, null, new BackgroundScreen(),
                                                            new MainMenuScreen(),
                                                            new HighScoreScreen(ScreenManager.Game),
-                                                           new HighScoreEntryScreen(score));
+                                                           new HighScoreEntryScreen(score),
+                                                           new GameOverScreen(score));
         }
     }
 }
