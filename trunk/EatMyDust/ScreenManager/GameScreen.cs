@@ -207,7 +207,7 @@ namespace EatMyDust
 
         GestureType enabledGestures = GestureType.None;
 
-
+        protected InputManager inputManager;
         #endregion
 
         #region Initialization

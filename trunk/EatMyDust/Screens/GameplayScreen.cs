@@ -54,7 +54,6 @@ namespace EatMyDust
         }
         
         Random random = new Random();
-        InputManager inputManager;
 
         float pauseAlpha;
 
@@ -117,10 +116,10 @@ namespace EatMyDust
             if (content == null)
                 content = new ContentManager(ScreenManager.Game.Services, "Content");
 
-            gameFont = content.Load<SpriteFont>("gamefont");
-
             // Input
             inputManager = new InputManager(ScreenManager.Game);
+
+            gameFont = content.Load<SpriteFont>("gamefont");
 
             // Players
             playerOne = new PlayerCar(this, new Vector2(ScreenManager.GraphicsDevice.Viewport.Width/2, ScreenManager.GraphicsDevice.Viewport.Height/2), 1);
@@ -139,11 +138,6 @@ namespace EatMyDust
             gasBarRH = this.content.Load<Texture2D>("Sprites/gasBar_C");
 
             track = new Track(this);
-
-            // A real game would probably have more content than this sample, so
-            // it would take longer to load. We simulate that by delaying for a
-            // while, giving you a chance to admire the beautiful loading screen.
-            Thread.Sleep(100);
 
             // once the load has finished, we use ResetElapsedTime to tell the game's
             // timing mechanism that we have just finished a very long frame, and that
@@ -467,10 +461,8 @@ namespace EatMyDust
             //Replace call to message box with high score entry screen
             LoadingScreen.Load(ScreenManager, false, null, new BackgroundScreen(),
                                                            new MainMenuScreen(),
-                                                           new MessageBoxScreen("Game Over", true));
-            //ScreenManager.AddScreen(new MainMenuScreen(), null);
-            //ScreenManager.AddScreen(new MessageBoxScreen("Game Over", true), 0);
-            
+                                                           new HighScoreScreen(ScreenManager.Game));/*,
+                                                           new HighScoreEntryScreen());*/
         }
     }
 }

@@ -86,11 +86,9 @@ namespace EatMyDust
             set { traceEnabled = value; }
         }
 
-
         #endregion
 
         #region Initialization
-
 
         /// <summary>
         /// Constructs a new screen manager component.
