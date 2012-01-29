@@ -249,7 +249,7 @@ namespace EatMyDust
                     PowerUp pup = new PowerUp(this, (PowerUp.Type)i);
                     pup.Position2 = new Vector2(rand.Next(0, 1280), rand.Next(0, 720));
                     powerUps.Add(pup);
-                    powerupTimer = TimeSpan.FromSeconds(2);
+                    powerupTimer = TimeSpan.FromSeconds(8);
                 }
             }
         }
