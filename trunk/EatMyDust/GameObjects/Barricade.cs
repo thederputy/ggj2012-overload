@@ -1,0 +1,57 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+
+namespace EatMyDust.GameObjects
+{
+    class Barricade : Obstacle
+    {
+        public Barricade(GameplayScreen gameplayScreen)
+            : base(gameplayScreen)
+        {
+            // TODO: Construct any child components here
+        }
+
+        /// <summary>
+        /// Allows the game component to perform any initialization it needs to before starting
+        /// to run.  This is where it can query for any required services and load content.
+        /// </summary>
+        public override void Initialize()
+        {
+            Random rand = new Random();
+            currentType = (ObstacleType)rand.Next(2);
+            textureFiles = new List<string>();
+            // ***ORDER OF STRINGS MUST CORRESPOND TO ORDER OF ENUM***
+            textureFiles.Add("Sprites/Powerups/rock");
+            textureFiles.Add("Sprites/Powerups/stonewall");
+            texture = gameplayScreen.ScreenManager.Game.Content.Load<Texture2D>(textureFiles[(int)currentType]);
+            expired = false;
+            Position2 = new Vector2(rand.Next(275, 350), -32);
+            base.Initialize();
+        }
+
+        /// <summary>
+        /// Allows the game component to update itself.
+        /// </summary>
+        /// <param name="gameTime">Provides a snapshot of timing values.</param>
+        public override void Update(GameTime gameTime)
+        {
+            // TODO: Add your update code here
+            if (position.Y > gameplayScreen.ScreenManager.GraphicsDevice.Viewport.Height)
+                expired = true;
+            base.Update(gameTime);
+        }
+
+        public void Draw(SpriteBatch spriteBatch, int repeat)
+        {
+            for (int i = 0; i < repeat; i++)
+            {
+                spriteBatch.Draw(texture, Position2 + new Vector2(texture.Width*i, 0), Color.White);
+            }
+
+        }
+    }
+}
