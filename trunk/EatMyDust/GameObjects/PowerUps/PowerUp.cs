@@ -37,10 +37,7 @@ namespace EatMyDust.GameObjects
         {
             // TODO: Construct any child components here
             currentType = type;
-            textureFiles = new List<string>();
-            // ***ORDER OF STRINGS MUST CORRESPOND TO ORDER OF ENUM***
-            textureFiles.Add("Sprites\\Powerups\\positionswap");
-            textureFiles.Add("Sprites\\Powerups\\boost");
+            
         }
 
         /// <summary>
@@ -50,6 +47,10 @@ namespace EatMyDust.GameObjects
         public override void Initialize()
         {
             // TODO: Add your initialization code here
+            textureFiles = new List<string>();
+            // ***ORDER OF STRINGS MUST CORRESPOND TO ORDER OF ENUM***
+            textureFiles.Add("Sprites\\Powerups\\positionswap");
+            textureFiles.Add("Sprites\\Powerups\\boost");
             texture = gameplayScreen.ScreenManager.Game.Content.Load<Texture2D>(textureFiles[(int)currentType]);
             expired = false;
             base.Initialize();
