@@ -66,6 +66,8 @@ namespace EatMyDust.GameObjects
         SoundEffectInstance jesusHornInstance;
         SoundEffect carEngineRevFX;
         SoundEffectInstance carEngineRevInstance;
+        SoundEffect crashFX;
+        SoundEffectInstance crashInstance;
 
         protected int backfireSoundRangeMax = 8;
         protected int backfireSoundRangeMin = 2;
@@ -86,7 +88,6 @@ namespace EatMyDust.GameObjects
             base.LoadContent();
             tempX = (int)(Position3.X);
             tempY = (int)(Position3.Y);
-            
         }
 
         public override void Initialize()
@@ -105,6 +106,7 @@ namespace EatMyDust.GameObjects
 
             engineFX = Game.Content.Load<SoundEffect>("Sounds/engine");
             engineInstance = engineFX.CreateInstance();
+            engineInstance.Pitch *= 0.9f;
 
             honkFX = Game.Content.Load<SoundEffect>("Sounds/honk");
             honkInstance = honkFX.CreateInstance();
@@ -120,6 +122,9 @@ namespace EatMyDust.GameObjects
 
             carEngineRevFX = Game.Content.Load<SoundEffect>("Sounds/carEngineRev");
             carEngineRevInstance = carEngineRevFX.CreateInstance();
+
+            crashFX = Game.Content.Load<SoundEffect>("Sounds/crash");
+            crashInstance = crashFX.CreateInstance();
        }
 
         #endregion
@@ -249,8 +254,8 @@ namespace EatMyDust.GameObjects
 
             if (boosting)
             {
-                GamePad.SetVibration(PlayerIndex.One, 0.5f, 0.5f);
-                GamePad.SetVibration(PlayerIndex.Two, 0.5f, 0.5f);
+                GamePad.SetVibration(PlayerIndex.One, 0.8f, 0.8f);
+                GamePad.SetVibration(PlayerIndex.Two, 0.8f, 0.8f);
                 SoundManager.playSound(carEngineRevInstance, 0.6f);
                 boostTimer -= gameTime.ElapsedGameTime;
                 if (boostTimer <= TimeSpan.FromSeconds(0))
@@ -263,8 +268,13 @@ namespace EatMyDust.GameObjects
             }
             else
             {
-                GamePad.SetVibration(PlayerIndex.One, 0, 0);
-                GamePad.SetVibration(PlayerIndex.Two, 0, 0);
+                if (started)
+                {
+                    float rumbleLeft = (float)1 / getFuelPercent();
+                    float rumbleRight = (float)1 / getFuelPercent();
+                    GamePad.SetVibration(PlayerIndex.One, rumbleLeft, rumbleRight);
+                    GamePad.SetVibration(PlayerIndex.Two, rumbleLeft, rumbleRight);
+                }
             }
 
             if (bfTimer <= TimeSpan.FromSeconds(0))
