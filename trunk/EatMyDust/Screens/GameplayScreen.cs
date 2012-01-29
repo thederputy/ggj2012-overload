@@ -61,6 +61,9 @@ namespace EatMyDust
         //Textures
         Texture2D blank;
         Texture2D road;
+        Texture2D gasBarL;
+        Texture2D gasBarR;
+
 
         BasicEffect effect;
 
@@ -76,7 +79,8 @@ namespace EatMyDust
 
         int FUEL_BAR_Y = 10; 
         int FUEL_BAR_HEIGHT = 30;
-        const int FUEL_BAR_WIDTH = 30;
+        const int FUEL_BAR_WIDTH = 40;
+        const int FUEL_BAR_INSET = 30;
         
         // sounds effects and music         
         SoundEffect collectPower; // BG Music
@@ -126,6 +130,8 @@ namespace EatMyDust
             // Textures
             blank = this.content.Load<Texture2D>("blank");
             road = this.content.Load<Texture2D>("Backgrounds/roads1/preview");
+            gasBarL = this.content.Load<Texture2D>("Sprites/gasBar_A");
+            gasBarR = this.content.Load<Texture2D>("Sprites/gasBar_B");
 
             track = new Track(this);
 
@@ -348,8 +354,12 @@ namespace EatMyDust
                 pup.Draw(spriteBatch);
             }
 
-            spriteBatch.Draw(blank, new Rectangle(0, ScreenManager.GraphicsDevice.Viewport.Height - (int)(FUEL_BAR_Y * playerOne.getFuelPercent()), FUEL_BAR_WIDTH, FUEL_BAR_HEIGHT), Color.Goldenrod);
-            spriteBatch.Draw(blank, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width - FUEL_BAR_WIDTH, ScreenManager.GraphicsDevice.Viewport.Height - (int)(FUEL_BAR_Y * playerTwo.getFuelPercent()), FUEL_BAR_WIDTH, FUEL_BAR_HEIGHT), Color.Goldenrod);
+            spriteBatch.Draw(blank, new Rectangle(FUEL_BAR_INSET, ScreenManager.GraphicsDevice.Viewport.Height - (int)(FUEL_BAR_Y * playerOne.getFuelPercent()), FUEL_BAR_WIDTH, FUEL_BAR_HEIGHT), Color.Goldenrod);
+            spriteBatch.Draw(blank, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width - FUEL_BAR_WIDTH - FUEL_BAR_INSET, ScreenManager.GraphicsDevice.Viewport.Height - (int)(FUEL_BAR_Y * playerTwo.getFuelPercent()), FUEL_BAR_WIDTH, FUEL_BAR_HEIGHT), Color.Goldenrod);
+
+            spriteBatch.Draw(gasBarL, new Rectangle(FUEL_BAR_INSET, ScreenManager.GraphicsDevice.Viewport.Height - FUEL_BAR_Y - 10, FUEL_BAR_WIDTH + 1, FUEL_BAR_HEIGHT + 15), Color.White);
+            spriteBatch.Draw(gasBarR, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width - FUEL_BAR_WIDTH - FUEL_BAR_INSET, ScreenManager.GraphicsDevice.Viewport.Height - FUEL_BAR_Y - 10, FUEL_BAR_WIDTH + 1, FUEL_BAR_HEIGHT + 15), Color.White);
+        
         }
 
         #endregion
