@@ -17,6 +17,7 @@ using Microsoft.Xna.Framework.Input;
 using EatMyDust.GameObjects;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Media;
 #endregion
 
 namespace EatMyDust
@@ -47,6 +48,7 @@ namespace EatMyDust
 
 
         #endregion
+
         #region Fields
 
         ContentManager content;
@@ -166,6 +168,10 @@ namespace EatMyDust
             inputManager = new InputManager(ScreenManager.Game);
 
             gameFont = content.Load<SpriteFont>("gamefont");
+
+            // Music
+            MediaPlayer.Play(ScreenManager.gameplayMusic);
+            MediaPlayer.Volume = 0.25f;
 
             // Players
             playerOne = new PlayerCar(this, new Vector2(ScreenManager.GraphicsDevice.Viewport.Width/2, ScreenManager.GraphicsDevice.Viewport.Height/2), 0);
@@ -701,6 +707,8 @@ namespace EatMyDust
                 SoundManager.stopSound(playerTwo.engineInstance);
 
             this.ExitScreen();
+
+            MediaPlayer.Stop();
 
             GamePad.SetVibration(PlayerIndex.One, 0, 0);
             GamePad.SetVibration(PlayerIndex.Two, 0, 0);

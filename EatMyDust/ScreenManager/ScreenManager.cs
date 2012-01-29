@@ -16,6 +16,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input.Touch;
 using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Media;
 #endregion
 
 namespace EatMyDust
@@ -49,6 +50,7 @@ namespace EatMyDust
         public SoundEffectInstance crashInstance;
         SoundEffect eatMyDust;
         public SoundEffectInstance eatMyDustInstance;
+        public Song gameplayMusic;
 
         bool isInitialized;
 
@@ -141,6 +143,9 @@ namespace EatMyDust
             crashInstance = crashFX.CreateInstance();
             eatMyDust = content.Load<SoundEffect>("Sounds/eatMyDust");
             eatMyDustInstance = eatMyDust.CreateInstance();
+
+            // Music
+            gameplayMusic = content.Load<Song>("Sounds/gameplayMusic");
 
             // Tell each of the screens to load their content.
             foreach (GameScreen screen in screens)
