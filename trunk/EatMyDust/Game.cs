@@ -78,7 +78,8 @@ namespace EatMyDust
             // Activate the first screens.
             // TJH PUT THESE BACK TO DO THE MENUS
             screenManager.AddScreen(new BackgroundScreen(), null);
-            screenManager.AddScreen(new MainMenuScreen(), null);
+            screenManager.AddScreen(new TitleScreen(), null);
+            //screenManager.AddScreen(new MainMenuScreen(), null);
             // PUT THOSE BACK
             //screenManager.AddScreen(new GameplayScreen(),0);
         }
