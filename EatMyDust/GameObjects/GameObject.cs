@@ -15,8 +15,7 @@ namespace EatMyDust.GameObjects
 
         public Rectangle boundingRect;
         public Vector2 previousPosition;
-
-
+       
         protected float scaleFactor;
                 
         protected Vector2 position;
@@ -63,5 +62,6 @@ namespace EatMyDust.GameObjects
         {
             spriteBatch.Draw(texture, Position2, Color.White);
         }
+
     }
 }

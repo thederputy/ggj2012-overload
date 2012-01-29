@@ -314,9 +314,11 @@ namespace EatMyDust
             //spriteBatch.DrawString(gameFont, String.Format("Pos: {0}", playerOne.Position2.ToString()), playerOne.Position2, Color.White);
             //spriteBatch.DrawString(gameFont, String.Format("Pos: {0}", playerTwo.Position2.ToString()), playerTwo.Position2, Color.White);
             
+
+            //draw game items:
             foreach(PowerSource ps in powerSources)
             {
-                ps.Draw(spriteBatch, ps.color);
+                ps.Draw(spriteBatch, ps.color * ps.fade);
             }
 
             foreach (PowerUp pup in powerUps)
