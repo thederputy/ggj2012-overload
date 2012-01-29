@@ -329,6 +329,68 @@ namespace EatMyDust
 
         private void CheckForCollisions()
         {
+            //check for edge of screen detection
+            #region playerOne
+            //right side
+            if (playerOne.Position2.X > ScreenManager.GraphicsDevice.Viewport.Width - playerOne.texture.Width)
+            {
+                float difference = Math.Abs(playerOne.Position2.X - ScreenManager.GraphicsDevice.Viewport.Width);
+                playerOne.Position2 = new Vector2(playerOne.Position2.X - difference, playerOne.Position2.Y);
+                playerOne.Velocity = new Vector2(playerOne.Velocity.X * -1, playerOne.Velocity.Y);
+            }
+            //left
+            if (playerOne.Position2.X < 0)
+            {
+                float difference = Math.Abs(playerOne.Position2.X - 0);
+                playerOne.Position2 = new Vector2(playerOne.Position2.X + difference, playerOne.Position2.Y);
+                playerOne.Velocity = new Vector2(playerOne.Velocity.X * -1, playerOne.Velocity.Y);
+            }
+            //bottom
+            if (playerOne.Position2.Y > ScreenManager.GraphicsDevice.Viewport.Height - playerOne.texture.Height)
+            {
+                float difference = Math.Abs(playerOne.Position2.Y - ScreenManager.GraphicsDevice.Viewport.Height);
+                playerOne.Position2 = new Vector2(playerOne.Position2.X, playerOne.Position2.Y - difference);
+                playerOne.Velocity = new Vector2(playerOne.Velocity.X, playerOne.Velocity.Y * -1);
+            }
+            //top
+            if (playerOne.Position2.Y < 0)
+            {
+                float difference = Math.Abs(playerOne.Position2.Y - 0);
+                playerOne.Position2 = new Vector2(playerOne.Position2.X, playerOne.Position2.Y + difference);
+                playerOne.Velocity = new Vector2(playerOne.Velocity.X, playerOne.Velocity.Y * -1);
+            }
+            #endregion
+            #region playerTwo
+            //right side
+            if (playerTwo.Position2.X > ScreenManager.GraphicsDevice.Viewport.Width - playerTwo.texture.Width)
+            {
+                float difference = Math.Abs(playerTwo.Position2.X - ScreenManager.GraphicsDevice.Viewport.Width);
+                playerTwo.Position2 = new Vector2(playerTwo.Position2.X - difference, playerTwo.Position2.Y);
+                playerTwo.Velocity = new Vector2(playerTwo.Velocity.X * -1, playerTwo.Velocity.Y);
+            }
+            //left
+            if (playerTwo.Position2.X < 0)
+            {
+                float difference = Math.Abs(playerTwo.Position2.X - 0);
+                playerTwo.Position2 = new Vector2(playerTwo.Position2.X + difference, playerTwo.Position2.Y);
+                playerTwo.Velocity = new Vector2(playerTwo.Velocity.X * -1, playerTwo.Velocity.Y);
+            }
+            //bottom
+            if (playerTwo.Position2.Y > ScreenManager.GraphicsDevice.Viewport.Height - playerTwo.texture.Height)
+            {
+                float difference = Math.Abs(playerTwo.Position2.Y - ScreenManager.GraphicsDevice.Viewport.Height);
+                playerTwo.Position2 = new Vector2(playerTwo.Position2.X, playerTwo.Position2.Y - difference);
+                playerTwo.Velocity = new Vector2(playerTwo.Velocity.X, playerTwo.Velocity.Y * -1);
+            }
+            //top
+            if (playerTwo.Position2.Y < 0)
+            {
+                float difference = Math.Abs(playerTwo.Position2.Y - 0);
+                playerTwo.Position2 = new Vector2(playerTwo.Position2.X, playerTwo.Position2.Y + difference);
+                playerTwo.Velocity = new Vector2(playerTwo.Velocity.X, playerTwo.Velocity.Y * -1);
+            }
+            #endregion 
+
             if (playerOne.boundingRect.Intersects(playerTwo.boundingRect))
             {
                 
