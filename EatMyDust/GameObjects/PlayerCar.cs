@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Audio;
 #endregion
 
 namespace EatMyDust.GameObjects
@@ -42,12 +43,25 @@ namespace EatMyDust.GameObjects
         private const int fuelPerSecond = 1;
         private const int turboFuelPerSecond = 2;
         private TimeSpan fuelTimer;
-
+        private TimeSpan bfTimer;
+        Random rnd = new Random();
         private const float turboMultiplier = 1.5f;
 
         bool spinningOut;
         TimeSpan spinDuration;
 
+        SoundEffect engineFX; // BG Music
+        SoundEffectInstance engineInstance;
+        SoundEffect honkFX; // BG Music
+        SoundEffectInstance honkInstance;
+        SoundEffect backFireFX; // BG Music
+        SoundEffectInstance backFireInstance;
+        SoundEffect startupFX; // BG Music
+        SoundEffectInstance startupInstance;
+
+        protected int bfRngMax = 8;
+        protected int bfRngMin = 2;
+ 
         public Rectangle boundingRect;
         public Vector2 previousPosition;
 
@@ -60,6 +74,7 @@ namespace EatMyDust.GameObjects
         {
             this.position = position;
             camera = new Camera(gameplayScreen.ScreenManager.GraphicsDevice.Viewport, Position3);
+          
             
         }
 
@@ -82,6 +97,22 @@ namespace EatMyDust.GameObjects
             spinningOut = false;
             spinDuration = TimeSpan.FromSeconds(1);
             base.Initialize();
+
+            bfTimer = TimeSpan.FromSeconds(bfRngMin + rnd.Next(bfRngMax - bfRngMin));
+
+            engineFX = Game.Content.Load<SoundEffect>("Sounds/engine");
+            engineInstance = engineFX.CreateInstance();
+
+            honkFX = Game.Content.Load<SoundEffect>("Sounds/honk");
+            honkInstance = honkFX.CreateInstance();
+
+            backFireFX = Game.Content.Load<SoundEffect>("Sounds/backFire");
+            backFireInstance = backFireFX.CreateInstance();
+
+
+            startupFX = Game.Content.Load<SoundEffect>("Sounds/startup");
+            startupInstance = startupFX.CreateInstance();
+
        }
 
         #endregion
@@ -120,17 +151,38 @@ namespace EatMyDust.GameObjects
 #if DEBUG 
             if (inputManager.IsPressed(Keys.F, Buttons.LeftShoulder, playerIndex))
                 fuel = maxFuel;
-#endif
 
+            if (inputManager.IsPressed(Keys.E, Buttons.RightShoulder, playerIndex) || inputManager.IsPressed(Keys.RightShift, Buttons.RightShoulder, playerIndex))
+                SoundManager.playSound(honkInstance, 0.6f);
+#endif
+            Boolean isMoving = false;
             // Keyboard/Dpad velocity change
             if (inputManager.IsHeld(keys[0], Buttons.DPadLeft, playerIndex))
+            {
                 velocity.X--;
+                isMoving = true;
+            }
             if (inputManager.IsHeld(keys[1], Buttons.DPadRight, playerIndex))
+            {
                 velocity.X++;
+                isMoving = true;
+            }
             if (inputManager.IsHeld(keys[2], Buttons.DPadUp, playerIndex))
+            {
                 velocity.Y--;
+                isMoving = true;
+            }
             if (inputManager.IsHeld(keys[3], Buttons.DPadDown, playerIndex))
+            {
                 velocity.Y++;
+                isMoving = true;
+            }
+
+            if(isMoving && fuel > 0 && engineInstance.State == SoundState.Stopped) SoundManager.playSound(startupInstance, 0.6f);
+            if(isMoving && fuel > 0) SoundManager.playSound(engineInstance, 0.6f);
+            else SoundManager.stopSound(engineInstance);
+
+            //if (startupInstance.State == SoundState.Playing) velocity = new Vector2(0,0);
 
             // Thumbstick controls
             Vector2 thumbstick = inputManager.currentGamePadStates[playerIndex].ThumbSticks.Left;
@@ -165,11 +217,24 @@ namespace EatMyDust.GameObjects
                     fuel -= turboFuelPerSecond;
                 else
                     fuel -= fuelPerSecond;
+               
                 fuelTimer = TimeSpan.FromSeconds(1);
 
             }
             else
                 fuelTimer -= gameTime.ElapsedGameTime;
+
+
+            if (bfTimer <= TimeSpan.FromSeconds(0))
+            {
+
+                if (engineInstance.State == SoundState.Playing) SoundManager.playSound(backFireInstance, 0.1f);
+                bfTimer = TimeSpan.FromSeconds(bfRngMin + rnd.Next(bfRngMax - bfRngMin));
+
+            }
+            else
+                bfTimer -= gameTime.ElapsedGameTime;
+
 
             Vector2 futurePosition = position + Vector2.Multiply(velocity, 8);
 
@@ -242,8 +307,8 @@ namespace EatMyDust.GameObjects
 
         public void AddFuel()
         {
-            if (fuel < maxFuel)
-                fuel += fuelPerSecond;
+            //if (fuel < maxFuel)
+                //fuel += fuelPerSecond;
         }
     }
 }
