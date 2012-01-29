@@ -10,7 +10,7 @@ namespace EatMyDust.GameObjects
 {
     public class Track : GameObject
     {
-        public static readonly int mDivisions = 15;
+        public static readonly int mDivisions = 16;
         private VertexPositionColorTexture[] mVertices  = new VertexPositionColorTexture[mDivisions * 6];
         private float[] mOffsets = new float[mDivisions + 1];
         private BasicEffect mEffect;
@@ -77,14 +77,14 @@ namespace EatMyDust.GameObjects
             {
                 //randomise the next offset
                 Random random = new Random();
-                mNextOffsetTime = 0.5f + 3.0f * (float)random.NextDouble();
-                float roadFraction = 0.5f;
+                mNextOffsetTime = 0.5f + 1.0f * (float)random.NextDouble();
+                float roadFraction = 0.7f;
                 mNextOffsetDistance = (roadFraction * viewportWidth * (float)random.NextDouble()) - 0.5f*roadFraction * viewportWidth;
-                mNextOffsetDelay = 10f * (float)random.NextDouble();
+                mNextOffsetDelay = 3f * (float)random.NextDouble();
             }
 
             //generate the vertices
-            float divisionHeight = viewportHeight / (float)mDivisions;
+            float divisionHeight = viewportHeight / (float)(mDivisions-1);
             float zValue = -1.0f;
             vOffset += mSpeed * dt;
 
@@ -96,20 +96,20 @@ namespace EatMyDust.GameObjects
                 {
                     mOffsets[i] = mOffsets[i + 1];
                 }
-                mOffsets[mDivisions] = mOffsets[mDivisions - 1] + (mNextOffsetDistance - mOffsets[mDivisions - 1]) * dt;
+                mOffsets[mDivisions] = MathHelper.Lerp(mOffsets[mDivisions - 1], mNextOffsetDistance, dt / mNextOffsetTime);
             }
 
             for (int i = 0, index = 0; i < mDivisions; ++i, index += 6)
             {
                 float offsetBottom = mOffsets[i];
                 float offsetTop = mOffsets[i+1];
-                mVertices[index] = new VertexPositionColorTexture(new Vector3(viewportWidth + offsetBottom, i * divisionHeight, zValue), Color.White, new Vector2(1, vOffset));
-                mVertices[index + 1] = new VertexPositionColorTexture(new Vector3(offsetBottom, i * divisionHeight, zValue), Color.White, new Vector2(0, vOffset));
-                mVertices[index + 2] = new VertexPositionColorTexture(new Vector3(viewportWidth + offsetTop, (i + 1) * divisionHeight, zValue), Color.White, new Vector2(1, 1f + vOffset));
+                mVertices[index] = new VertexPositionColorTexture(new Vector3(viewportWidth + offsetBottom, i * divisionHeight - vOffset*divisionHeight, zValue), Color.White, new Vector2(1, 0));
+                mVertices[index + 1] = new VertexPositionColorTexture(new Vector3(offsetBottom, i * divisionHeight - vOffset * divisionHeight, zValue), Color.White, new Vector2(0, 0));
+                mVertices[index + 2] = new VertexPositionColorTexture(new Vector3(viewportWidth + offsetTop, (i + 1) * divisionHeight - vOffset * divisionHeight, zValue), Color.White, new Vector2(1, 1f));
 
-                mVertices[index + 3] = new VertexPositionColorTexture(new Vector3(offsetBottom, i * divisionHeight, zValue), Color.White, new Vector2(0, vOffset));
-                mVertices[index + 4] = new VertexPositionColorTexture(new Vector3(offsetTop, (i + 1) * divisionHeight, zValue), Color.White, new Vector2(0, 1f + vOffset));
-                mVertices[index + 5] = new VertexPositionColorTexture(new Vector3(viewportWidth + offsetTop, (i + 1) * divisionHeight, zValue), Color.White, new Vector2(1, 1f + vOffset));
+                mVertices[index + 3] = new VertexPositionColorTexture(new Vector3(offsetBottom, i * divisionHeight - vOffset * divisionHeight, zValue), Color.White, new Vector2(0, 0));
+                mVertices[index + 4] = new VertexPositionColorTexture(new Vector3(offsetTop, (i + 1) * divisionHeight - vOffset * divisionHeight, zValue), Color.White, new Vector2(0, 1f));
+                mVertices[index + 5] = new VertexPositionColorTexture(new Vector3(viewportWidth + offsetTop, (i + 1) * divisionHeight - vOffset * divisionHeight, zValue), Color.White, new Vector2(1, 1f));
             }
         }
 
