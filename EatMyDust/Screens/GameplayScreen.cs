@@ -47,10 +47,12 @@ namespace EatMyDust
 
         Track track;
 
-        public Track Track
+        public float ScrollSpeed
         {
-            get { return track; }
+            get { return track.Speed;  }
+            set { track.Speed = value; }
         }
+        
 
         Random random = new Random();
         InputManager inputManager;
@@ -280,22 +282,12 @@ namespace EatMyDust
         {
             ScreenManager.GraphicsDevice.Clear(ClearOptions.Target, Color.CornflowerBlue, 0, 0);
 
-
-            /* TJH Debugger
-            SpriteBatch debugSB = ScreenManager.SpriteBatch;
-            debugSB.Begin();
-            debugSB.DrawString(gameFont, "P1 Position: " + playerOnePosition.ToString(), new Vector2(10, 10), Color.White);
-            debugSB.End();
-            */
-
             SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
 
             // Drawing HUD stuff for now
-            spriteBatch.Begin(SpriteSortMode.Deferred, null, null, DepthStencilState.Default, null); ;
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, null, DepthStencilState.Default, null);
 
             DrawGameScreen(spriteBatch, gameTime);
-            //spriteBatch.Draw(blank, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width / 2 - 2, 0, 5, ScreenManager.GraphicsDevice.Viewport.Height), Color.Black); // Draws Black bar down Center
-            //spriteBatch.Draw(blank, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width / 2, 0, 100, 5), Color.Pink);
 
             //FUEL_BAR_Y
             //FUEL_BAR_HEIGHT

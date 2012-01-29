@@ -180,7 +180,7 @@ namespace EatMyDust.GameObjects
             if (isMoving && fuel > 0 && !started)
             {
                 SoundManager.playSound(startupInstance, 0.6f);
-                gameplayScreen.Track.Speed = 10f;
+                gameplayScreen.ScrollSpeed = 10f;
                 started = true;
             }
             if(isMoving && fuel > 0) SoundManager.playSound(engineInstance, 0.6f);
