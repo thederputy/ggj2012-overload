@@ -51,7 +51,7 @@ namespace EatMyDust
             base.LoadContent();
 
             MediaPlayer.Play(ScreenManager.mainmenuMusic);
-            MediaPlayer.Volume = 0.25f;
+            MediaPlayer.Volume = 0.5f;
         }
 
 
