@@ -35,6 +35,8 @@ namespace EatMyDust
         public PlayerCar playerOne;
         public PlayerCar playerTwo;
 
+        Track track;
+
         Random random = new Random();
         InputManager inputManager;
 
@@ -87,6 +89,8 @@ namespace EatMyDust
             // Textures
             blank = this.content.Load<Texture2D>("blank");
             road = this.content.Load<Texture2D>("Backgrounds/roads1/preview");
+
+            track = new Track(ScreenManager);
 
             // A real game would probably have more content than this sample, so
             // it would take longer to load. We simulate that by delaying for a
