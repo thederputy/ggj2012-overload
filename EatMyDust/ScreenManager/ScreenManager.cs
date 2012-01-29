@@ -51,6 +51,7 @@ namespace EatMyDust
         SoundEffect eatMyDust;
         public SoundEffectInstance eatMyDustInstance;
         public Song gameplayMusic;
+        public Song mainmenuMusic;
 
         bool isInitialized;
 
@@ -146,6 +147,7 @@ namespace EatMyDust
 
             // Music
             gameplayMusic = content.Load<Song>("Sounds/gameplayMusic");
+            mainmenuMusic = content.Load<Song>("Sounds/mainmenuMusic");
 
             // Tell each of the screens to load their content.
             foreach (GameScreen screen in screens)

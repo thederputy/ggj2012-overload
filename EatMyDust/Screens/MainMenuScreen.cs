@@ -9,6 +9,7 @@
 
 #region Using Statements
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Media;
 #endregion
 
 namespace EatMyDust
@@ -19,7 +20,6 @@ namespace EatMyDust
     class MainMenuScreen : MenuScreen
     {
         #region Initialization
-
 
         /// <summary>
         /// Constructor fills in the menu contents.
@@ -44,6 +44,14 @@ namespace EatMyDust
             MenuEntries.Add(highScoreMenuEntry);
             MenuEntries.Add(creditsMenuEntry);
             MenuEntries.Add(exitMenuEntry);
+        }
+
+        public override void LoadContent()
+        {
+            base.LoadContent();
+
+            MediaPlayer.Play(ScreenManager.mainmenuMusic);
+            MediaPlayer.Volume = 0.25f;
         }
 
 
