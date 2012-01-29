@@ -48,8 +48,9 @@ namespace EatMyDust.GameObjects
         private const float turboMultiplier = 1.5f;
         protected bool started = false;
 
+        public bool boosting;
+        private TimeSpan boostTimer;
 
-        TimeSpan spinDuration;
 
         SoundEffect engineFX; // BG Music
         SoundEffectInstance engineInstance;
@@ -91,7 +92,9 @@ namespace EatMyDust.GameObjects
             tempX = (int)(Position3.X);
             tempY = (int)(Position3.Y);
             scaleFactor = 3.0f;
-            spinDuration = TimeSpan.FromSeconds(1);
+
+            boosting = false;
+            boostTimer = TimeSpan.FromSeconds(3);
             base.Initialize();
 
             bfTimer = TimeSpan.FromSeconds(bfRngMin + rnd.Next(bfRngMax - bfRngMin));
@@ -224,6 +227,18 @@ namespace EatMyDust.GameObjects
             else
                 fuelTimer -= gameTime.ElapsedGameTime;
 
+            if (boosting)
+            {
+                boostTimer -= gameTime.ElapsedGameTime;
+                if (boostTimer <= TimeSpan.FromSeconds(0))
+                {
+                    boosting = false;
+                    boostTimer = TimeSpan.FromSeconds(3);
+                        
+                }
+                else
+                    velocity *= turboMultiplier;
+            }
 
             if (bfTimer <= TimeSpan.FromSeconds(0))
             {
