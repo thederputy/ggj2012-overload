@@ -11,7 +11,8 @@ namespace EatMyDust.GameObjects
     {
         public enum ObstacleType
         {
-            Rock
+            Rock,
+            Barricade
         }
 
         public bool expired;
@@ -33,11 +34,11 @@ namespace EatMyDust.GameObjects
         public override void Initialize()
         {
             Random rand = new Random();
-            currentType = (ObstacleType)rand.Next(1);
+            currentType = (ObstacleType)rand.Next(2);
             textureFiles = new List<string>();
             // ***ORDER OF STRINGS MUST CORRESPOND TO ORDER OF ENUM***
             textureFiles.Add("Sprites/Powerups/rock");
-            //textureFiles.Add("Sprites/Powerups/star");
+            textureFiles.Add("Sprites/Powerups/stonewall");
             texture = gameplayScreen.ScreenManager.Game.Content.Load<Texture2D>(textureFiles[(int)currentType]);
             expired = false;
             Position2 = new Vector2(rand.Next(300, 980), -32);
