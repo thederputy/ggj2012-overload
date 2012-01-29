@@ -368,7 +368,9 @@ namespace GameStateManagement
             spriteBatch.End();
 
             //debug rendering physics
-            //effect.World = trans;
+            trans.M41 = 10;
+            trans.M42 = 10;
+            effect.World = trans;
             //effect.View = player.camera.View;
             //effect.Projection = projectionMatrix;
 
