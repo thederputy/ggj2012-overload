@@ -117,14 +117,6 @@ namespace GameStateManagement
             debugRenderer.Flags = (DebugDrawFlags)flags;
             physicsWorld.DebugDraw = debugRenderer;
 
-            //create a test body for physics rendering
-            BodyDef testBody = new BodyDef();
-            testBody.position = Vector2.Zero;
-            Body body = physicsWorld.CreateBody(testBody);
-            PolygonShape shape = new PolygonShape();
-            shape.SetAsBox(100, 100);
-            body.CreateFixture(shape, 1.0f);
-            
             
             //projectionMatrix = Matrix.CreatePerspectiveFieldOfView(
             //    MathHelper.PiOver4, 4.0f / 3.0f, 1.0f, 10000f);
@@ -231,6 +223,8 @@ namespace GameStateManagement
                 {
                     if (powerSources[i].expired)
                     {
+                        physicsWorld.DestroyBody(powerSources[i].Body);
+                        powerSources[i].Body = null;
                         ScreenManager.Game.Components.Remove(powerSources[i]);
                         powerSources.Remove(powerSources[i]);
                         i--;
@@ -333,9 +327,6 @@ namespace GameStateManagement
 
             //FUEL_BAR_Y
             //FUEL_BAR_HEIGHT
-
-            spriteBatch.DrawString(gameFont, "FUEL", new Vector2(ScreenManager.GraphicsDevice.Viewport.Width / 2 + 10, ScreenManager.GraphicsDevice.Viewport.Height - 60), Color.Black);
-            spriteBatch.DrawString(gameFont, "FUEL", new Vector2(ScreenManager.GraphicsDevice.Viewport.Width / 2 - 95, ScreenManager.GraphicsDevice.Viewport.Height - 60), Color.Black);
 
             debugRenderer.FinishDrawString();
             spriteBatch.End();
