@@ -8,30 +8,26 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace EatMyDust.GameObjects
 {
-    public class Track : DrawableGameComponent
+    public class Track : GameObject
     {
-        public Track(ScreenManager screenManager)
-            : base(screenManager.Game)
+        public Track(GameplayScreen gameplayScreen)
+            : base(gameplayScreen)
         {
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public override void Initialize()
         {
-            //spriteBatch.Draw(texture, Position2, Color.White);
+            base.Initialize();
         }
 
-
-        public void Initialise()
+        protected override void LoadContent()
         {
-            XmlDocument doc = new XmlDocument();
-            doc.Load("level.oel");
-
-
-            foreach (XmlElement e in doc["level"]["Track"].GetElementsByTagName("TrackEdge") )
-            {
-                //TODO: add segment to the collision segments
-            }
+            base.LoadContent();
         }
 
+        public override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
+        }
     }
 }

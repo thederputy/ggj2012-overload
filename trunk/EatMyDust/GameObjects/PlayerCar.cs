@@ -17,7 +17,6 @@ namespace EatMyDust.GameObjects
         protected int tempX = 0;
         protected int tempY = 0;
 
-
         protected const int X_LIMIT = 150;//150
         protected const int Y_LIMIT = 150;//150
         protected const float MAX_SPEED = 10;
@@ -28,10 +27,7 @@ namespace EatMyDust.GameObjects
         public float Speed
         {
             get { return speed; }
-            set
-            {
-                speed = value;
-            }
+            set { speed = value; }
         }
 
         protected Vector2 velocity;
@@ -40,7 +36,6 @@ namespace EatMyDust.GameObjects
             get { return velocity; }
             set { velocity = value; }
         }
-
 
         public int fuel;
         private const int maxFuel = 10;
@@ -57,10 +52,10 @@ namespace EatMyDust.GameObjects
 
         #region Initialization
 
-        public PlayerCar(ScreenManager screenManager, Vector2 position)
-            :base(screenManager)
+        public PlayerCar(GameplayScreen gameplayScreen, Vector2 position)
+            :base(gameplayScreen)
         {
-            camera = new Camera(screenManager.GraphicsDevice.Viewport, Position3);
+            camera = new Camera(gameplayScreen.ScreenManager.GraphicsDevice.Viewport, Position3);
         }
 
         protected override void LoadContent()

@@ -26,8 +26,8 @@ namespace EatMyDust.GameObjects.PowerUps
             SpeedBoost
         }
 
-        public PowerUp(ScreenManager screenManager)
-            : base(screenManager)
+        public PowerUp(GameplayScreen gameplayScreen)
+            : base(gameplayScreen)
         {
             // TODO: Construct any child components here
         }

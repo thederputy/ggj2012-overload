@@ -25,15 +25,15 @@ namespace EatMyDust
     /// placeholder to get the idea across: you'll probably want to
     /// put some more interesting gameplay in here!
     /// </summary>
-    class GameplayScreen : GameScreen
+    public class GameplayScreen : GameScreen
     {
         #region Fields
 
         ContentManager content;
         SpriteFont gameFont;
         
-        PlayerCar playerOne;
-        PlayerCar playerTwo;
+        public PlayerCar playerOne;
+        public PlayerCar playerTwo;
 
         Random random = new Random();
         InputManager inputManager;
@@ -58,7 +58,6 @@ namespace EatMyDust
 
         #region Initialization
 
-
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -67,7 +66,6 @@ namespace EatMyDust
             TransitionOnTime = TimeSpan.FromSeconds(1.5);
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
         }
-
 
         /// <summary>
         /// Load graphics content for the game.
@@ -83,8 +81,8 @@ namespace EatMyDust
             inputManager = new InputManager(ScreenManager.Game);
 
             // Players
-            playerOne = new PlayerCar(ScreenManager, new Vector2(0, 0));
-            playerTwo = new PlayerCar(ScreenManager, new Vector2(100, 0));
+            playerOne = new PlayerCar(this, new Vector2(0, 0));
+            playerTwo = new PlayerCar(this, new Vector2(100, 0));
 
             // Textures
             blank = this.content.Load<Texture2D>("blank");
@@ -152,10 +150,10 @@ namespace EatMyDust
                 if (dropTimer <= TimeSpan.FromSeconds(0))
                 {
                     dropTimer = TimeSpan.FromMilliseconds(dropInterval);
-                    PowerSource ps = new PowerSource(ScreenManager, playerOne.Position2 + new Vector2(playerOne.texture.Width, playerOne.texture.Height*2), playerOne, Color.Green);
+                    PowerSource ps = new PowerSource(this, playerOne.Position2 + new Vector2(playerOne.texture.Width, playerOne.texture.Height*2), playerOne, Color.Green);
                     powerSources.Add(ps);
                     ScreenManager.Game.Components.Add(ps);
-                    ps = new PowerSource(ScreenManager, playerTwo.Position2 + new Vector2(playerTwo.texture.Width, playerTwo.texture.Height*2), playerTwo, Color.Red);
+                    ps = new PowerSource(this, playerTwo.Position2 + new Vector2(playerTwo.texture.Width, playerTwo.texture.Height*2), playerTwo, Color.Red);
 
                     powerSources.Add(ps);
                     ScreenManager.Game.Components.Add(ps);
@@ -169,7 +167,6 @@ namespace EatMyDust
                         i--;
                     }
                 }
-
             }
         }
 
