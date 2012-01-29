@@ -54,6 +54,7 @@ namespace EatMyDust.GameObjects
             // TODO: Add your update code here
             if (position.Y > gameplayScreen.ScreenManager.GraphicsDevice.Viewport.Height)
                 expired = true;
+            position.Y += gameplayScreen.ScrollSpeed;
             base.Update(gameTime);
         }
     }

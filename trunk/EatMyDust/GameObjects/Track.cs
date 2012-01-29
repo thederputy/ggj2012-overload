@@ -15,11 +15,11 @@ namespace EatMyDust.GameObjects
         private float[] mOffsets = new float[mDivisions + 1];
         private BasicEffect mEffect;
         private float mSpeed;
+        private Viewport mViewport;
 
         private float mNextOffsetDistance = 0;
         private float mNextOffsetTime = 0;
         private float mNextOffsetDelay = 0;
-
 
         public float Speed
         {
@@ -57,6 +57,41 @@ namespace EatMyDust.GameObjects
             base.LoadContent();
         }
 
+        public enum TrackAreaType
+        {
+            None = 0,
+            Road,
+            Grass,
+        };
+        public TrackAreaType GetAreaAtPosition(Vector2 position)
+        {
+            float grassBuffer = 260;
+
+            //ow, the casts! my eyes!
+            int division = (int) ((position.Y / (float)gameplayScreen.ScreenManager.GraphicsDevice.Viewport.Height) * mDivisions);
+            float divisionHeight = gameplayScreen.ScreenManager.GraphicsDevice.Viewport.Height / (float)(mDivisions - 1);
+
+            int index = division*6;
+            Vector3 topLeftVertex = mVertices[index+4].Position;
+            Vector3 bottomLeftVertex = mVertices[index+1].Position;
+            Vector3 bottomRightVertex = mVertices[index].Position;
+            Vector3 topRightVertex = mVertices[index+2].Position;
+
+            //check if within the whole thing
+            float leftPoint = MathHelper.Lerp(topLeftVertex.X, bottomLeftVertex.X, (position.Y - topLeftVertex.Y) / divisionHeight);
+            if (position.X < leftPoint)
+                return TrackAreaType.None;
+            if (position.X < leftPoint + grassBuffer)
+                return TrackAreaType.Grass;
+
+            float rightPoint = MathHelper.Lerp(topRightVertex.X, topRightVertex.X, (position.Y - topRightVertex.Y) / divisionHeight);
+            if (position.X > rightPoint)
+                return TrackAreaType.None;
+            if (position.X > rightPoint - grassBuffer)
+                return TrackAreaType.Grass;
+
+            return TrackAreaType.Road;
+        }
 
 
         public override void Initialize()

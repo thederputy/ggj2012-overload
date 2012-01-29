@@ -46,7 +46,7 @@ namespace EatMyDust.GameObjects
         private TimeSpan fuelTimer;
         private TimeSpan bfTimer;
         Random rnd = new Random();
-        protected bool started = false;
+        public bool started = false;
 
         public bool boosting;
         private TimeSpan boostTimer;
@@ -197,7 +197,6 @@ namespace EatMyDust.GameObjects
             if (isMoving && fuel > 0 && !started)
             {
                 SoundManager.playSound(startupInstance, 0.6f);
-                gameplayScreen.ScrollSpeed = 10f;
                 started = true;
             }
             if (isMoving && fuel > 0) SoundManager.playSound(engineInstance, 0.6f);
@@ -236,7 +235,9 @@ namespace EatMyDust.GameObjects
             if (fuelTimer <= TimeSpan.FromSeconds(0))
             {
                 if (velocity.Length() > 1.0f)
+                {
                     fuel -= TURBO_FUEL_PER_SECOND;
+                }
                 else
                     fuel -= FUEL_PER_SECOND;
                
