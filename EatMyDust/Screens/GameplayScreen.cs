@@ -218,9 +218,11 @@ namespace EatMyDust
                 if (dropTimer <= TimeSpan.FromSeconds(0))
                 {
                     dropTimer = TimeSpan.FromMilliseconds(dropInterval);
-                    PowerSource ps = new PowerSource(this, playerOne.Position2 + new Vector2(playerOne.texture.Width, playerOne.texture.Height*2), playerOne, Color.Red);
+                    PowerSource ps = new PowerSource(this, playerOne.Position2 + new Vector2(0.5f*playerOne.texture.Width, playerOne.texture.Height), playerOne, Color.Red);
+                    ps.Position2 += new Vector2(-0.5f * ps.texture.Width, -0.5f * ps.texture.Height);
                     powerSources.Add(ps);
-                    ps = new PowerSource(this, playerTwo.Position2 + new Vector2(playerTwo.texture.Width, playerTwo.texture.Height*2), playerTwo, Color.Blue);
+                    ps = new PowerSource(this, playerTwo.Position2 + new Vector2(0.5f * playerTwo.texture.Width, playerTwo.texture.Height), playerTwo, Color.Blue);
+                    ps.Position2 += new Vector2(-0.5f * ps.texture.Width, -0.5f * ps.texture.Height);
                     powerSources.Add(ps);
                 }
                 for (int i = 0; i < powerSources.Count; i++)
