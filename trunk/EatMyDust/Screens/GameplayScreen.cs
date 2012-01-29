@@ -120,8 +120,6 @@ namespace EatMyDust
 
             // Add the game components to the game
             // This allows each component's Initialize, Update, Draw to get called automatically.
-            ScreenManager.Game.Components.Add(playerOne);
-            ScreenManager.Game.Components.Add(playerTwo);
             ScreenManager.Game.Components.Add(inputManager);
 
             //set fuel bar to use the whole screen
@@ -169,11 +167,8 @@ namespace EatMyDust
                     dropTimer = TimeSpan.FromMilliseconds(dropInterval);
                     PowerSource ps = new PowerSource(this, playerOne.Position2 + new Vector2(playerOne.texture.Width, playerOne.texture.Height*2), playerOne, Color.Green);
                     powerSources.Add(ps);
-                    ScreenManager.Game.Components.Add(ps);
                     ps = new PowerSource(this, playerTwo.Position2 + new Vector2(playerTwo.texture.Width, playerTwo.texture.Height*2), playerTwo, Color.Red);
-
                     powerSources.Add(ps);
-                    ScreenManager.Game.Components.Add(ps);
                 }
                 for (int i = 0; i < powerSources.Count; i++)
                 {
