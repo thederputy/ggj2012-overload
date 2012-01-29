@@ -48,15 +48,18 @@ namespace EatMyDust.GameObjects
         bool spinningOut;
         TimeSpan spinDuration;
 
+        public Rectangle boundingRect;
+
         #endregion
 
         #region Initialization
 
         public PlayerCar(GameplayScreen gameplayScreen, Vector2 position)
-            :base(gameplayScreen)
+            : base(gameplayScreen)
         {
             this.position = position;
             camera = new Camera(gameplayScreen.ScreenManager.GraphicsDevice.Viewport, Position3);
+            
         }
 
         protected override void LoadContent()
@@ -65,6 +68,7 @@ namespace EatMyDust.GameObjects
             base.LoadContent();
             tempX = (int)(Position3.X);
             tempY = (int)(Position3.Y);
+            boundingRect = new Rectangle((int)Position2.X, (int)Position2.Y, texture.Width, texture.Height);
         }
 
         public override void Initialize()
@@ -218,6 +222,9 @@ namespace EatMyDust.GameObjects
             camera.Update(new Vector3(tempX + texture.Width / 2, tempY + texture.Height / 2 - VERT_OFFSET, Position3.Z));
             //camera.Update(new Vector3(tempX, tempY, Position3.Z));
             
+            //bounding rectangle
+            boundingRect = new Rectangle((int)Position2.X, (int)Position2.Y, texture.Width, texture.Height);
+
             base.Update(gameTime);
         }
 

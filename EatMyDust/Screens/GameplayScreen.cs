@@ -288,10 +288,14 @@ namespace EatMyDust
 
         private void CheckForCollisions()
         {
-            //check for collisions between the players
-            if (playerOne.texture.Bounds.Intersects(playerTwo.texture.Bounds))
+            if (playerOne.boundingRect.Intersects(playerTwo.boundingRect))
             {
+                float bounceCoeffecient = 5.0f;
                 //player collision!
+                Vector2 collisionDirection = playerTwo.Position2 - playerOne.Position2;
+                collisionDirection.Normalize();
+                playerTwo.Velocity += (collisionDirection * bounceCoeffecient);
+                int x = 5;
             }
 
             //check for collisions between the players and powersources
