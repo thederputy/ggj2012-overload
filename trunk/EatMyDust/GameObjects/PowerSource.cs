@@ -55,7 +55,7 @@ namespace EatMyDust.GameObjects
             if (FADING_IN)
             {
                 if (fade < 1.0f)
-                    fade += .001f;
+                    fade += .05f;
                 else
                     FADING_IN = false;
             }
