@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using System.Xml;
-using Box2D.XNA;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace EatMyDust.GameObjects
@@ -14,7 +13,6 @@ namespace EatMyDust.GameObjects
         public Track(ScreenManager screenManager)
             : base(screenManager.Game)
         {
-
         }
 
         public void Draw(SpriteBatch spriteBatch)

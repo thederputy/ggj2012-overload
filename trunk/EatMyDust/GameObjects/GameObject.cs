@@ -4,42 +4,33 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Box2D.XNA;
 
 namespace EatMyDust.GameObjects
 {
     public abstract class GameObject : DrawableGameComponent
     {
         protected ScreenManager screenManager;
-        protected World physicsWorld;
 
         public Texture2D texture;
-        protected Body body;
 
         protected float scaleFactor;
 
+        protected Vector2 position;
         public Vector2 Position2
         {
-            get { return body.GetPosition(); }
-            set { body.Position = value; }
+            get { return position; }
+            set { position = value; }
         }
 
         public Vector3 Position3
         {
-            get { return new Vector3(body.GetPosition(), 0); }
-            set { body.Position = new Vector2(value.X, value.Y); }
+            get { return new Vector3(position, 0); }
+            set { position = new Vector2(value.X, value.Y); }
         }
 
-        public Body Body
-        {
-            get { return body; }
-            set { body = value; }
-        }
-
-        public GameObject(ScreenManager screenManager, World physicsWorld)
+        public GameObject(ScreenManager screenManager)
             : base(screenManager.Game)
         {
-            this.physicsWorld = physicsWorld;
         }
 
         public override void Initialize()
@@ -49,7 +40,7 @@ namespace EatMyDust.GameObjects
 
         public void Draw(SpriteBatch spriteBatch, Color color)
         {
-            spriteBatch.Draw(texture, Position2, null, color, body.Rotation, Vector2.Zero, scaleFactor, SpriteEffects.None, 0);
+            spriteBatch.Draw(texture, position, Color.White);
 
             //base.Draw(gameTime);
         }
@@ -57,13 +48,6 @@ namespace EatMyDust.GameObjects
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(texture, Position2, Color.White);
-        }
-
-        /// <summary>
-        /// Must call on subclasses and override.
-        /// </summary>
-        public virtual void CreateBody(Vector2 position)
-        {
         }
     }
 }

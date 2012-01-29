@@ -14,8 +14,8 @@ namespace EatMyDust.GameObjects
         public PlayerCar createdBy;
         public Color color;
 
-        public PowerSource(ScreenManager screenManager, World physicsWorld, Vector2 position, PlayerCar createdBy, Color color)
-            : base(screenManager, physicsWorld)
+        public PowerSource(ScreenManager screenManager, Vector2 position, PlayerCar createdBy, Color color)
+            : base(screenManager)
         {
             CreateBody(position);
             this.createdBy = createdBy;
@@ -52,13 +52,13 @@ namespace EatMyDust.GameObjects
             def.userData = this;
             def.position = position;
             def.type = BodyType.Static;
-            body = physicsWorld.CreateBody(def);
+            position = physicsWorld.CreateBody(def);
             CircleShape shape = new CircleShape();
             shape._radius = 10.0f;
             FixtureDef fixtureDef = new FixtureDef();
             fixtureDef.isSensor = true;
             fixtureDef.shape = shape;
-            body.CreateFixture(shape, 1.0f);
+            position.CreateFixture(shape, 1.0f);
         }
     }
 }
