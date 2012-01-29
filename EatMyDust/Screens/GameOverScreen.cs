@@ -66,7 +66,12 @@ namespace EatMyDust
             spriteBatch.Begin();
             spriteBatch.Draw(gameOverTexture, new Rectangle((int)gameOverLocation.X, (int)gameOverLocation.Y, gameOverTexture.Width, gameOverTexture.Height), Color.White);
             spriteBatch.DrawString(font, "Score: " + score, new Vector2((ScreenManager.GraphicsDevice.Viewport.Width / 2) - (int)(font.MeasureString("Score: " + score).X / 2), (ScreenManager.GraphicsDevice.Viewport.Height / 2)), Color.White);
-            spriteBatch.DrawString(font, "Press Enter/Start to continue", new Vector2((ScreenManager.GraphicsDevice.Viewport.Width / 2) - (int)(font.MeasureString("Press Enter/Start to continue").X / 2), ScreenManager.GraphicsDevice.Viewport.Height - (int)(font.MeasureString("Press Enter/Start to continue").Y)), Color.White);
+            string string1 = "Press Enter/Start to continue";
+            Vector2 measurements = font.MeasureString(string1);
+            spriteBatch.DrawString(font, string1, new Vector2((ScreenManager.GraphicsDevice.Viewport.Width / 2) - measurements.X / 2, ScreenManager.GraphicsDevice.Viewport.Height - 2*measurements.Y), Color.White);
+            string1 = "Press ESC to play again";
+            measurements = font.MeasureString(string1);
+            spriteBatch.DrawString(font, "Press ESC/Back to play again", new Vector2((ScreenManager.GraphicsDevice.Viewport.Width / 2) - measurements.X / 2, ScreenManager.GraphicsDevice.Viewport.Height - measurements.Y), Color.White);
             spriteBatch.End();
             base.Draw(gameTime);
         }
@@ -82,6 +87,11 @@ namespace EatMyDust
                                                            new MainMenuScreen(),
                                                            new HighScoreScreen(ScreenManager.Game),
                                                            new HighScoreEntryScreen(score));
+            }
+            if (inputManager.IsPressed(Keys.Escape, Buttons.Back, Buttons.B, 0))
+            {
+                LoadingScreen.Load(ScreenManager, true, PlayerIndex.One,
+                                   new GameplayScreen());
             }
         }
 
