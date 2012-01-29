@@ -22,8 +22,7 @@ namespace EatMyDust.GameObjects
         public enum Type
         {
             PositionSwap,
-            SpeedBoost,
-            Spawn
+            SpeedBoost
         }
 
         public bool expired;
@@ -49,8 +48,8 @@ namespace EatMyDust.GameObjects
             // TODO: Add your initialization code here
             textureFiles = new List<string>();
             // ***ORDER OF STRINGS MUST CORRESPOND TO ORDER OF ENUM***
-            textureFiles.Add("Sprites\\Powerups\\positionswap");
-            textureFiles.Add("Sprites\\Powerups\\boost");
+            textureFiles.Add("Sprites/Powerups/swap");
+            textureFiles.Add("Sprites/Powerups/star");
             texture = gameplayScreen.ScreenManager.Game.Content.Load<Texture2D>(textureFiles[(int)currentType]);
             expired = false;
             base.Initialize();
