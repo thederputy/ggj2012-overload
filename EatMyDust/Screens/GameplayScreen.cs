@@ -272,7 +272,7 @@ namespace EatMyDust
             SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
 
             // Drawing HUD stuff for now
-            spriteBatch.Begin();
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, null, DepthStencilState.Default, null); ;
 
             DrawGameScreen(spriteBatch, gameTime);
             //spriteBatch.Draw(blank, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width / 2 - 2, 0, 5, ScreenManager.GraphicsDevice.Viewport.Height), Color.Black); // Draws Black bar down Center
