@@ -45,7 +45,7 @@ namespace EatMyDust.GameObjects
 
         public int fuel;
         private const int MAX_FUEL = 30;
-        private const int FUEL_PER_SECOND = 1;
+        private const int FUEL_PER_SECOND = 2;
         private const int TURBO_FUEL_PER_SECOND = 3;
         private const float TURBO_MULTIPLIER = 1.5f;
         private TimeSpan fuelTimer;
