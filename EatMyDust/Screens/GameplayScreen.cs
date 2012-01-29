@@ -78,7 +78,7 @@ namespace EatMyDust
 
         List<Obstacle> obstacles;
         TimeSpan obstacleTimer;
-        int obstacleInterval;
+        TimeSpan barricadeTimer;
 
         Random rand;
 
@@ -168,6 +168,7 @@ namespace EatMyDust
 
             obstacles = new List<Obstacle>();
             obstacleTimer = TimeSpan.FromSeconds(5);
+            barricadeTimer = TimeSpan.FromSeconds(8);
             // Add the game components to the game
             // This allows each component's Initialize, Update, Draw to get called automatically.
             ScreenManager.Game.Components.Add(inputManager);
@@ -291,6 +292,14 @@ namespace EatMyDust
                     obstacleTimer = TimeSpan.FromSeconds(rand.Next(2, 7));
                 }
 
+                barricadeTimer -= gameTime.ElapsedGameTime;
+                if (barricadeTimer <= TimeSpan.FromSeconds(0))
+                {
+                    Barricade bar = new Barricade(this);
+                    obstacles.Add(bar);
+                    barricadeTimer = TimeSpan.FromSeconds(rand.Next(9, 12));
+                }
+
                 score += (int)Math.Round(Math.Abs(playerOne.Velocity.X) + Math.Abs(playerOne.Velocity.Y) + Math.Abs(playerTwo.Velocity.X) + Math.Abs(playerTwo.Velocity.Y));
 
 
@@ -392,7 +401,12 @@ namespace EatMyDust
 
             foreach (Obstacle obs in obstacles)
             {
-                obs.Draw(spriteBatch);
+                if (obs is Barricade)
+                {
+                    ((Barricade)obs).Draw(spriteBatch, 7);
+                }
+                else
+                    obs.Draw(spriteBatch);
             }
 
             //spriteBatch.Draw(blank, new Rectangle(FUEL_BAR_INSET, ScreenManager.GraphicsDevice.Viewport.Height - (int)(FUEL_BAR_Y * playerOne.getFuelPercent()), FUEL_BAR_WIDTH, FUEL_BAR_HEIGHT), Color.Goldenrod);
