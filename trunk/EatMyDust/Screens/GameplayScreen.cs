@@ -224,8 +224,8 @@ namespace EatMyDust
 
             // Drawing HUD stuff for now
             spriteBatch.Begin();
-            spriteBatch.Draw(blank, new Rectangle(0, ScreenManager.GraphicsDevice.Viewport.Height - (int)(FUEL_BAR_Y * playerOne.getFuelPercent()), FUEL_BAR_WIDTH, FUEL_BAR_HEIGHT), Color.Goldenrod);
-            spriteBatch.Draw(blank, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width - FUEL_BAR_WIDTH, ScreenManager.GraphicsDevice.Viewport.Height - (int)(FUEL_BAR_Y * playerTwo.getFuelPercent()), FUEL_BAR_WIDTH, FUEL_BAR_HEIGHT), Color.Goldenrod);
+
+            DrawGameScreen(spriteBatch, gameTime);
             //spriteBatch.Draw(blank, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width / 2 - 2, 0, 5, ScreenManager.GraphicsDevice.Viewport.Height), Color.Black); // Draws Black bar down Center
             //spriteBatch.Draw(blank, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width / 2, 0, 100, 5), Color.Pink);
 
@@ -242,10 +242,11 @@ namespace EatMyDust
             }
         }
 
-        protected void DrawGameScreen(SpriteBatch spriteBatch, GameTime gameTime, PlayerCar player)
+        protected void DrawGameScreen(SpriteBatch spriteBatch, GameTime gameTime)
         {
-            spriteBatch.Begin();
-
+            spriteBatch.Draw(blank, new Rectangle(0, ScreenManager.GraphicsDevice.Viewport.Height - (int)(FUEL_BAR_Y * playerOne.getFuelPercent()), FUEL_BAR_WIDTH, FUEL_BAR_HEIGHT), Color.Goldenrod);
+            spriteBatch.Draw(blank, new Rectangle(ScreenManager.GraphicsDevice.Viewport.Width - FUEL_BAR_WIDTH, ScreenManager.GraphicsDevice.Viewport.Height - (int)(FUEL_BAR_Y * playerTwo.getFuelPercent()), FUEL_BAR_WIDTH, FUEL_BAR_HEIGHT), Color.Goldenrod);
+            
             //TODO: replace with road drawablegamecomponent draw call
             spriteBatch.Draw(road, new Rectangle(0, 0, 1024, 768), Color.White);
             
@@ -260,8 +261,6 @@ namespace EatMyDust
             {
                 ps.Draw(spriteBatch, ps.color);
             }
-
-            spriteBatch.End();
         }
 
         #endregion
