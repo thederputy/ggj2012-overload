@@ -47,7 +47,7 @@ namespace EatMyDust.GameObjects
             Viewport viewPort = gameplayScreen.ScreenManager.GraphicsDevice.Viewport;
             mEffect.World = Matrix.CreateTranslation(new Vector3(-0.5f * viewPort.Width, -0.5f * viewPort.Height, -99.0f));
             mEffect.View = Matrix.CreateLookAt(3f * Vector3.UnitZ, Vector3.Zero, Vector3.Up);
-            mEffect.Projection = Matrix.CreateOrthographic(viewPort.Width, viewPort.Height, 1f, 1000f);//Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver2, viewPort.AspectRatio, 1.0f, 1000f);
+            mEffect.Projection = Matrix.CreateOrthographic(viewPort.Width, viewPort.Height, 1f, 1000f);
             base.LoadContent();
         }
 
