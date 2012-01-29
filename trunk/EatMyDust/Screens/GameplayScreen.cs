@@ -75,6 +75,8 @@ namespace EatMyDust
         SoundEffectInstance collideInstance;
         SoundEffect engineFX; // BG Music
         SoundEffectInstance engineInstance;
+        SoundEffect doubleHonkFX;
+        SoundEffectInstance doubleHonkInstance;
 
 
         #endregion
@@ -153,8 +155,8 @@ namespace EatMyDust
             collideFX = this.content.Load<SoundEffect>("Sounds/hit");
             collideInstance = collideFX.CreateInstance();
 
-            
-
+            doubleHonkFX = this.content.Load<SoundEffect>("Sounds/doubleHonk");
+            doubleHonkInstance = doubleHonkFX.CreateInstance();
         }
 
 
@@ -396,6 +398,7 @@ namespace EatMyDust
                 
                 //player collision!
                 SoundManager.playSound(collideInstance, 0.1f);
+                SoundManager.playSound(doubleHonkInstance, 0.1f);
                 Vector2 difference = playerTwo.Position2 - playerOne.Position2;
                 playerTwo.Position2 += difference / 2;
                 playerOne.Position2 -= difference / 2;
