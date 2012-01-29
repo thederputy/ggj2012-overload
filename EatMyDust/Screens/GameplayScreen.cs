@@ -32,9 +32,7 @@ namespace EatMyDust
 
         ContentManager content;
         SpriteFont gameFont;
-        DebugRenderer debugRenderer;
-
-
+        
         PlayerCar playerOne;
         PlayerCar playerTwo;
 
@@ -43,23 +41,11 @@ namespace EatMyDust
 
         float pauseAlpha;
 
-        // For multiple viewports
-        Viewport defaultViewport;
-        Viewport leftViewport;
-        Viewport rightViewport;
-        Matrix projectionMatrix;
-        Matrix halfprojectionMatrix;
-        float halfAspectRatio;
-
         //Textures
         Texture2D blank;
         Texture2D road;
 
-        //Physics World
-        World physicsWorld;
-
         BasicEffect effect;
-
 
         List<PowerSource> powerSources;
         TimeSpan dropTimer;
@@ -81,10 +67,6 @@ namespace EatMyDust
         {
             TransitionOnTime = TimeSpan.FromSeconds(1.5);
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
-
-
-            physicsWorld = new World(Vector2.Zero, false);
-            physicsWorld.ContactListener = this;
         }
 
 
@@ -98,48 +80,12 @@ namespace EatMyDust
 
             gameFont = content.Load<SpriteFont>("gamefont");
 
-            // For multiple viewports
-            defaultViewport = ScreenManager.GraphicsDevice.Viewport; // altered from example code to use the Screen Manager's Graphics device
-            leftViewport = defaultViewport;
-            rightViewport = defaultViewport;
-            leftViewport.Width = leftViewport.Width / 2;
-            rightViewport.Width = rightViewport.Width / 2;
-            rightViewport.X = leftViewport.Width;
-
-            //initialise the debug renderer
-            debugRenderer = new DebugRenderer(ScreenManager, gameFont);
-            uint flags = 0;
-            flags += (uint)DebugDrawFlags.Shape;
-            flags += (uint)DebugDrawFlags.Joint;
-            flags += (uint)DebugDrawFlags.AABB;
-            flags += (uint)DebugDrawFlags.Pair;
-            flags += (uint)DebugDrawFlags.CenterOfMass;
-            debugRenderer.Flags = (DebugDrawFlags)flags;
-            physicsWorld.DebugDraw = debugRenderer;
-
-            
-            //projectionMatrix = Matrix.CreatePerspectiveFieldOfView(
-            //    MathHelper.PiOver4, 4.0f / 3.0f, 1.0f, 10000f);
-            //halfprojectionMatrix = Matrix.CreatePerspectiveFieldOfView(
-            //    MathHelper.PiOver4, 2.0f / 3.0f, 1.0f, 10000f);
-            halfAspectRatio = (ScreenManager.GraphicsDevice.Viewport.Width / 2) / ScreenManager.GraphicsDevice.Viewport.Height;
-            projectionMatrix = Matrix.CreatePerspectiveFieldOfView(
-                MathHelper.PiOver4, ScreenManager.GraphicsDevice.Viewport.AspectRatio, 1.0f, 10000f);
-            
-            halfprojectionMatrix = Matrix.CreatePerspectiveFieldOfView(
-                MathHelper.PiOver4, halfAspectRatio, 1.0f, 10000f);
-            halfprojectionMatrix.M11 = halfprojectionMatrix.M22;
-
-            effect = new BasicEffect(ScreenManager.GraphicsDevice);
-            effect.VertexColorEnabled = true;
-            //effect.EnableDefaultLighting(); //required?
-
             // Input
             inputManager = new InputManager(ScreenManager.Game);
 
             // Players
-            playerOne = new PlayerCar(ScreenManager, physicsWorld, new Vector2(0, 0));
-            playerTwo = new PlayerCar(ScreenManager, physicsWorld, new Vector2(100, 0));
+            playerOne = new PlayerCar(ScreenManager, new Vector2(0, 0));
+            playerTwo = new PlayerCar(ScreenManager, new Vector2(100, 0));
 
             // Textures
             blank = this.content.Load<Texture2D>("blank");
@@ -194,8 +140,6 @@ namespace EatMyDust
         {
             base.Update(gameTime, otherScreenHasFocus, false);
 
-            
-            
             // Gradually fade in or out depending on whether we are covered by the pause screen.
             if (coveredByOtherScreen)
                 pauseAlpha = Math.Min(pauseAlpha + 1f / 32, 1);
@@ -204,18 +148,15 @@ namespace EatMyDust
 
             if (IsActive)
             {
-                physicsWorld.Step((float)gameTime.ElapsedGameTime.TotalSeconds, 10, 10);
-
                 dropTimer -= gameTime.ElapsedGameTime;
                 if (dropTimer <= TimeSpan.FromSeconds(0))
                 {
                     dropTimer = TimeSpan.FromMilliseconds(dropInterval);
-                    PowerSource ps = new PowerSource(ScreenManager, physicsWorld, playerOne.Position2 + new Vector2(playerOne.texture.Width, playerOne.texture.Height*2), playerOne, Color.Green);
+                    PowerSource ps = new PowerSource(ScreenManager, playerOne.Position2 + new Vector2(playerOne.texture.Width, playerOne.texture.Height*2), playerOne, Color.Green);
                     powerSources.Add(ps);
                     ScreenManager.Game.Components.Add(ps);
-                    ps = new PowerSource(ScreenManager, physicsWorld, playerTwo.Position2 + new Vector2(playerTwo.texture.Width, playerTwo.texture.Height*2), playerTwo, Color.Red);
-                    
-                    
+                    ps = new PowerSource(ScreenManager, playerTwo.Position2 + new Vector2(playerTwo.texture.Width, playerTwo.texture.Height*2), playerTwo, Color.Red);
+
                     powerSources.Add(ps);
                     ScreenManager.Game.Components.Add(ps);
                 }
@@ -223,8 +164,6 @@ namespace EatMyDust
                 {
                     if (powerSources[i].expired)
                     {
-                        physicsWorld.DestroyBody(powerSources[i].Body);
-                        powerSources[i].Body = null;
                         ScreenManager.Game.Components.Remove(powerSources[i]);
                         powerSources.Remove(powerSources[i]);
                         i--;
@@ -274,8 +213,6 @@ namespace EatMyDust
         /// </summary>
         public override void Draw(GameTime gameTime)
         {
-            // This game has a blue background. Why? Because!
-            ScreenManager.GraphicsDevice.Viewport = defaultViewport;
             ScreenManager.GraphicsDevice.Clear(ClearOptions.Target, Color.CornflowerBlue, 0, 0);
 
 
@@ -287,34 +224,6 @@ namespace EatMyDust
             */
 
             SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
-
-#if DEBUG
-            //Draw physics world debug data
-            physicsWorld.DrawDebugData();
-#endif
-
-            //DRAW LEFT PLAYER STUFF HERE
-            // Our player and enemy are both actually just text strings.
-
-            ScreenManager.GraphicsDevice.Viewport = leftViewport;
-            //DrawScene(gameTime, playerOne.camera);
-    
-            DrawGameScreen(spriteBatch, gameTime, playerOne); 
-            //END LEFT PLAYER STUFF
-
-            //DRAW RIGHT PLAYER STUFF HERE
-            // Our player and enemy are both actually just text strings.
-
-            ScreenManager.GraphicsDevice.Viewport = rightViewport;
-            //DrawScene(gameTime, playerTwo.camera);
-
-            DrawGameScreen(spriteBatch, gameTime, playerTwo);
-
-            //END RIGHT PLAYER STUFF
-
-            //DRAW FULL SCREEN AGAIN
-            // If the game is transitioning on or off, fade it out to black.
-            ScreenManager.GraphicsDevice.Viewport = defaultViewport;
 
             // Drawing HUD stuff for now
             spriteBatch.Begin();
@@ -328,7 +237,6 @@ namespace EatMyDust
             //FUEL_BAR_Y
             //FUEL_BAR_HEIGHT
 
-            debugRenderer.FinishDrawString();
             spriteBatch.End();
 
 
@@ -341,9 +249,7 @@ namespace EatMyDust
 
         protected void DrawGameScreen(SpriteBatch spriteBatch, GameTime gameTime, PlayerCar player)
         {
-            Matrix trans = Matrix.CreateTranslation(ScreenManager.GraphicsDevice.Viewport.Width / 2, ScreenManager.GraphicsDevice.Viewport.Height / 2, 0.0f);
-
-            spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, RasterizerState.CullNone, null, trans * player.camera.View * halfprojectionMatrix);
+            spriteBatch.Begin();
 
             //TODO: replace with road drawablegamecomponent draw call
             spriteBatch.Draw(road, new Rectangle(0, 0, 1024, 768), Color.White);
@@ -355,22 +261,12 @@ namespace EatMyDust
             spriteBatch.DrawString(gameFont, String.Format("Pos: {0}", playerOne.Position2.ToString()), playerOne.Position2, Color.White);
             spriteBatch.DrawString(gameFont, String.Format("Pos: {0}", playerTwo.Position2.ToString()), playerTwo.Position2, Color.White);
             
-
-            //powerSource.Draw(spriteBatch);
             foreach(PowerSource ps in powerSources)
             {
                 ps.Draw(spriteBatch, ps.color);
             }
 
             spriteBatch.End();
-
-            //debug rendering physics
-            //effect.World = trans;
-            //effect.View = player.camera.View;
-            //effect.Projection = projectionMatrix;
-
-            effect.Techniques[0].Passes[0].Apply();
-            debugRenderer.FinishDrawShapes();
         }
 
         #endregion
@@ -424,8 +320,6 @@ namespace EatMyDust
             {
                 p.AddFuel();
                 ps.expired = true;
-                //powerSources.Remove(ps);
-                //ScreenManager.Game.Components.Remove(ps);
             }
         }
     }
