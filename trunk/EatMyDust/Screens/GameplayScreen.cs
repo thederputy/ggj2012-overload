@@ -247,7 +247,11 @@ namespace EatMyDust
                 powerupTimer -= gameTime.ElapsedGameTime;
                 if (powerupTimer <= TimeSpan.FromSeconds(0))
                 {
-                    int i = rand.Next(2);
+                    int i = rand.Next(1000);
+                    if (i < 500)
+                        i = 1;
+                    else
+                        i = 0;
                     PowerUp pup = new PowerUp(this, (PowerUp.PowerUpType)i);
                     pup.Position2 = new Vector2(rand.Next(0, 1280), rand.Next(0, 720));
                     powerUps.Add(pup);
