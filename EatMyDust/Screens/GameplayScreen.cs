@@ -98,6 +98,8 @@ namespace EatMyDust
         SoundEffect doubleHonkFX;
         SoundEffectInstance doubleHonkInstance;
 
+        public int score;
+
         #endregion
 
         #region Initialization
@@ -184,6 +186,9 @@ namespace EatMyDust
 
             doubleHonkFX = this.content.Load<SoundEffect>("Sounds/doubleHonk");
             doubleHonkInstance = doubleHonkFX.CreateInstance();
+
+            //SCORING
+            score = 0;
         }
 
         /// <summary>
@@ -293,6 +298,9 @@ namespace EatMyDust
                     obstacleTimer = TimeSpan.FromSeconds(rand.Next(2, 7));
                 }
 
+                score += (int)Math.Round(Math.Abs(playerOne.Velocity.X) + Math.Abs(playerOne.Velocity.Y) + Math.Abs(playerTwo.Velocity.X) + Math.Abs(playerTwo.Velocity.Y));
+
+
                 // Check for game over state
                 if (playerOne.fuel == 0 || playerTwo.fuel == 0)
                 {
@@ -374,7 +382,7 @@ namespace EatMyDust
             
 
             //Debug
-            //spriteBatch.DrawString(gameFont, String.Format("Pos: {0}", playerOne.Position2.ToString()), playerOne.Position2, Color.White);
+            spriteBatch.DrawString(gameFont, "Score: " + score.ToString(), new Vector2(25), Color.White);
             //spriteBatch.DrawString(gameFont, String.Format("Pos: {0}", playerTwo.Position2.ToString()), playerTwo.Position2, Color.White);
             
 
