@@ -248,7 +248,7 @@ namespace EatMyDust
                 if (powerupTimer <= TimeSpan.FromSeconds(0))
                 {
                     int i = rand.Next(2);
-                    PowerUp pup = new PowerUp(this, (PowerUp.Type)i);
+                    PowerUp pup = new PowerUp(this, (PowerUp.PowerUpType)i);
                     pup.Position2 = new Vector2(rand.Next(0, 1280), rand.Next(0, 720));
                     powerUps.Add(pup);
                     powerupTimer = TimeSpan.FromSeconds(8);
@@ -395,7 +395,7 @@ namespace EatMyDust
                 // Either player powerups
                 if (playerOne.boundingRect.Intersects(pup.boundingRect) || playerTwo.boundingRect.Intersects(pup.boundingRect))
                 {
-                    if (pup.currentType == PowerUp.Type.PositionSwap)
+                    if (pup.currentType == PowerUp.PowerUpType.PositionSwap)
                     {
                         Vector2 tmp = playerOne.Position2;
                         playerOne.Position2 = playerTwo.Position2;
@@ -406,7 +406,7 @@ namespace EatMyDust
                     // Single player powerups
                     if (playerOne.boundingRect.Intersects(pup.boundingRect))
                     {
-                        if (pup.currentType == PowerUp.Type.SpeedBoost)
+                        if (pup.currentType == PowerUp.PowerUpType.SpeedBoost)
                         {
                             playerOne.boosting = true;
                             pup.expired = true;
@@ -414,7 +414,7 @@ namespace EatMyDust
                     }
                     if (playerTwo.boundingRect.Intersects(pup.boundingRect))
                     {
-                        if (pup.currentType == PowerUp.Type.SpeedBoost)
+                        if (pup.currentType == PowerUp.PowerUpType.SpeedBoost)
                         {
                             playerTwo.boosting = true;
                             pup.expired = true;

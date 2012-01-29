@@ -19,7 +19,7 @@ namespace EatMyDust.GameObjects
         /// <summary>
         /// The type of powerup it is.
         /// </summary>
-        public enum Type
+        public enum PowerUpType
         {
             PositionSwap,
             SpeedBoost
@@ -29,14 +29,13 @@ namespace EatMyDust.GameObjects
 
         public List<String> textureFiles;
 
-        public Type currentType;
+        public PowerUpType currentType;
 
-        public PowerUp(GameplayScreen gameplayScreen, Type type)
+        public PowerUp(GameplayScreen gameplayScreen, PowerUpType powerUpType)
             : base(gameplayScreen)
         {
             // TODO: Construct any child components here
-            currentType = type;
-            
+            currentType = powerUpType;
         }
 
         /// <summary>
