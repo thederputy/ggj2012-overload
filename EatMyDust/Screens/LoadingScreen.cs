@@ -127,7 +127,8 @@ namespace EatMyDust
                 (ScreenManager.GetScreens().Length == 1))
             {
                 otherScreensAreGone = true;
-                Thread.Sleep(1000);
+                if (loadingIsSlow)
+                    Thread.Sleep(1000);
             }
 
             // The gameplay screen takes a while to load, so we display a loading

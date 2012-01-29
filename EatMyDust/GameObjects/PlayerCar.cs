@@ -12,6 +12,10 @@ namespace EatMyDust.GameObjects
 {
     public class PlayerCar : GameObject
     {
+        #region Tweakables
+
+        #endregion
+
         #region Fields
         public Camera camera;
 
@@ -249,12 +253,10 @@ namespace EatMyDust.GameObjects
             }
             if (fuelTimer <= TimeSpan.FromSeconds(0))
             {
-                if (velocity.Length() > 1.0f)
+                if (started && gameplayScreen.ScrollSpeed > 0.0f)
                 {
-                    fuel -= TURBO_FUEL_PER_SECOND;
-                }
-                else
                     fuel -= FUEL_PER_SECOND;
+                }
                
                 fuelTimer = TimeSpan.FromSeconds(1);
 
@@ -343,11 +345,11 @@ namespace EatMyDust.GameObjects
 
         public float getFuelPercent()
         {
-            int temp = 1;
+            //int temp = 1;
 
-            if (fuelTimer.Milliseconds == 0) temp = 0;
- 
-            return (float)(fuel - temp) / (float)MAX_FUEL + ((float)(fuelTimer.Milliseconds) / 1000 / (float)(MAX_FUEL));
+            //if (fuelTimer.Milliseconds == 0) temp = 0;
+
+            return (float)fuel / (float)MAX_FUEL;// +((float)(fuelTimer.Milliseconds) / 1000 / (float)(MAX_FUEL));
         }
 
         public void AddFuel()
