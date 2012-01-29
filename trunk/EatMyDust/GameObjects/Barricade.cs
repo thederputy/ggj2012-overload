@@ -50,25 +50,22 @@ namespace EatMyDust.GameObjects
             base.Update(gameTime);
         }
 
-        public void Draw(SpriteBatch spriteBatch, int repeat)
+       /* public void Draw(SpriteBatch spriteBatch, int repeat)
         {
             for (int i = 0; i < repeat; i++)
             {
                 spriteBatch.Draw(texture, Position2 + new Vector2(texture.Width*i, 0), Color.White);
             }
 
-        }
+        }*/
 
-        public override void Draw(GameTime gameTime)
+
+        public void Draw(SpriteBatch spriteBatch)
         {
-            base.Draw(gameTime);
-            SpriteBatch spriteBatch = gameplayScreen.ScreenManager.SpriteBatch;
-            spriteBatch.Begin();
             for (int i = 0; i < length; i++)
             {
                 spriteBatch.Draw(texture, Position2 + new Vector2(texture.Width * i, 0), Color.White);
             }
-            spriteBatch.End();
         }
 
         public bool CheckCollision(Rectangle playerRect)
