@@ -242,6 +242,7 @@ namespace EatMyDust.GameObjects
 
         public override void Update(GameTime gameTime)
         {
+            base.Update(gameTime);
             camera.Update(new Vector3(tempX, tempY, Position3.Z));
 
             previousPosition = position;
@@ -341,8 +342,6 @@ namespace EatMyDust.GameObjects
             //camera.Update(new Vector3(tempX, tempY, Position3.Z));
             */
             //bounding rectangle
-            
-            base.Update(gameTime);
         }
 
         public float getFuelPercent()

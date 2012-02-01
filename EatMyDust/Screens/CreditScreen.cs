@@ -22,21 +22,20 @@ namespace EatMyDust
             thanksTo = "Nick Waanders@Graham Jans@Jake Birkett@Brian Provinciano for the@Retro City Rampage cars@Shane Neville@Blasterhead and Buskerdroid@for the BGM@Dr. Box & Kim Voll@Starbucks@Vancouver GGJ Community@opengame.org and FreeSound";
             thanksTo = thanksTo.Replace("@", System.Environment.NewLine);
 
-
             base.LoadContent();
         }
 
         public override void Update(Microsoft.Xna.Framework.GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
         {
+            base.Update(gameTime, otherScreenHasFocus, coveredByOtherScreen);
             inputManager.Update(gameTime);
-            if (inputManager.currentKeyboardState.IsKeyDown(Keys.Escape))
+            if (inputManager.IsPressed(Keys.Escape, Buttons.Back, 0))
             {
                 ExitScreen();
                 LoadingScreen.Load(ScreenManager, false, null, new BackgroundScreen(), new BackgroundScreen(),
                                                                                         new MainMenuScreen(),
                                                                                         new TitleScreen());
             }
-            base.Update(gameTime, otherScreenHasFocus, coveredByOtherScreen);
         }
 
         public override void Draw(Microsoft.Xna.Framework.GameTime gameTime)

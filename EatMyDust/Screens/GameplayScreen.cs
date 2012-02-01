@@ -376,7 +376,6 @@ namespace EatMyDust
 
                 score += (int)(Math.Ceiling(0.1f*ScrollSpeed));
 
-
                 // Check for game over state
                 if (playerOne.fuel == 0 || playerTwo.fuel == 0)
                 {
@@ -416,7 +415,7 @@ namespace EatMyDust
             }
             else
             {
-                // TODO: make each player handle its own input.
+                // Update each player's input
                 playerOne.HandleInput(inputManager, InputKeys.WASD, 0);
                 playerTwo.HandleInput(inputManager, InputKeys.Arrows, 1);
             }
@@ -431,8 +430,6 @@ namespace EatMyDust
             ScreenManager.GraphicsDevice.Clear(ClearOptions.Target, Color.DodgerBlue, 0, 0);
 
             SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
-
-
 
             spriteBatch.Begin();
             for(int i = (int)(waveDDisplace); i <= ScreenManager.GraphicsDevice.Viewport.Height + 200; i += waves.Height/2){

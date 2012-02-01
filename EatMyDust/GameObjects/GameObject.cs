@@ -45,10 +45,11 @@ namespace EatMyDust.GameObjects
 
         public override void Update(GameTime gameTime)
         {
+            base.Update(gameTime);
+
             if (texture != null)
                 boundingRect = new Rectangle((int)Position2.X, (int)Position2.Y, texture.Width, texture.Height);
 
-            base.Update(gameTime);
         }
 
         public void Draw(SpriteBatch spriteBatch, Color color)

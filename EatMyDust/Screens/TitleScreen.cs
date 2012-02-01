@@ -165,9 +165,7 @@ namespace EatMyDust
                     dustCloudDustFade -= .01f;
                     dustCloudLocationDust.Y -= .5f;
                 }
-
             }
-
         }
 
         public override void Draw(GameTime gameTime)

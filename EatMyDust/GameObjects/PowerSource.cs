@@ -40,14 +40,14 @@ namespace EatMyDust.GameObjects
 
         public override void Update(GameTime gameTime)
         {
+            base.Update(gameTime);
+
             timeToLive -= gameTime.ElapsedGameTime;
             if (timeToLive <= TimeSpan.FromSeconds(0))
                 expired = true;
             handleFading();
 
             position.Y += gameplayScreen.ScrollSpeed;
-
-            base.Update(gameTime);
         }
 
         public void handleFading()

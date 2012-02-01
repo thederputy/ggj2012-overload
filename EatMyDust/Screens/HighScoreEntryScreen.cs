@@ -66,58 +66,60 @@ namespace EatMyDust
             #region Player One
 
             // Player one ready
-            if (inputManager.IsPressed(Keys.Enter, Buttons.A, Buttons.Start, 0))
+            if (inputManager.IsPressed(Keys.Space, Buttons.A, Buttons.Start, 0))
                 playerOneReady = true;
 
-            // Player one initials seletction
-            if (inputManager.IsPressed(Keys.A, Buttons.LeftThumbstickLeft, 0)
-                || inputManager.IsButtonPressed(Buttons.DPadLeft, 0))
+            if (!playerOneReady)
             {
-                if (selectedCharOne > 0)
+                // Player one initials seletction
+                if (inputManager.IsPressed(Keys.A, Buttons.LeftThumbstickLeft, 0)
+                    || inputManager.IsButtonPressed(Buttons.DPadLeft, 0))
                 {
-                    selectedCharOne--;
-                    selectionPositionOne.X -= SELECTION_INCREMENT;
+                    if (selectedCharOne > 0)
+                    {
+                        selectedCharOne--;
+                        selectionPositionOne.X -= SELECTION_INCREMENT;
+                    }
+                    else
+                    {
+                        selectedCharOne = 2;
+                        selectionPositionOne.X += SELECTION_INCREMENT * 2;
+                    }
                 }
-                else
+
+                if (inputManager.IsPressed(Keys.D, Buttons.LeftThumbstickRight, 0)
+                    || inputManager.IsButtonPressed(Buttons.DPadRight, 0))
                 {
-                    selectedCharOne = 2;
-                    selectionPositionOne.X += SELECTION_INCREMENT * 2;
+                    if (selectedCharOne < 2)
+                    {
+                        selectedCharOne++;
+                        selectionPositionOne.X += SELECTION_INCREMENT;
+                    }
+                    else
+                    {
+                        selectedCharOne = 0;
+                        selectionPositionOne.X -= SELECTION_INCREMENT * 2;
+                    }
+                }
+
+                if (inputManager.IsPressed(Keys.W, Buttons.LeftThumbstickUp, 0)
+                    || inputManager.IsButtonPressed(Buttons.DPadUp, 0))
+                {
+                    if (initialsOne[selectedCharOne] == 'A')
+                        initialsOne[selectedCharOne] = 'Z';
+                    else
+                        initialsOne[selectedCharOne]--;
+                }
+
+                if (inputManager.IsPressed(Keys.S, Buttons.LeftThumbstickDown, 0)
+                    || inputManager.IsButtonPressed(Buttons.DPadDown, 0))
+                {
+                    if (initialsOne[selectedCharOne] == 'Z')
+                        initialsOne[selectedCharOne] = 'A';
+                    else
+                        initialsOne[selectedCharOne]++;
                 }
             }
-
-            if (inputManager.IsPressed(Keys.D, Buttons.LeftThumbstickRight, 0)
-                || inputManager.IsButtonPressed(Buttons.DPadRight, 0))
-            {
-                if (selectedCharOne < 2)
-                {
-                    selectedCharOne++;
-                    selectionPositionOne.X += SELECTION_INCREMENT;
-                }
-                else
-                {
-                    selectedCharOne = 0;
-                    selectionPositionOne.X -= SELECTION_INCREMENT * 2;
-                }
-            }
-
-            if (inputManager.IsPressed(Keys.W, Buttons.LeftThumbstickUp, 0)
-                || inputManager.IsButtonPressed(Buttons.DPadUp, 0))
-            {
-                if (initialsOne[selectedCharOne] == 'A')
-                    initialsOne[selectedCharOne] = 'Z';
-                else
-                    initialsOne[selectedCharOne]--;
-            }
-
-            if (inputManager.IsPressed(Keys.S, Buttons.LeftThumbstickDown, 0)
-                || inputManager.IsButtonPressed(Buttons.DPadDown, 0))
-            {
-                if (initialsOne[selectedCharOne] == 'Z')
-                    initialsOne[selectedCharOne] = 'A';
-                else
-                    initialsOne[selectedCharOne]++;
-            }
-
 #endregion
 
             #region Player Two
@@ -126,61 +128,58 @@ namespace EatMyDust
             if (inputManager.IsPressed(Keys.Enter, Buttons.A, Buttons.Start, 1))
                 playerTwoReady = true;
 
-            // Player two initials seletction
-            if (inputManager.IsPressed(Keys.Left, Buttons.LeftThumbstickLeft, 1)
-                || inputManager.IsButtonPressed(Buttons.DPadLeft, 1))
+            if (!playerTwoReady)
             {
-                if (selectedCharTwo > 0)
+                // Player two initials seletction
+                if (inputManager.IsPressed(Keys.Left, Buttons.LeftThumbstickLeft, 1)
+                    || inputManager.IsButtonPressed(Buttons.DPadLeft, 1))
                 {
-                    selectedCharTwo--;
-                    selectionPositionTwo.X -= SELECTION_INCREMENT;
+                    if (selectedCharTwo > 0)
+                    {
+                        selectedCharTwo--;
+                        selectionPositionTwo.X -= SELECTION_INCREMENT;
+                    }
+                    else
+                    {
+                        selectedCharTwo = 2;
+                        selectionPositionTwo.X += SELECTION_INCREMENT * 2;
+                    }
                 }
-                else
-                {
-                    selectedCharTwo = 2;
-                    selectionPositionTwo.X += SELECTION_INCREMENT * 2;
-                }
-            }
 
-            if (inputManager.IsPressed(Keys.Right, Buttons.LeftThumbstickRight, 1)
-                || inputManager.IsButtonPressed(Buttons.DPadRight, 1))
-            {
-                if (selectedCharTwo < 2)
+                if (inputManager.IsPressed(Keys.Right, Buttons.LeftThumbstickRight, 1)
+                    || inputManager.IsButtonPressed(Buttons.DPadRight, 1))
                 {
-                    selectedCharTwo++;
-                    selectionPositionTwo.X += SELECTION_INCREMENT;
+                    if (selectedCharTwo < 2)
+                    {
+                        selectedCharTwo++;
+                        selectionPositionTwo.X += SELECTION_INCREMENT;
+                    }
+                    else
+                    {
+                        selectedCharTwo = 0;
+                        selectionPositionTwo.X -= SELECTION_INCREMENT * 2;
+                    }
                 }
-                else
+
+                if (inputManager.IsPressed(Keys.Up, Buttons.LeftThumbstickUp, 1)
+                    || inputManager.IsButtonPressed(Buttons.DPadUp, 1))
                 {
-                    selectedCharTwo = 0;
-                    selectionPositionTwo.X -= SELECTION_INCREMENT * 2;
+                    if (initialsTwo[selectedCharTwo] == 'A')
+                        initialsTwo[selectedCharTwo] = 'Z';
+                    else
+                        initialsTwo[selectedCharTwo]--;
                 }
-            }
 
-            if (inputManager.IsPressed(Keys.Up, Buttons.LeftThumbstickUp, 1)
-                || inputManager.IsButtonPressed(Buttons.DPadUp, 1))
-            {
-                if (initialsTwo[selectedCharTwo] == 'A')
-                    initialsTwo[selectedCharTwo] = 'Z';
-                else
-                    initialsTwo[selectedCharTwo]--;
-            }
-
-            if (inputManager.IsPressed(Keys.Down, Buttons.LeftThumbstickDown, 1)
-                || inputManager.IsButtonPressed(Buttons.DPadDown, 1))
-            {
-                if (initialsTwo[selectedCharTwo] == 'Z')
-                    initialsTwo[selectedCharTwo] = 'A';
-                else
-                    initialsTwo[selectedCharTwo]++;
+                if (inputManager.IsPressed(Keys.Down, Buttons.LeftThumbstickDown, 1)
+                    || inputManager.IsButtonPressed(Buttons.DPadDown, 1))
+                {
+                    if (initialsTwo[selectedCharTwo] == 'Z')
+                        initialsTwo[selectedCharTwo] = 'A';
+                    else
+                        initialsTwo[selectedCharTwo]++;
+                }
             }
             #endregion
-
-            if (inputManager.IsPressed(Keys.Escape, Buttons.Back, 0)
-                || inputManager.IsButtonPressed(Buttons.Back, 1))
-            {
-                ExitScreen();
-            }
         }
 
         public override void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
