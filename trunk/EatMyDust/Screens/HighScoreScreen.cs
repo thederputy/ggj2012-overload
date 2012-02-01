@@ -47,9 +47,8 @@ namespace EatMyDust
                 || inputManager.IsPressed(Keys.Back, Buttons.B, Buttons.Back, 1))
             {
                 ExitScreen();
-                LoadingScreen.Load(ScreenManager, false, null, new BackgroundScreen(), new BackgroundScreen(),
-                                                                                        new MainMenuScreen(),
-                                                                                        new TitleScreen());
+                ScreenManager.AddScreen(new MainMenuScreen(), null);
+                ScreenManager.AddScreen(new TitleScreen(), null);
             }
 
             if (inputManager.IsPressed(Keys.Space, Buttons.A, Buttons.Start, 0)
@@ -62,8 +61,8 @@ namespace EatMyDust
 
         public override void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
         {
-            inputManager.Update(gameTime);
             base.Update(gameTime, otherScreenHasFocus, coveredByOtherScreen);
+            inputManager.Update(gameTime);
         }
 
         public override void Draw(GameTime gameTime)

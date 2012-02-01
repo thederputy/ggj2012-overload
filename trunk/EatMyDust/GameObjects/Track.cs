@@ -165,8 +165,9 @@ namespace EatMyDust.GameObjects
 
         public override void Update(GameTime gameTime)
         {
-            GenerateVertices((float)gameTime.ElapsedGameTime.TotalSeconds);
             base.Update(gameTime);
+
+            GenerateVertices((float)gameTime.ElapsedGameTime.TotalSeconds);
         }
 
     }

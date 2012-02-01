@@ -61,10 +61,10 @@ namespace EatMyDust.GameObjects
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         {
-            // TODO: Add your update code here
+            base.Update(gameTime);
+
             if (position.Y > gameplayScreen.ScreenManager.GraphicsDevice.Viewport.Height)
                 expired = true;
-            base.Update(gameTime);
         }
     }
 }
