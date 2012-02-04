@@ -53,7 +53,8 @@ namespace EatMyDust
         }
 
         #endregion
-        #region update /draw
+
+        #region Update / Draw
         public override void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
         {
             inputManager.Update(gameTime);
@@ -67,7 +68,7 @@ namespace EatMyDust
             spriteBatch.Draw(gameOverTexture, new Rectangle((int)gameOverLocation.X, (int)gameOverLocation.Y, gameOverTexture.Width, gameOverTexture.Height), Color.White);
             string scoreString = String.Format("Distance: {0}m", score);
             spriteBatch.DrawString(font, scoreString, new Vector2((ScreenManager.GraphicsDevice.Viewport.Width / 2) - (int)(font.MeasureString(scoreString).X / 2), (ScreenManager.GraphicsDevice.Viewport.Height / 2)), Color.White);
-            string string1 = "Press Enter/Start to continue";
+            string string1 = "Press Enter/Start to continue to high score entry";
             Vector2 measurements = font.MeasureString(string1);
             spriteBatch.DrawString(font, string1, new Vector2((ScreenManager.GraphicsDevice.Viewport.Width / 2) - measurements.X / 2, ScreenManager.GraphicsDevice.Viewport.Height - 2*measurements.Y), Color.White);
             string1 = "Press Space/Back to play again";
@@ -84,10 +85,12 @@ namespace EatMyDust
         {
             if (inputManager.IsPressed(Keys.Enter, Buttons.Start, Buttons.A, 0))
             {
-                LoadingScreen.Load(ScreenManager, false, null, new BackgroundScreen(),
-                                                           new MainMenuScreen(),
-                                                           new HighScoreScreen(ScreenManager.Game),
-                                                           new HighScoreEntryScreen(score));
+                ExitScreen();
+                ScreenManager.AddScreen(new HighScoreEntryScreen(score), null);
+//                 LoadingScreen.Load(ScreenManager, false, null, new BackgroundScreen(),
+//                                                            new MainMenuScreen(),
+//                                                            new HighScoreScreen(ScreenManager.Game),
+//                                                            new HighScoreEntryScreen(score));
             }
             if (inputManager.IsPressed(Keys.Space, Buttons.Back, Buttons.B, 0))
             {
