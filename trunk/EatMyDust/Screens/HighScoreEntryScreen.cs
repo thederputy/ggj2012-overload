@@ -66,7 +66,7 @@ namespace EatMyDust
             #region Player One
 
             // Player one ready
-            if (inputManager.IsPressed(Keys.Space, Buttons.A, Buttons.Start, 0))
+            if (inputManager.IsPressed(Keys.LeftShift, Buttons.A, Buttons.Start, 0))
                 playerOneReady = true;
 
             if (!playerOneReady)
@@ -125,7 +125,7 @@ namespace EatMyDust
             #region Player Two
 
             // Player two ready
-            if (inputManager.IsPressed(Keys.Enter, Buttons.A, Buttons.Start, 1))
+            if (inputManager.IsPressed(Keys.RightShift, Buttons.A, Buttons.Start, 1))
                 playerTwoReady = true;
 
             if (!playerTwoReady)
@@ -230,7 +230,7 @@ namespace EatMyDust
                 sb.DrawString(menuFont, "Player Two Saved", new Vector2(titlePosition.X + 500, titlePosition.Y + 350), Color.White);
             
 #if WINDOWS
-            sb.DrawString(menuFont, "Press Enter to save your score", new Vector2(titlePosition.X - 85, titlePosition.Y + 450), Color.White);
+            sb.DrawString(menuFont, "Press Left Shift (Player 1) or Right Shift (Player 2) to save your score", new Vector2(titlePosition.X - 85, titlePosition.Y + 450), Color.White);
 #elif XBOX
             sb.DrawString(menuFont, "Press A to save your score", new Vector2(titlePosition.X + 200, titlePosition.Y + 450), Color.White);
 #endif
