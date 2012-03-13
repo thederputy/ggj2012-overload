@@ -50,8 +50,8 @@ namespace EatMyDust
         {
             base.LoadContent();
 
-            MediaPlayer.Play(ScreenManager.mainmenuMusic);
-            MediaPlayer.Volume = 0.5f;
+            //MediaPlayer.Play(ScreenManager.mainmenuMusic);
+            //MediaPlayer.Volume = 0.5f;
         }
 
 
@@ -76,9 +76,11 @@ namespace EatMyDust
         void HighScoreMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
             //ScreenManager.AddScreen(new HighScoreScreen(ScreenManager.Game), e.PlayerIndex);
+#if !WINDOWS_PHONE
             LoadingScreen.Load(ScreenManager, false, e.PlayerIndex,
                                 new BackgroundScreen(),
                                 new HighScoreScreen(ScreenManager.Game));
+#endif
         }
 
         void CreditsMenuEntrySelected(object sender, PlayerIndexEventArgs e)

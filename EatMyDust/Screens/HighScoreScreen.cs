@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+#if !WINDOWS_PHONE
 using Microsoft.Xna.Framework.Storage;
+#endif
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.GamerServices;
@@ -13,6 +15,7 @@ using System.Collections;
 
 namespace EatMyDust
 {
+    #if !WINDOWS_PHONE
     public class HighScoreScreen : GameScreen
     {
         List<KeyValuePair<int, String>> highScores;
@@ -113,4 +116,5 @@ namespace EatMyDust
             sb.End();
         }
     }
+#endif
 }

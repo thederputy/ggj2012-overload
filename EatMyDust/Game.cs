@@ -10,7 +10,9 @@
 #region Using Statements
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+#if !WINDOWS_PHONE
 using Microsoft.Xna.Framework.Storage;
+#endif
 using System;
 
 #if XBOX
@@ -55,16 +57,24 @@ namespace EatMyDust
             Content.RootDirectory = "Content";
 
             graphics = new GraphicsDeviceManager(this);
+            #if !WINDOWS_PHONE
             graphics.PreferredBackBufferWidth = 1280;
             graphics.PreferredBackBufferHeight = 720;
+            #else
+            graphics.PreferredBackBufferWidth = 800;
+            graphics.PreferredBackBufferHeight = 480;
+            graphics.IsFullScreen = true;
+            #endif
 
 #if !DEBUG
             graphics.IsFullScreen = true;
 #endif
 
-#if DEBUG
+        #if !WINDOWS_PHONE
+            #if DEBUG
             this.IsMouseVisible = true;
-#endif
+            #endif
+         #endif
             // Create the screen manager component.
             screenManager = new ScreenManager(this);
 
@@ -114,7 +124,7 @@ namespace EatMyDust
         protected override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
-
+#if !WINDOWS_PHONE
             // Will prompt at start of game for a storage device
             if (HighScoreManager.storageDevice == null)
             {
@@ -139,6 +149,7 @@ namespace EatMyDust
                 HighScoreManager.deviceRequested = false;
                 HighScoreManager.GetStorageDevice();
             }
+#endif
 
             // If there are no more screens, exit the game
             if (screenManager.GetScreens().Length == 0)

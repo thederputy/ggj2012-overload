@@ -7,11 +7,14 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
+#if !WINDOWS_PHONE
 using Microsoft.Xna.Framework.Storage;
+#endif
 using System.IO;
 
 namespace EatMyDust
 {
+    #if !WINDOWS_PHONE
     public static class HighScoreManager
     {
         public static StorageDevice storageDevice;// used for saving/loading games
@@ -190,4 +193,5 @@ namespace EatMyDust
             }
         }
     }
+#endif
 }

@@ -86,7 +86,9 @@ namespace EatMyDust
             if (inputManager.IsPressed(Keys.Enter, Buttons.Start, Buttons.A, 0))
             {
                 ExitScreen();
+                #if !WINDOWS_PHONE
                 ScreenManager.AddScreen(new HighScoreEntryScreen(score), null);
+#endif
 //                 LoadingScreen.Load(ScreenManager, false, null, new BackgroundScreen(),
 //                                                            new MainMenuScreen(),
 //                                                            new HighScoreScreen(ScreenManager.Game),

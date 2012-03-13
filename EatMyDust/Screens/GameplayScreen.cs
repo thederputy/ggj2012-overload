@@ -170,9 +170,9 @@ namespace EatMyDust
             gameFont = content.Load<SpriteFont>("gamefont");
 
             // Music
-            MediaPlayer.Stop();
-            MediaPlayer.Play(ScreenManager.gameplayMusic);
-            MediaPlayer.Volume = 0.25f;
+            //MediaPlayer.Stop();
+            //MediaPlayer.Play(ScreenManager.gameplayMusic);
+            //MediaPlayer.Volume = 0.25f;
 
             // Players
             playerOne = new PlayerCar(this, new Vector2(ScreenManager.GraphicsDevice.Viewport.Width/2, ScreenManager.GraphicsDevice.Viewport.Height/2), 0);
@@ -706,7 +706,7 @@ namespace EatMyDust
 
             this.ExitScreen();
 
-            MediaPlayer.Stop();
+            //MediaPlayer.Stop();
 
             GamePad.SetVibration(PlayerIndex.One, 0, 0);
             GamePad.SetVibration(PlayerIndex.Two, 0, 0);
