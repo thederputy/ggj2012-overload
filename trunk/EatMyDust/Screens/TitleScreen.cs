@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Input.Touch;
 using System.Collections.Generic;
 #endregion
 
@@ -54,6 +55,9 @@ namespace EatMyDust
         float dustCloudEatFade = 1.0f;
         float dustCloudMyFade = 1.0f;
         float dustCloudDustFade = 1.0f;
+
+        // Advance through to menu
+        TimeSpan doneTitleAnimation;
 
         #region Initialization
 
@@ -143,6 +147,7 @@ namespace EatMyDust
                     {
                         playedSoundClip = true;
                         SoundManager.playSound(ScreenManager.eatMyDustInstance, 1.0f);
+                        doneTitleAnimation = gameTime.TotalGameTime;
                     }
                 }
                 if (totalTitleTime >= 1.38)
@@ -218,6 +223,18 @@ namespace EatMyDust
                 setFinalPosition();
                 drawHelper = false;
                 ScreenManager.AddScreen(new MainMenuScreen(), null);
+            }
+
+            TouchCollection touchCollection = TouchPanel.GetState();
+            foreach (TouchLocation tl in touchCollection)
+            {
+                if ((tl.State == TouchLocationState.Pressed)
+                    || (tl.State == TouchLocationState.Moved))
+                {
+                    setFinalPosition();
+                    drawHelper = false;
+                    ScreenManager.AddScreen(new MainMenuScreen(), null);
+                }
             }
         }
 
