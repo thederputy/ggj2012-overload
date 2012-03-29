@@ -29,7 +29,7 @@ namespace EatMyDust
         {
             base.Update(gameTime, otherScreenHasFocus, coveredByOtherScreen);
             inputManager.Update(gameTime);
-            if (inputManager.IsPressed(Keys.Escape, Buttons.Back, 0))
+            if (inputManager.IsPressed(Keys.Escape, Buttons.Back, Buttons.B, 0))
             {
                 ExitScreen();
                 LoadingScreen.Load(ScreenManager, false, null, new BackgroundScreen(), new BackgroundScreen(),
