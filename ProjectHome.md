@@ -1,0 +1,1 @@
+Eat My Dust! is a two player co-operative racing game where you have to trade off being in first place. A cooperative racing game.  Avoid obstacles!  Collect powerups!  Fuel your vehicle with your partner's exhaust!  Eat My Dust!
